@@ -1,0 +1,41 @@
+{
+  "name": "basic-express-server",
+  "version": "1.0.0",
+  "description": "basic express server",
+  "main": "server.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "MONGODB_URI=mongodb://localhost/food-dudes mocha",
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FoodDudes/WikiDiet.git"
+  },
+  "author": "FoodDudes",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FoodDudes/WikiDiet/issues"
+  },
+  "homepage": "https://github.com/FoodDudes/WikiDiet#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.0",
+    "body-parser": "^1.15.2",
+    "cors": "^2.8.1",
+    "express": "^4.14.0",
+    "jsonwebtoken": "^7.2.1",
+    "mongoose": "^4.7.2",
+    "morgan": "^1.7.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
+    "eslint": "^3.11.1",
+    "mocha": "^3.2.0",
+    "nodemon": "^1.11.0"
+  }
+}
