@@ -18,7 +18,7 @@ export default function routes($stateProvider, $urlRouterProvider) {
 
 	    $stateProvider.state({
         name: 'me',
-        url: '/',
+        url: '/me',
         data: { public: false },
 	    component: 'me' 
     });
