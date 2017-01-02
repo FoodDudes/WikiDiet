@@ -1,0 +1,19 @@
+{
+  "name": "wikidiet",
+  "version": "1.0.0",
+  "description": "Enter, track and report on food you eat",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FoodDudes/WikiDiet.git"
+  },
+  "author": "FoodDudes",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FoodDudes/WikiDiet/issues"
+  },
+  "homepage": "https://github.com/FoodDudes/WikiDiet#readme"
+}
