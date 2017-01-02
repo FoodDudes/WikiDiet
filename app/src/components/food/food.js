@@ -1,4 +1,4 @@
-import template from './app.html';
+import template from './food.html';
 
 export default {
     template,

@@ -16,9 +16,9 @@ const module = angular.module('services', []);
 // iterate each of the found required contexts (files)
 context.keys().forEach(key => {
     // convert kabob to camel, eg list-item -> listItem
-	const name = camelcase(path.basename(key, '.js'));
+    const name = camelcase(path.basename(key, '.js'));
     // add the component to the components module
-	module.factory(name, context(key).default);
+    module.factory(name, context(key).default);
 });
 
 // export the name of the module for 

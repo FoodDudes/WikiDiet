@@ -3,10 +3,10 @@ import './scss/main.scss';
 import components from './components';
 import services from './services';
 import uiRouter from 'angular-ui-router';
-import defaultRoute from 'angular-ui-router-default';
-import resource from 'angular-resource';
-import http from './auth/http';
-import auth from './auth/auth';
+// import defaultRoute from 'angular-ui-router-default';
+// import resource from 'angular-resource';
+// import http from './auth/http';
+// import auth from './auth/auth';
 import routes from './routes'; 
 // need this for old $stateChanged events,
 // however, we need to manually grab the module 
@@ -14,16 +14,16 @@ import routes from './routes';
 // exported from this import 
 import 'angular-ui-router/release/stateEvents';
 
-const app = angular.module('myApp', [components, services, uiRouter, defaultRoute, angular.module('ui.router.state.events').name, resource, dialog]);
+const app = angular.module('myApp', [components, services, uiRouter]);
 
-app.value('apiUrl', 'https://localhost:8080/api');
+// app.value('apiUrl', 'https://localhost:8080/api');
 
-app.config(http);
+// app.config(http);
 app.config(routes);
-app.run(auth);
+// app.run(auth);
 
 //route debugger
 app.run(function($rootScope) {
-	$rootScope.$on('$stateChangeError', console.log.bind(console));
+    $rootScope.$on('$stateChangeError', console.log.bind(console));
 });
 
