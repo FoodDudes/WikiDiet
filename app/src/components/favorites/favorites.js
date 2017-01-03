@@ -1,10 +1,8 @@
-import template from './app.html';
-import './app.scss';
+import template from './favorites.html';
 
 export default {
     template,
     controller
 };
-
 
 function controller() {}

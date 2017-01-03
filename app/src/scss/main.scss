@@ -1,4 +1,5 @@
 @import 'colors';
+@import 'buttons';
 
 *{
     color: $red;
@@ -22,5 +23,15 @@ a {
     :hover{
         cursor: pointer;
     }
+}
+
+.button-link{
+    font-size: 2em;
+}
+
+.button-link-box{
+    background-color: $red;
+    border: 0.1vh solid $grey;
+    border-radius: 5vh;
 }
 

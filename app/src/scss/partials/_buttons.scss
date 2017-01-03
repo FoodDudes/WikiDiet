@@ -1,0 +1,14 @@
+@import 'colors';
+button{
+    background-color: $blue;
+    color: white;
+    border: 0.1vh solid $grey;
+    border-radius: 5vh;
+    min-height: 5vh;
+    min-width: 20vw;
+    font-size: 2vh;
+    :hover{
+        cursor: pointer;
+        background-color: $red;
+    }
+}

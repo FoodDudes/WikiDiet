@@ -24,6 +24,13 @@ export default function routes($stateProvider, $urlRouterProvider) {
     });
 
     $stateProvider.state({
+        name: 'favorites',
+        url: '/favorites',
+        data: { public: false },
+	    component: 'favorites' 
+    });
+
+    $stateProvider.state({
         name: 'login',
         url: '/login',
         data: { public: true },
