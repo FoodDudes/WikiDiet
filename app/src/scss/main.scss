@@ -4,3 +4,23 @@
     color: $red;
     font-family: 'Josefin Sans', sans-serif;
 }
+
+h1{
+    font-size: 7vh;
+}
+
+h2{
+    font-size: 5vh;
+}
+
+a {
+    font-size: 2vh;
+    color: white;
+    margin: 2vh 3vw 0vh 3vw;
+    // padding-top: 28vh;
+    text-decoration: none;
+    :hover{
+        cursor: pointer;
+    }
+}
+

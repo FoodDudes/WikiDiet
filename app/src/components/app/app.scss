@@ -2,17 +2,22 @@
 .header{
     background-color: white;
     min-height: 20vh;
-
+    border: 1vh solid $grey;
+    border-radius: 5vh;
 }
 
 .footer{
     background-color:$blue;
     min-height: 10vh;
-    
+    border: 1vh solid $grey;
+    border-radius: 5vh;
 }
 
 .navbar{
-    background-color: $black;
+    background-color: $red;
+    border-radius: 0vh 5vh;
+    margin: 0vh 2vw 0vh 0vw;
+    min-height: 8vh; 
 }
 
 .footer-text{
@@ -21,17 +26,17 @@
     color: white;
 }
 
-h1{
+.header-text{
     margin: 10vh 60vw 2vh 10vw;
-    font-size: 15vh;
+    font-size: 10vh;
     color: $blue;
 }
 
-a {
-    font-size: 5vh;
-    color: $grey;
-    margin: 0 10vw;
+.main-content{
+    min-height: 40vh;
 }
+
+
 
 
 

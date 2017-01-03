@@ -1,0 +1,11 @@
+@import 'colors';
+
+.food-link{
+    font-size: 2em;
+}
+
+.food-link-box{
+    background-color: $red;
+    border: 0.1vh solid $grey;
+    border-radius: 5vh;
+}
