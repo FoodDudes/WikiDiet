@@ -1,0 +1,42 @@
+@import 'colors';
+.header{
+    background-color: white;
+    min-height: 20vh;
+    border: 1vh solid $grey;
+    border-radius: 5vh;
+}
+
+.footer{
+    background-color:$blue;
+    min-height: 10vh;
+    border: 1vh solid $grey;
+    border-radius: 5vh;
+}
+
+.navbar{
+    background-color: $red;
+    border-radius: 0vh 5vh;
+    margin: 0vh 2vw 0vh 0vw;
+    min-height: 8vh; 
+}
+
+.footer-text{
+    text-align: center;
+    padding: 3vh 1vh;
+    color: white;
+}
+
+.header-text{
+    margin: 10vh 60vw 2vh 10vw;
+    font-size: 10vh;
+    color: $blue;
+}
+
+.main-content{
+    min-height: 40vh;
+}
+
+
+
+
+
