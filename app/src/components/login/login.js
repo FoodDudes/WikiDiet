@@ -1,5 +1,4 @@
-import template from './home.html';
-import './home.scss';
+import template from './login.html';
 
 export default {
     template,

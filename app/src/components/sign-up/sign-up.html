@@ -1,0 +1,44 @@
+<section>
+   	<h2>Sign up for a user account</h2>
+	<form name="auth" ng-submit="$ctrl.authenticate()">
+		<div>
+			<label>
+				Username: <input required ng-model="$ctrl.credentials.username">
+			</label>
+		</div>
+
+		<div>
+			<label>
+				Password: <input required type="password" ng-model="$ctrl.credentials.password">
+			</label>
+		</div>
+
+        <div>
+            Gender:
+	        <input type="radio" name="gender" value="male" ng-model="$ctrl.credentials.gender"> Male
+            <input type="radio" name="gender" value="female" ng-model="$ctrl.credentials.gender"> Female
+            <input type="radio" name="gender" value="other" ng-model="$ctrl.credentials.gender"> Other
+		</div>
+
+          <div>
+			Age: <input type="number" ng-model="$ctrl.credentials.age">
+		</div>
+
+        <div>
+			Current Weight: <input type="number" ng-model="$ctrl.weightInput">
+            <select ng-options="x for x in $ctrl.weightUnits" ng-model="$ctrl.weightChoice">
+            <option value="" disabled selected>Select Units</option>
+            </select>
+		</div>
+
+        <div>
+			Current Height: <input type="number" ng-model="$ctrl.heightInput">
+            <select ng-options="x for x in $ctrl.heightUnits" ng-model="$ctrl.heightChoice">
+            <option value="" disabled selected>Select Units</option>
+            </select>
+		</div>
+
+		<button type="submit" ng-click="$ctrl.findMetrics()">Sign Up</button>
+	</form>
+	<div class="error" ng-if='$ctrl.error'>{{$ctrl.error.reason}}</div>
+</section>
