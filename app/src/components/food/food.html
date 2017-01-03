@@ -1,10 +1,11 @@
 <section>
     <div class="food-link-box">
-        <a class="food-link" ui-sref="">Search for Food Item</a>
+        <a class="food-link" ng-click="$ctrl.search" ui-sref="food.search">Search for Food Item</a>
     </div>
 
     <div class="food-link-box">
         <a class="food-link" ui-sref="">Enter Food Item</a>
+        <new-food add="$ctrl.add" ng-show="$ctrl.viewNew === true"><new-food>
     </div>
 
     <div  class="food-link-box">

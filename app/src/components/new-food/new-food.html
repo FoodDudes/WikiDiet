@@ -1,0 +1,19 @@
+<section ng-class="$ctrl.styles['add-class']">
+  <div>
+    <h3>Add a new food:</h3>
+
+    <div>
+      <label>Name of food:</label>
+      <input ng-model="$ctrl.name" placeholder="name">
+    </div>
+
+    <div>
+      <label>Type of food:</label>
+      <input ng-model="$ctrl.type" placeholder="type">
+    </div>
+
+    <button class="viewButton" ng-click=$ctrl.addNew()>Add Food</button>
+
+  </div>
+
+</section>
