@@ -6,7 +6,27 @@ const Food = require('../models/food');
 router
     .get('/', (req, res, next) => {
         Food.find({})
-        .then(foods => res.send(foods))
+        .then(foods => {
+            if (!foods || foods.length === 0) {
+                next({code: 404, message: 'No foods found.'});
+            }
+            else {
+                res.send(foods);
+            };
+        })
+        .catch(next);
+    })
+
+    .get('/:id', (req, res, next) => {
+        let foodId = req.params.id;
+
+        Food.findById(foodId).lean()
+        .then(food => {
+            if (!food) {
+                next({code: 404, message: 'No food found.'});
+            }
+            res.send(food);            
+        })
         .catch(next);
     })
 
