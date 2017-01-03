@@ -1,7 +1,7 @@
 
 const router = require('express').Router();
 const jsonParser = require('body-parser').json();
-const User = require('../models/user');
+const User = require('../models/User');
 // const token = require('../auth/token');
 // const ensureAuth = require('../auth/ensureAuth')();
 
