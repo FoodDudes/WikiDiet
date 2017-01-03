@@ -1,5 +1,5 @@
 import template from './new-food.html';
-import template from './new-food.scss';
+import styles from './new-food.scss';
 
 export default {
     template,
@@ -12,6 +12,8 @@ export default {
 // controller.$inject = ['foodService'];
 
 function controller() {
+    this.styles = styles;
+    
     this.reset = () => {
         this.name = '';
         this.type = '';
