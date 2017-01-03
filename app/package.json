@@ -4,7 +4,7 @@
   "description": "The Frontend portion of the wikidiet app ",
   "main": "main.js",
   "scripts": {
-    "test": "karma start",
+    "test": "karma start --single-run",
     "update-webdriver": "webdriver-manager update",
     "e2e": "protractor",
     "start": "webpack-dev-server --inline",
