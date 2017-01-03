@@ -16,7 +16,7 @@ export default function routes($stateProvider, $urlRouterProvider) {
 	    component: 'food' 
     });
 
-	    $stateProvider.state({
+    $stateProvider.state({
         name: 'me',
         url: '/me',
         data: { public: false },
