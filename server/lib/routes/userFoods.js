@@ -1,7 +1,7 @@
 
 const router = require('express').Router();
 const jsonParser = require('body-parser').json();
-const userFood = require('../models/userfood');
+const userFood = require('../models/UserFood');
 
 router
     .get('/', (req, res, next) => {
