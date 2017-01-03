@@ -23,6 +23,19 @@ export default function routes($stateProvider, $urlRouterProvider) {
 	    component: 'me' 
     });
 
+    $stateProvider.state({
+        name: 'login',
+        url: '/login',
+        data: { public: true },
+        component: 'login'
+    });
+
+    $stateProvider.state({
+        name: 'signup',
+        url: '/signup',
+        data: { public: true },
+        component: 'signUp'
+    });
 
     $urlRouterProvider.otherwise('/');
 }
