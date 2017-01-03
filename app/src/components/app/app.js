@@ -6,4 +6,5 @@ export default {
     controller
 };
 
+
 function controller() {}
