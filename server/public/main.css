@@ -1,0 +1,30 @@
+* {
+  color: #570000;
+  font-family: 'Josefin Sans', sans-serif; }
+.header {
+  background-color: white;
+  min-height: 20vh; }
+
+.footer {
+  background-color: #031a6b;
+  min-height: 10vh; }
+
+.navbar {
+  background-color: #11151c; }
+
+.footer-text {
+  text-align: center;
+  padding: 3vh 1vh;
+  color: white; }
+
+h1 {
+  margin: 10vh 60vw 2vh 10vw;
+  font-size: 15vh;
+  color: #031a6b; }
+
+a {
+  font-size: 5vh;
+  color: #a5a5a5;
+  margin: 0 10vw; }
+
+/*# sourceMappingURL=main.css.map*/
