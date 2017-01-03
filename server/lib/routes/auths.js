@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const jsonParser = require('body-parser').json();
-const User = require('../models/User');
+const User = require('../models/user');
 const token = require('../auth/token');
 const ensureAuth = require('../auth/ensureAuth')();
 
@@ -28,6 +28,7 @@ router.post('/signup', jsonParser, (req, res, next) => {
             if (count > 0) throw {code: 400, error: `username ${username} already exists`};
             const user = new User(req.body);
             user.generateHash(password);
+            if (!user.role) user.role = 'member';
             return user.save();
         })
         .then(user => {
@@ -43,7 +44,7 @@ router.post('/signup', jsonParser, (req, res, next) => {
         .catch(next);
 });
 
-router.post('/signin', jsonParser, (req, res, next) => {
+router.post('/login', jsonParser, (req, res, next) => {
     const {username, password} = req.body;
     if (!username || !password) {
         throw {code: 400, error: 'Missing username or password'};
