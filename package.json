@@ -4,7 +4,7 @@
   "description": "Enter, track and report on food you eat",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "cd server && npm i && npm test && cd ../app && npm i && npm test"
   },
   "repository": {
     "type": "git",

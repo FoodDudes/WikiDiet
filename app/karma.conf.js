@@ -6,13 +6,13 @@ module.exports = function(config) {
         basePath: '',
         frameworks: ['mocha', 'chai'],
         files: [
-            './src/app.js',
+            './src/main.js',
             './node_modules/angular-mocks/angular-mocks.js',
             './test/**/*.js'
         ],
         webpack: webpackConfig,
         preprocessors: {
-            './src/app.js': ['webpack'],
+            './src/main.js': ['webpack'],
             './test/**/*.js': ['babel']
         },
         browsers: ['Chrome'],
