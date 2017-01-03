@@ -30,6 +30,11 @@ export default function routes($stateProvider, $urlRouterProvider) {
         component: 'foodSearch'
     });
 
+    // Food add
+    $stateProvider.state({
+        name: 'food'
+    })
+
     $stateProvider.state({
         name: 'me',
         url: '/me',
