@@ -1,5 +1,5 @@
 <section>
-    <h1>My Favorite Foods</h1>
+    <h1> {{$ctrl.user.username}}'sFavorite Foods</h1>
     <table class="favorites-list">
         <tr>
             <th>Food Name</th>
@@ -7,7 +7,7 @@
             <th></th>
         </tr>
 
-        <tr class="favorites-list-item" ng-repeat="favorite in $ctrl.users[2].favorites"> 
+        <tr class="favorites-list-item" ng-repeat="favorite in $ctrl.user.favorites"> 
            <td>{{favorite.name}}</td>
             <td><button class="favorite-button" ng-click="$ctrl.addToMenu(favorite)">
             Add One Serving

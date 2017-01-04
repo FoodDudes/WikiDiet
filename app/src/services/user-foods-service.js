@@ -13,6 +13,13 @@ export default function userFoodsService($http, apiUrl) {
             return $http.get(`${apiUrl}/userFoods/${userId}`)
                 .then(res => res.data);
         },
+
+        getByName(username) {
+            return $http.get(`${apiUrl}/userFoods/${username}`)
+            .then(res => res.data);
+        },
+
+
         addMeal(userId, eaten){
             console.log('in addMeal');
             return $http.put(`${apiUrl}/userFoods/${userId}`, eaten)

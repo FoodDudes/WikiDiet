@@ -50,6 +50,8 @@ function controller(authSvc, userFoodSvc, $state) {
                 userFoodSvc.add(this.credentials)
                 .then((userfood) => {
                     user.userfood = userfood;
+                    localStorage.setItem('user', JSON.stringify(user));
+                    localStorage.setItem('userFoodUserName', user.userfood[0].username);
                     $state.go('home');
                 });
             })

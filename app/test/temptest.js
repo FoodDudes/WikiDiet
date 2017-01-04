@@ -57,7 +57,7 @@ describe( 'Food Service', () => {
             barcode: 1234567890,
             servingSize: 1,
             servingUnit: 'cup',
-            calories: 232,
+            Calories: 232,
             totalCarbs: 32,
             sugars: 12,
             fiber: 11,
