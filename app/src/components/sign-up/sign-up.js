@@ -1,4 +1,5 @@
 import template from './sign-up.html';
+import styles from './sign-up.scss';
 
 export default {
     template,
@@ -8,6 +9,8 @@ export default {
 controller.$inject = ['authService', 'userFoodService', '$state'];
 
 function controller(authSvc, userFoodSvc, $state) {
+    this.styles = styles;
+
     this.weightUnits = ['kg', 'lbs'];
     this.heightUnits = ['cm', 'inches'];
 
