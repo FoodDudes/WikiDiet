@@ -29,9 +29,17 @@ router
     })
 
     .post('/', jsonParser, (req, res, next) => {
-        new userFood(req.body).save()
+        userFood.find({})
+            .then(saved => res.send(saved))
+            .catch(next);
+    })
+
+    .put('/:id', jsonParser, (req, res, next) => {
+	    userFood.findByIdAndUpdate(req.params.id, req.body) 
             .then(saved => res.send(saved))
             .catch(next);
     });
+
+
 
 module.exports = router;

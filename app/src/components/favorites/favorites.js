@@ -22,14 +22,17 @@ function controller(userFoods) {
         item.day = dateArr[0];
         delete item.$$hashKey;
         console.log('item is ', item);
-        console.log(this.users[3]);
-        //eventually we want to replace this push with a get request to get all of the eaten foods.  Then push this food into the array.  Then a put request to the userfoods database with the new array.
-        this.menu.push(item);
-        
+        this.newEaten = this.users[2].eaten;
+        this.newEaten.push(item);
+        console.log('newEaten is', this.newEaten);
+        JSON.stringify(this.newEaten);
+        console.log('addind this json array ' + this.newEaten+ ' to this user '+ this.users[2]._id);
+        userFoods.addMeal(this.users[2]._id, {'eaten': this.newEaten}); 
     };
 
     userFoods.get().then(users => {
         this.users = users;
+        console.log(users[2]);
     });
 
 
