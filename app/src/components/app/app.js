@@ -18,18 +18,21 @@ function controller(userFoods) {
     this.day = dateArr[0];
     //get request here to pull all foods from the user with this day as the eaten property and add them to the daily menu
 
+
+
+
     //get this user
-    userFoods.get().then(users => {
+    userFoods.getByName((localStorage.getItem('userFoodUserName'))).then(user => {
+        this.user = user[0];
+        console.log('user is ', this.user);
         this.totalCalories=0;
         this.totalSugars=0;
         this.totalFiber=0;
         this.totalTotalFats=0;
         this.totalSaturatedFats=0;
         this.totalTotalProtein=0;
-        this.users = users;
-        console.log('this user from app.js:', this.users[2]);
     //populate the menu here
-        this.eaten = this.users[2].eaten;
+        this.eaten = this.user.eaten;
         console.log('this.eaten is', this.eaten);
         //pull out only today's meals
         console.log('this.day = ', this.day);

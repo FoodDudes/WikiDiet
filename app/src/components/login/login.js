@@ -16,6 +16,8 @@ function controller(authSvc, userFoodSvc, $state) {
                 userFoodSvc.getOne(user.userName)
                 .then((userfood) => {
                     user.userfood = userfood;
+                    localStorage.setItem('user', JSON.stringify(user));
+                    localStorage.setItem('userFoodUserName', user.userfood[0].username);
                     $state.go('home');
                 });
             })
