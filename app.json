@@ -3,7 +3,7 @@
   "scripts": {
   },
   "env": {
-    "MLABDB": "mongodb://tester:testing@ds151028.mlab.com:51028/testwiki"
+    "MONGODB_URI": "mongodb://tester:testing@ds151028.mlab.com:51028/testwiki"
   },
   "formation": {
   },
