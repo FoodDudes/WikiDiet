@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/FoodDudes/WikiDiet.svg?branch=testing)](https://travis-ci.org/FoodDudes/WikiDiet)
+
 
 # WikiDiet
 Enter, track and report on food you eat

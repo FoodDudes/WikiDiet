@@ -1,4 +1,5 @@
 @import 'colors';
+@import 'buttons';
 
 *{
     color: $red;
@@ -24,3 +25,19 @@ a {
     }
 }
 
+.button-link{
+    font-size: 2em;
+}
+
+.button-link-box{
+    background-color: $red;
+    border: 0.1vh solid $grey;
+    border-radius: 5vh;
+}
+
+.favorites-list{
+}
+
+.favorites-list-item{
+    font-size: 4vh;
+}

@@ -8,16 +8,18 @@ const ensureAuth = require('../auth/ensureAuth')();
 //   res.send({valid: true});
 // });
 
+router.get('/verify', ensureAuth, (req, res, next) => {
+    res.status(200).send({success: true});
+});
+
+
 router.post('/signup', jsonParser, (req, res, next) => {
     const {username, password} = req.body;
     // now that we have the reference to the password, remove it
     delete req.body.password;
 
     if (!username || !password) {
-        return next({
-            code: 400,
-            error: 'username and password are required'
-        });
+        return next({code: 400, message: 'username and password are required'});
     };
 
     let userObj = {};
@@ -25,15 +27,17 @@ router.post('/signup', jsonParser, (req, res, next) => {
     User.find({username})
         .count()
         .then(count => {
-            if (count > 0) throw {code: 400, error: `username ${username} already exists`};
+            if (count > 0) throw {code: 400, message: `username ${username} already exists`};
             const user = new User(req.body);
             user.generateHash(password);
+            if (!user.role) user.role = 'member';
             return user.save();
         })
         .then(user => {
             userObj.userId = user._id;
             userObj.userName = user.username;
             userObj.role = user.role;
+            // console.log('the userOjb:', userObj);
             return token.assignToken(user);
         })
         .then(token => {
@@ -43,10 +47,10 @@ router.post('/signup', jsonParser, (req, res, next) => {
         .catch(next);
 });
 
-router.post('/signin', jsonParser, (req, res, next) => {
+router.post('/login', jsonParser, (req, res, next) => {
     const {username, password} = req.body;
     if (!username || !password) {
-        throw {code: 400, error: 'Missing username or password'};
+        throw {code: 400, message: 'Missing username or password'};
     };
 
     // now that we have the reference to the password, remove it
@@ -57,7 +61,8 @@ router.post('/signin', jsonParser, (req, res, next) => {
     User.findOne({username})
         .then(user => {
             if (!user && !password && !user.compareHash(password)){
-                throw {code: 400, error: 'Invalid username or password'};
+                console.log('failed to find user or password or pwd compare');
+                throw {code: 400, message: 'Invalid username or password'};
             };
             userObj.userId = user._id;
             userObj.userName = user.username;

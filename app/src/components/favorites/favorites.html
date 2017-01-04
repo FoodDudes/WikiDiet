@@ -1,0 +1,14 @@
+<section>
+    <h1>In Favorites.html</h1>
+    <ul class="favorites-list">
+        <li class="favorites-list-item" ng-repeat="favorite in $ctrl.users[1].favorites"> 
+           {{favorite.name}}
+            <button class="favorite-button" ng-click="$ctrl.removeFromFavorites()">
+                remove
+            </button>
+            <button class="favorite-button" ng-click="$ctrl.addToMenu()">
+                add to menu
+            </button>
+        </li>
+    </ul>
+</section>
