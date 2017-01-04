@@ -4,7 +4,7 @@ export default function authService(token, $http, apiUrl){
     const current = token.get();
     if(current){
         $http 
-            .get(`${apiUrl}/auth/verify`)
+            .get(`${apiUrl}/auths/verify`)
             .catch(() => token.remove());
     }
 
@@ -13,6 +13,7 @@ export default function authService(token, $http, apiUrl){
             return $http.post(`${apiUrl}/auths/${endpoint}`, credentials)
             .then(result => {
                 token.set(result.data.token);
+                return result.data;
             })
             .catch(err => {
                 throw err.data;
