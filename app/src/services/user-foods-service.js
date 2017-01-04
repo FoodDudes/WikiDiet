@@ -13,9 +13,9 @@ export default function userFoodsService($http, apiUrl) {
             return $http.get(`${apiUrl}/userFoods/${userId}`)
                 .then(res => res.data);
         },
-        addMeal(meal){
+        addMeal(userId, eaten){
             console.log('in addMeal');
-            return $http.put(`${apiUrl}/userFoods/${userId}`)
+            return $http.put(`${apiUrl}/userFoods/${userId}`, eaten)
                 .then(res => res.data);
         }
     };
