@@ -32,8 +32,18 @@ export default function routes($stateProvider, $urlRouterProvider) {
 
     // Food add
     $stateProvider.state({
-        name: 'food'
-    })
+        name: 'food.add',
+        url: '/id:?name',
+        params: {
+            view: { dynameic: true }
+        },
+        resolve: {
+            id: ['transition$', t => t.params().id],
+            view: ['$transition$', t => t.params().view || 'add']
+        },
+        component: 'foodSerch'
+        
+    });
 
     $stateProvider.state({
         name: 'me',

@@ -25,11 +25,11 @@ function controller(food) {
 
     this.new = () => {
         this.viewNew = true;
-        this.viewDetail = false;
+        this.viewSearch = false;
     };
 
-    this.detail = () => {
-        this.viewDetail = true;
+    this.search = () => {
+        this.viewSearch = true;
         this.viewNew = false;
     };
 

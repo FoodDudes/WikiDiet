@@ -6,12 +6,12 @@ export default {
     controller
 };
 
-controller.$inject = ['foodService'];
+// controller.$inject = ['foodService'];
 
 function controller(food) {
     this.styles = styles;
 
-    albums.getAll().then(food => {
+    food.get().then(food => {
         this.food = food;
     });
 
@@ -20,17 +20,6 @@ function controller(food) {
             .then(saved => {
                 this.food.push(saved);
             });
-
-    };
-
-    this.new = () => {
-        this.viewNew = true;
-        this.viewDetail = false;
-    };
-
-    this.detail = () => {
-        this.viewDetail = true;
-        this.viewNew = false;
     };
 
 }
