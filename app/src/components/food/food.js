@@ -1,17 +1,17 @@
 import template from './food.html';
-import styles from './food.scss';
 
 export default {
     template,
     controller
 };
 
+
 controller.$inject = ['foodService'];
 
 function controller(food) {
     this.styles = styles;
 
-    albums.getAll().then(food => {
+    food.getAll().then(food => {
         this.food = food;
     });
 
@@ -33,4 +33,9 @@ function controller(food) {
         this.viewNew = false;
     };
 
-}
+
+// controller.$inject=['$state'];
+
+// function controller($state) {
+
+// }

@@ -56,19 +56,19 @@
 	
 	var _components2 = _interopRequireDefault(_components);
 	
-	var _services = __webpack_require__(23);
+	var _services = __webpack_require__(30);
 	
 	var _services2 = _interopRequireDefault(_services);
 	
-	var _angularUiRouter = __webpack_require__(25);
+	var _angularUiRouter = __webpack_require__(36);
 	
 	var _angularUiRouter2 = _interopRequireDefault(_angularUiRouter);
 	
-	var _routes = __webpack_require__(26);
+	var _routes = __webpack_require__(37);
 	
 	var _routes2 = _interopRequireDefault(_routes);
 	
-	__webpack_require__(27);
+	__webpack_require__(38);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -77,15 +77,15 @@
 	// import http from './auth/http';
 	// import auth from './auth/auth';
 	var app = _angular2.default.module('myApp', [_components2.default, _services2.default, _angularUiRouter2.default]);
-	
-	// app.value('apiUrl', 'https://localhost:8080/api');
-	
-	// app.config(http);
-	
 	// need this for old $stateChanged events,
 	// however, we need to manually grab the module 
 	// from angular (see below) as it is not 
 	// exported from this import 
+	
+	
+	app.value('apiUrl', 'http://localhost:3000/api');
+	
+	// app.config(http);
 	app.config(_routes2.default);
 	// app.run(auth);
 	
@@ -33618,9 +33618,12 @@
 
 	var map = {
 		"./app/app.js": 12,
-		"./food/food.js": 17,
-		"./home/home.js": 19,
-		"./me/me.js": 21
+		"./favorites/favorites.js": 16,
+		"./food/food.js": 18,
+		"./home/home.js": 20,
+		"./login/login.js": 24,
+		"./me/me.js": 26,
+		"./sign-up/sign-up.js": 28
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -33650,7 +33653,7 @@
 	
 	var _app2 = _interopRequireDefault(_app);
 	
-	__webpack_require__(15);
+	__webpack_require__(14);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -33664,25 +33667,19 @@
 
 /***/ },
 /* 13 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	module.exports = "<section>\r\n    <div class=\"header\">\r\n        <h1>WikiDiet</h1>\r\n        <img src=\"" + __webpack_require__(14) + "\">\r\n        <div class=\"navbar\">\r\n        <a ui-sref=\"me\">My Health Data</a>\r\n        <a ui-sref=\"food\">Food Database</a>\r\n        </div>\r\n    </div>\r\n    \r\n    <ui-view></ui-view>\r\n\r\n    <div class =\"footer\"><h3 class=\"footer-text\">&copy Food Dudes, 2017</h3></div>\r\n</section>";
+	module.exports = "<section>\n    <div class=\"header\">\n        <h1 class=\"header-text\">WikiDiet</h1>\n        <div class=\"navbar\">\n            <a ui-sref=\"home\">Home</a>\n            <a ui-sref=\"me\">My Health Data</a>\n            <a ui-sref=\"favorites\">Favorites</a>\n            <a ui-sref=\"food\">Food Database</a>\n            <a ui-sref=\"login\">Login</a>\n            <a ui-sref=\"signup\">Sign Up</a>\n        </div>\n    </div>\n\n    <div  class=\"main-content\">\n        <ui-view></ui-view>\n    </div>\n\n    <div class =\"footer\">\n        <h3 class=\"footer-text\">&copy Food Dudes, 2017</h3>\n    </div>\n</section>";
 
 /***/ },
 /* 14 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__.p + "ef79c21c090aab39bfc51c59abee70af.png";
-
-/***/ },
-/* 15 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 16 */,
-/* 17 */
+/* 15 */,
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33691,7 +33688,37 @@
 	    value: true
 	});
 	
-	var _food = __webpack_require__(18);
+	var _favorites = __webpack_require__(17);
+	
+	var _favorites2 = _interopRequireDefault(_favorites);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = {
+	    template: _favorites2.default,
+	    controller: controller
+	};
+	
+	
+	function controller() {}
+
+/***/ },
+/* 17 */
+/***/ function(module, exports) {
+
+	module.exports = "<section>\n    <h1>In Favorites.html</h1>\n    <ul class=\"favorites-list\">\n        <li ng-repeat=\"x in $ctrl.favorites\"></li>\n    </ul>\n</section>";
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _food = __webpack_require__(19);
 	
 	var _food2 = _interopRequireDefault(_food);
 	
@@ -33703,16 +33730,25 @@
 	};
 	
 	
-	function controller() {}
-
-/***/ },
-/* 18 */
-/***/ function(module, exports) {
-
-	module.exports = "<section>\r\n    <h2>In food.html</h2>\r\n</section>";
+	controller.$inject = ['$state'];
+	
+	function controller($state) {
+	    this.styles = styles;
+	
+	    this.goToFavorites = function () {
+	        console.log('button clicked');
+	        $state.go('favorites');
+	    };
+	}
 
 /***/ },
 /* 19 */
+/***/ function(module, exports) {
+
+	module.exports = "<section>\n    <div class=\"button-link-box\">\n        <a class=\"button-link\" ui-sref=\"search\">Search for Food Item</a>\n    </div>\n\n    <div class=\"button-link-box\">\n        <a class=\"button-link\" ui-sref=\"enter\">Enter Food Item</a>\n    </div>\n\n    <div>\n        <button type=\"button\" ng-click=\"$ctrl.goToFavorites()\">Add Food from Favorites</button>\n    </div>\n</section>";
+
+/***/ },
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33721,9 +33757,11 @@
 	    value: true
 	});
 	
-	var _home = __webpack_require__(20);
+	var _home = __webpack_require__(21);
 	
 	var _home2 = _interopRequireDefault(_home);
+	
+	__webpack_require__(22);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -33736,13 +33774,20 @@
 	function controller() {}
 
 /***/ },
-/* 20 */
+/* 21 */
 /***/ function(module, exports) {
 
-	module.exports = " <section>\r\n   </section>\r\n";
+	module.exports = " <section>\n   <h1>WikiDiet.com:</h1>\n   <h2 class=\"subtitle\">the comprehensive, publicly-sourced nutrition database and health tracker.</h2>\n   <button type=\"button\">test button</button>\n  </section>\n";
 
 /***/ },
-/* 21 */
+/* 22 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 23 */,
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33751,7 +33796,54 @@
 	    value: true
 	});
 	
-	var _me = __webpack_require__(22);
+	var _login = __webpack_require__(25);
+	
+	var _login2 = _interopRequireDefault(_login);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = {
+	    template: _login2.default,
+	    controller: controller
+	};
+	
+	
+	controller.$inject = ['authService', 'userFoodService', '$state'];
+	
+	function controller(authSvc, userFoodSvc, $state) {
+	    var _this = this;
+	
+	    this.credentials = {};
+	
+	    this.authenticate = function () {
+	        return authSvc.login(_this.credentials).then(function (user) {
+	            userFoodSvc.getOne(user.userName).then(function (userfood) {
+	                user.userfood = userfood;
+	                $state.go('home');
+	            });
+	        }).catch(function (error) {
+	            _this.error = error;
+	        });
+	    };
+	};
+
+/***/ },
+/* 25 */
+/***/ function(module, exports) {
+
+	module.exports = "<section>\n    <h2>Login to access your account</h2>\n\t<form name=\"auth\" ng-submit=\"$ctrl.authenticate()\">\n\t\t<div>\n\t\t\t<label>\n\t\t\t\tUsername: <input required ng-model=\"$ctrl.credentials.username\">\n\t\t\t</label>\n\t\t</div>\n\n\t\t<div>\n\t\t\t<label>\n\t\t\t\tPassword: <input required type=\"password\" ng-model=\"$ctrl.credentials.password\">\n\t\t\t</label>\n\t\t</div>\n\n\t\t<button type=\"submit\">Sign In</button>\n\t</form>\n\t<div class=\"error\" ng-if='$ctrl.error'>{{$ctrl.error.message}}</div>\n</section>";
+
+/***/ },
+/* 26 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _me = __webpack_require__(27);
 	
 	var _me2 = _interopRequireDefault(_me);
 	
@@ -33766,13 +33858,89 @@
 	function controller() {}
 
 /***/ },
-/* 22 */
+/* 27 */
 /***/ function(module, exports) {
 
-	module.exports = "<section>\r\n    <h2>In me.html</h2>\r\n</section>";
+	module.exports = "<section>\n    <h2>In me.html</h2>\n        <div  class=\"button-link-box\">\n            <a class=\"button-link\" ui-sref=\"me.favorites\">Manage Favorites</a>\n        </div>\n</section>";
 
 /***/ },
-/* 23 */
+/* 28 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _signUp = __webpack_require__(29);
+	
+	var _signUp2 = _interopRequireDefault(_signUp);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = {
+	    template: _signUp2.default,
+	    controller: controller
+	};
+	
+	
+	controller.$inject = ['authService', 'userFoodService', '$state'];
+	
+	function controller(authSvc, userFoodSvc, $state) {
+	    var _this = this;
+	
+	    this.weightUnits = ['kg', 'lbs'];
+	    this.heightUnits = ['cm', 'inches'];
+	
+	    this.credentials = {
+	        username: '',
+	        password: '',
+	        gender: '',
+	        age: '',
+	        height: '',
+	        weight: ''
+	    };
+	
+	    this.$onInit = function () {
+	        _this.weightChoice = _this.weightUnits[1];
+	        _this.heightChoice = _this.heightUnits[1];
+	    };
+	
+	    this.findMetrics = function () {
+	        if (this.weightChoice === 'kg') {
+	            this.credentials.weight = this.weightInput * 2.20462;
+	        } else if (this.weightChoice === 'lbs') {
+	            this.credentials.weight = this.weightInput;
+	        };
+	
+	        if (this.heightChoice === 'cm') {
+	            this.credentials.height = this.heightInput * 0.393701;
+	        } else if (this.heightChoice === 'inches') {
+	            this.credentials.height = this.heightInput;
+	        };
+	    };
+	
+	    this.authenticate = function () {
+	        return authSvc.signup(_this.credentials).then(function (user) {
+	            userFoodSvc.add(_this.credentials).then(function (userfood) {
+	                user.userfood = userfood;
+	                $state.go('home');
+	            });
+	        }).catch(function (error) {
+	            _this.error = error;
+	        });
+	    };
+	};
+
+/***/ },
+/* 29 */
+/***/ function(module, exports) {
+
+	module.exports = "<section>\n   \t<h2>Sign up for a user account</h2>\n\t<form name=\"auth\" ng-submit=\"$ctrl.authenticate()\">\n\t\t<div>\n\t\t\t<label>\n\t\t\t\tUsername: <input required ng-model=\"$ctrl.credentials.username\">\n\t\t\t</label>\n\t\t</div>\n\n\t\t<div>\n\t\t\t<label>\n\t\t\t\tPassword: <input required type=\"password\" ng-model=\"$ctrl.credentials.password\">\n\t\t\t</label>\n\t\t</div>\n\n        <div>\n            Gender:\n\t        <input type=\"radio\" name=\"gender\" value=\"male\" ng-model=\"$ctrl.credentials.gender\"> Male\n            <input type=\"radio\" name=\"gender\" value=\"female\" ng-model=\"$ctrl.credentials.gender\"> Female\n            <input type=\"radio\" name=\"gender\" value=\"other\" ng-model=\"$ctrl.credentials.gender\"> Other\n\t\t</div>\n\n          <div>\n\t\t\tAge: <input type=\"number\" ng-model=\"$ctrl.credentials.age\">\n\t\t</div>\n\n        <div>\n\t\t\tCurrent Weight: <input type=\"number\" ng-model=\"$ctrl.weightInput\">\n            <select ng-options=\"x for x in $ctrl.weightUnits\" ng-model=\"$ctrl.weightChoice\"></select>\n\t\t</div>\n\n        <div>\n\t\t\tCurrent Height: <input type=\"number\" ng-model=\"$ctrl.heightInput\">\n            <select ng-options=\"x for x in $ctrl.heightUnits\" ng-model=\"$ctrl.heightChoice\"></select>\n\t\t</div>\n\n\t\t<button type=\"submit\" ng-click=\"$ctrl.findMetrics()\">Sign Up</button>\n\t</form>\n\t<div class=\"error\" ng-if='$ctrl.error'>{{$ctrl.error.message}}</div>\n</section>";
+
+/***/ },
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33796,7 +33964,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	// .context is a method webpack adds to require 
-	var context = __webpack_require__(24);
+	var context = __webpack_require__(31);
 	
 	// create the module to put the resources in,
 	// in this case directives
@@ -33815,20 +33983,164 @@
 	exports.default = _module.name;
 
 /***/ },
-/* 24 */
-/***/ function(module, exports) {
+/* 31 */
+/***/ function(module, exports, __webpack_require__) {
 
+	var map = {
+		"./auth-service.js": 32,
+		"./food-service.js": 33,
+		"./token-service.js": 34,
+		"./userFood-service.js": 35
+	};
 	function webpackContext(req) {
-		throw new Error("Cannot find module '" + req + "'.");
-	}
-	webpackContext.keys = function() { return []; };
-	webpackContext.resolve = webpackContext;
+		return __webpack_require__(webpackContextResolve(req));
+	};
+	function webpackContextResolve(req) {
+		return map[req] || (function() { throw new Error("Cannot find module '" + req + "'.") }());
+	};
+	webpackContext.keys = function webpackContextKeys() {
+		return Object.keys(map);
+	};
+	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 24;
+	webpackContext.id = 31;
 
 
 /***/ },
-/* 25 */
+/* 32 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = authService;
+	authService.$inject = ['tokenService', '$http', 'apiUrl'];
+	
+	function authService(token, $http, apiUrl) {
+	    var current = token.get();
+	    if (current) {
+	        $http.get(apiUrl + '/auths/verify').catch(function () {
+	            return token.remove();
+	        });
+	    }
+	
+	    function credential(endpoint) {
+	        return function (credentials) {
+	            return $http.post(apiUrl + '/auths/' + endpoint, credentials).then(function (result) {
+	                token.set(result.data.token);
+	                return result.data;
+	            }).catch(function (err) {
+	                throw err.data;
+	            });
+	        };
+	    }
+	
+	    return {
+	        isAuthenticated: function isAuthenticated() {
+	            return !!token.get();
+	        },
+	        logout: function logout() {
+	            token.remove();
+	        },
+	
+	        login: credential('login'),
+	        signup: credential('signup')
+	    };
+	}
+
+/***/ },
+/* 33 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = foodService;
+	
+	foodService.$inject = ['$http', 'apiUrl'];
+	
+	function foodService($http, apiUrl) {
+	    return {
+	        get: function get() {
+	            return $http.get(apiUrl + '/foods').then(function (res) {
+	                return res.data;
+	            });
+	        },
+	        add: function add(food) {
+	            return $http.post(apiUrl + '/foods', food).then(function (res) {
+	                return res.data;
+	            });
+	        }
+	    };
+	};
+
+/***/ },
+/* 34 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = tokenService;
+	tokenService.$inject = ['$window'];
+	
+	var TOKEN_NAME = 'token';
+	
+	function tokenService($window) {
+	    return {
+	        get: function get() {
+	            return $window.localStorage.getItem(TOKEN_NAME);
+	        },
+	        remove: function remove() {
+	            $window.localStorage.removeItem(TOKEN_NAME);
+	        },
+	        set: function set(token) {
+	            $window.localStorage.setItem(TOKEN_NAME, token);
+	        }
+	    };
+	}
+
+/***/ },
+/* 35 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = userFoodService;
+	
+	userFoodService.$inject = ['$http', 'apiUrl'];
+	
+	function userFoodService($http, apiUrl) {
+	    return {
+	        get: function get() {
+	            return $http.get(apiUrl + '/userfoods').then(function (res) {
+	                return res.data;
+	            });
+	        },
+	        getOne: function getOne(username) {
+	            return $http.get(apiUrl + '/userfoods/' + username).then(function (res) {
+	                return res.data;
+	            });
+	        },
+	        add: function add(userfood) {
+	            return $http.post(apiUrl + '/userfoods', userfood).then(function (res) {
+	                return res.data;
+	            });
+	        }
+	    };
+	};
+
+/***/ },
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!
@@ -42177,7 +42489,7 @@
 	//# sourceMappingURL=angular-ui-router.js.map
 
 /***/ },
-/* 26 */
+/* 37 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -42211,11 +42523,32 @@
 	        component: 'me'
 	    });
 	
+	    $stateProvider.state({
+	        name: 'favorites',
+	        url: '/favorites',
+	        data: { public: false },
+	        component: 'favorites'
+	    });
+	
+	    $stateProvider.state({
+	        name: 'login',
+	        url: '/login',
+	        data: { public: true },
+	        component: 'login'
+	    });
+	
+	    $stateProvider.state({
+	        name: 'signup',
+	        url: '/signup',
+	        data: { public: true },
+	        component: 'signUp'
+	    });
+	
 	    $urlRouterProvider.otherwise('/');
 	}
 
 /***/ },
-/* 27 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!

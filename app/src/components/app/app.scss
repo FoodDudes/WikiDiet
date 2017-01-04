@@ -1,23 +1,34 @@
 @import 'colors';
 .header{
     background-color: white;
-    min-height: 20vh;
+    height: 20vh;
     border: 1vh solid $grey;
-    border-radius: 5vh;
+    border-radius: 5vh 5vh 0vh 5vh;
+}
+
+.menu{
+    float: right;
+    background-color:$black;
+    height:65vh;
+    width: 25vw;
+    border: 1vh solid $grey;
 }
 
 .footer{
     background-color:$blue;
-    min-height: 10vh;
+    height: 10vh;
     border: 1vh solid $grey;
-    border-radius: 5vh;
+    border-radius: 5vh 0vh 5vh 5vh;
 }
 
 .navbar{
     background-color: $red;
-    border-radius: 0vh 5vh;
+    border-radius: 0vh 0vh 0vh 5vh;
     margin: 0vh 2vw 0vh 0vw;
     min-height: 8vh; 
+    padding-top: 3vh;
+    height: 5vh;
+    width: 96vw; 
 }
 
 .footer-text{
@@ -27,16 +38,29 @@
 }
 
 .header-text{
-    margin: 10vh 60vw 2vh 10vw;
+    margin: 4vh 60vw 1vh 10vw;
     font-size: 10vh;
     color: $blue;
 }
 
 .main-content{
-    min-height: 40vh;
+    height: 59vh;
 }
 
+.menu-title{
+    color: $grey;
+}
 
+table{
+    color: white;
+}
 
+th{
+   color: $grey; 
+}
+
+td{
+    color: $grey;
+}
 
 

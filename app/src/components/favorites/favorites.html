@@ -1,0 +1,22 @@
+<section>
+    <h1>My Favorite Foods</h1>
+    <table class="favorites-list">
+        <tr>
+            <th>Food Name</th>
+            <th></th>
+            <th></th>
+        </tr>
+
+        <tr class="favorites-list-item" ng-repeat="favorite in $ctrl.users[2].favorites"> 
+           <td>{{favorite.name}}</td>
+            <td><button class="favorite-button" ng-click="$ctrl.addToMenu(favorite)">
+            Add One Serving
+            </button></td>
+            <td><button class="favorite-button" ng-click="$ctrl.viewFavoriteItem()">View Item
+            </button></td>
+              <td><button class="favorite-button" ng-click="$ctrl.removeFromFavorites()">
+            Remove from Favorites
+            </button></td>
+        </tr>
+    </table>
+</section>

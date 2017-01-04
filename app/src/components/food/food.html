@@ -1,5 +1,6 @@
 <section>
     <div class="food-link-box">
+
         <a class="food-link" ng-click="$ctrl.search" ui-sref="food.search">Search for Food Item</a>
         <food-search add="$ctrl.search" ng-show="$ctrl.viewSearch === true"></food-search>
     </div>
@@ -7,9 +8,16 @@
     <div class="food-link-box">
         <a class="food-link" ui-sref="">Enter Food Item</a>
         <new-food add="$ctrl.add" ng-show="$ctrl.viewNew === true"><new-food>
+          
+<!--         <a class="food-link" ui-sref="search">Search for Food Item</a>
     </div>
 
-    <div  class="food-link-box">
-        <a class="food-link" ui-sref="">Add Food from Favorites</a>
+    <div class="food-link-box">
+        <a class="food-link" ui-sref="enter">Enter Food Item</a> -->
+
+<!--     </div> -->
+
+    <div class="food-link-box">
+        <a class="food-link" ui-sref="favorites">Add Food from Favorites</a>
     </div>
 </section>

@@ -1,4 +1,5 @@
 @import 'colors';
+@import 'buttons';
 
 *{
     color: $red;
@@ -14,13 +15,30 @@ h2{
 }
 
 a {
-    font-size: 2vh;
+    font-size: 2.2vh;
     color: white;
     margin: 2vh 3vw 0vh 3vw;
-    // padding-top: 28vh;
+    // padding-top: 8vh;
     text-decoration: none;
-    :hover{
+    &:hover{
         cursor: pointer;
+        color: $grey;
     }
 }
 
+.food-link{
+    font-size: 2em;
+}
+
+.food-link-box{
+    background-color: $red;
+    border: 0.1vh solid $grey;
+    border-radius: 5vh;
+}
+
+.favorites-list{
+}
+
+.favorites-list-item{
+    font-size: 4vh;
+}
