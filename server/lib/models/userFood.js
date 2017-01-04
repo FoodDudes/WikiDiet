@@ -4,7 +4,6 @@ const Schema = mongoose.Schema;
 
 const requiredString = {type: String, required: true};
 
-//userFood
 const userFoodSchema = new Schema({
     username: requiredString,
     dietId: {

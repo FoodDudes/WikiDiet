@@ -1,13 +1,13 @@
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const server = require('../server.js');
+const server = require('../../server.js');
 const assert = chai.assert;
 
 chai.use(chaiHttp);
 
-const connection = require('../lib/mongoose-config');
-const app = require('../lib/app');
+const connection = require('../../lib/mongoose-config');
+const app = require('../../lib/app');
 
 describe('Validating Foods routes', () => {
 
@@ -90,12 +90,12 @@ describe('Validating Foods routes', () => {
             .catch(done);
     });
 
-    // it('DELETE an album', done => {
+    // it('DELETE a food', done => {
     //     request
-    //         .delete(`/api/albums/${testAlbum._id}`)
+    //         .delete(`/api/foods/${testFood._id}`)
     //         .then(res => {
-    //             const deletedAlbum = res.body;
-    //             assert.ok(deletedAlbum._id);
+    //             const deletedFood = res.body;
+    //             assert.ok(deletedFood._id);
     //             done();
     //         })
     //         .catch(done);
