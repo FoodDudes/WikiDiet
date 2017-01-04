@@ -11,6 +11,26 @@
         </div>
     </div>
 
+    <div class="menu">
+        <h2 class="menu-title">Daily Menu</h2>
+        <table>
+            <tr>
+                <th>Food</th>
+                <th>Cal</th>
+            </tr>
+
+            <tr ng-repeat="meal in $ctrl.menu">
+                <td>{{ meal.name }}</td>
+                <td>{{ meal.Cal }}</td>
+            </tr>
+
+            <tr>
+                <th>Total Cal</th>
+                <th>{{$ctrl.totalCal}}</th>
+            </tr>
+        </table>
+    </div>
+
     <div  class="main-content">
         <ui-view></ui-view>
     </div>
