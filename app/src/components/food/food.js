@@ -32,10 +32,12 @@ function controller(food) {
         this.viewSearch = true;
         this.viewNew = false;
     };
+}
 
 
-// controller.$inject=['$state'];
 
-// function controller($state) {
+controller.$inject=['$state'];
 
-// }
+function controller($state) {
+}
+
