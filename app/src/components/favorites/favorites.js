@@ -26,10 +26,8 @@ function controller(userFoods) {
         this.newEaten.push(item);
         console.log('newEaten is', this.newEaten);
         JSON.stringify(this.newEaten);
-
         console.log('addind this json array ' + this.newEaten+ ' to this user '+ this.users[2]._id);
-        userFoods.addMeal(this.users[2]._id, {'eaten': this.newEaten});
-        //eventually we want to replace this push with a get request to get all of the eaten foods.  Then push this food into the array.  Then a put request to the userfoods database with the new array.  
+        userFoods.addMeal(this.users[2]._id, {'eaten': this.newEaten}); 
     };
 
     userFoods.get().then(users => {
