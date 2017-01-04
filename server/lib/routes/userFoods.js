@@ -1,11 +1,11 @@
 
 const router = require('express').Router();
 const jsonParser = require('body-parser').json();
-const userFood = require('../models/userFood');
+const UserFood = require('../models/userFood');
 
 router
     .get('/', (req, res, next) => {
-        userFood.find()
+        UserFood.find()
         .then(userfoods => {
             if (!userfoods || userfoods.length === 0) {
                 next({code: 404, message: 'No userfoods found.'});
@@ -18,7 +18,7 @@ router
 
     .get('/:username', (req, res, next) => {
         let userName = req.params.username;
-        userFood.find({username: userName}).lean()
+        UserFood.find({username: userName}).lean()
         .then(userfood => {
             if (!userfood) {
                 next({code: 404, message: `No userfood found for ${username}.`});
@@ -29,13 +29,13 @@ router
     })
 
     .post('/', jsonParser, (req, res, next) => {
-        userFood.find({})
+        new UserFood(req.body).save()
             .then(saved => res.send(saved))
             .catch(next);
     })
 
     .put('/:id', jsonParser, (req, res, next) => {
-	    userFood.findByIdAndUpdate(req.params.id, req.body) 
+	    UserFood.findByIdAndUpdate(req.params.id, req.body) 
             .then(saved => res.send(saved))
             .catch(next);
     });

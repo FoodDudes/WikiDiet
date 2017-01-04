@@ -82,7 +82,7 @@ describe('Validating Foods routes', () => {
 
     it('GET by barcode', done => {
         request
-            .get(`/api/foods/${testFood.barcode}`)
+            .get(`/api/foods/${testFood.barcode}/name/none`)
             .then(res => {
                 assert.deepEqual(res.body, [testFood]);
                 done();
@@ -92,7 +92,7 @@ describe('Validating Foods routes', () => {
 
     it('GET by name', done => {
         request
-            .get(`/api/foods/${testFood.name}`)
+            .get(`/api/foods/0/name/${testFood.name}`)
             .then(res => {
                 assert.deepEqual(res.body, [testFood]);
                 done();
