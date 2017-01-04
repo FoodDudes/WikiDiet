@@ -60,15 +60,15 @@
 	
 	var _services2 = _interopRequireDefault(_services);
 	
-	var _angularUiRouter = __webpack_require__(35);
+	var _angularUiRouter = __webpack_require__(36);
 	
 	var _angularUiRouter2 = _interopRequireDefault(_angularUiRouter);
 	
-	var _routes = __webpack_require__(36);
+	var _routes = __webpack_require__(37);
 	
 	var _routes2 = _interopRequireDefault(_routes);
 	
-	__webpack_require__(37);
+	__webpack_require__(38);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -77,15 +77,15 @@
 	// import http from './auth/http';
 	// import auth from './auth/auth';
 	var app = _angular2.default.module('myApp', [_components2.default, _services2.default, _angularUiRouter2.default]);
-	
-	// app.value('apiUrl', 'https://localhost:8080/api');
-	
-	// app.config(http);
-	
 	// need this for old $stateChanged events,
 	// however, we need to manually grab the module 
 	// from angular (see below) as it is not 
 	// exported from this import 
+	
+	
+	app.value('apiUrl', 'http://localhost:3000/api');
+	
+	// app.config(http);
 	app.config(_routes2.default);
 	// app.run(auth);
 	
@@ -33808,13 +33808,30 @@
 	};
 	
 	
-	function controller() {}
+	controller.$inject = ['authService', 'userFoodService', '$state'];
+	
+	function controller(authSvc, userFoodSvc, $state) {
+	    var _this = this;
+	
+	    this.credentials = {};
+	
+	    this.authenticate = function () {
+	        return authSvc.login(_this.credentials).then(function (user) {
+	            userFoodSvc.getOne(user.userName).then(function (userfood) {
+	                user.userfood = userfood;
+	                $state.go('home');
+	            });
+	        }).catch(function (error) {
+	            _this.error = error;
+	        });
+	    };
+	};
 
 /***/ },
 /* 25 */
 /***/ function(module, exports) {
 
-	module.exports = "<section>\n    <h2>Login to access your account</h2>\n\t<form name=\"auth\" ng-submit=\"$ctrl.authenticate()\">\n\t\t<div>\n\t\t\t<label>\n\t\t\t\tUsername: <input required ng-model=\"$ctrl.credentials.username\">\n\t\t\t</label>\n\t\t</div>\n\n\t\t<div>\n\t\t\t<label>\n\t\t\t\tPassword: <input required type=\"password\" ng-model=\"$ctrl.credentials.password\">\n\t\t\t</label>\n\t\t</div>\n\n\t\t<button type=\"submit\">Sign In</button>\n\t</form>\n\t<div class=\"error\" ng-if='$ctrl.error'>{{$ctrl.error.reason}}</div>\n</section>";
+	module.exports = "<section>\n    <h2>Login to access your account</h2>\n\t<form name=\"auth\" ng-submit=\"$ctrl.authenticate()\">\n\t\t<div>\n\t\t\t<label>\n\t\t\t\tUsername: <input required ng-model=\"$ctrl.credentials.username\">\n\t\t\t</label>\n\t\t</div>\n\n\t\t<div>\n\t\t\t<label>\n\t\t\t\tPassword: <input required type=\"password\" ng-model=\"$ctrl.credentials.password\">\n\t\t\t</label>\n\t\t</div>\n\n\t\t<button type=\"submit\">Sign In</button>\n\t</form>\n\t<div class=\"error\" ng-if='$ctrl.error'>{{$ctrl.error.message}}</div>\n</section>";
 
 /***/ },
 /* 26 */
@@ -33868,22 +33885,13 @@
 	};
 	
 	
-	function controller() {
-	    this.weightUnits = ['kg', 'lbs'];
-	    this.heightUnits = ['cm', 'feet'];
+	controller.$inject = ['authService', 'userFoodService', '$state'];
 	
-	    this.findMetrics = function () {
-	        if (this.weightChoice === 'kg') {
-	            this.credentials.weight = weightInput * 2.20462;
-	        } else if (this.weightChoice === 'lbs') {
-	            this.credentials.weight = weightInput;
-	        }
-	        if (this.heightChoice === 'cm') {
-	            this.credentials.height = heightInput * 0.393701;
-	        } else if (this.heightChoice === 'inches') {
-	            this.credentials.height = heightInput;
-	        }
-	    };
+	function controller(authSvc, userFoodSvc, $state) {
+	    var _this = this;
+	
+	    this.weightUnits = ['kg', 'lbs'];
+	    this.heightUnits = ['cm', 'inches'];
 	
 	    this.credentials = {
 	        username: '',
@@ -33893,13 +33901,43 @@
 	        height: '',
 	        weight: ''
 	    };
-	}
+	
+	    this.$onInit = function () {
+	        _this.weightChoice = _this.weightUnits[1];
+	        _this.heightChoice = _this.heightUnits[1];
+	    };
+	
+	    this.findMetrics = function () {
+	        if (this.weightChoice === 'kg') {
+	            this.credentials.weight = this.weightInput * 2.20462;
+	        } else if (this.weightChoice === 'lbs') {
+	            this.credentials.weight = this.weightInput;
+	        };
+	
+	        if (this.heightChoice === 'cm') {
+	            this.credentials.height = this.heightInput * 0.393701;
+	        } else if (this.heightChoice === 'inches') {
+	            this.credentials.height = this.heightInput;
+	        };
+	    };
+	
+	    this.authenticate = function () {
+	        return authSvc.signup(_this.credentials).then(function (user) {
+	            userFoodSvc.add(_this.credentials).then(function (userfood) {
+	                user.userfood = userfood;
+	                $state.go('home');
+	            });
+	        }).catch(function (error) {
+	            _this.error = error;
+	        });
+	    };
+	};
 
 /***/ },
 /* 29 */
 /***/ function(module, exports) {
 
-	module.exports = "<section>\n   \t<h2>Sign up for a user account</h2>\n\t<form name=\"auth\" ng-submit=\"$ctrl.authenticate()\">\n\t\t<div>\n\t\t\t<label>\n\t\t\t\tUsername: <input required ng-model=\"$ctrl.credentials.username\">\n\t\t\t</label>\n\t\t</div>\n\n\t\t<div>\n\t\t\t<label>\n\t\t\t\tPassword: <input required type=\"password\" ng-model=\"$ctrl.credentials.password\">\n\t\t\t</label>\n\t\t</div>\n\n        <div>\n            Gender:\n\t        <input type=\"radio\" name=\"gender\" value=\"male\" ng-model=\"$ctrl.credentials.gender\"> Male\n            <input type=\"radio\" name=\"gender\" value=\"female\" ng-model=\"$ctrl.credentials.gender\"> Female\n            <input type=\"radio\" name=\"gender\" value=\"other\" ng-model=\"$ctrl.credentials.gender\"> Other\n\t\t</div>\n\n          <div>\n\t\t\tAge: <input type=\"number\" ng-model=\"$ctrl.credentials.age\">\n\t\t</div>\n\n        <div>\n\t\t\tCurrent Weight: <input type=\"number\" ng-model=\"$ctrl.weightInput\">\n            <select ng-options=\"x for x in $ctrl.weightUnits\" ng-model=\"$ctrl.weightChoice\">\n            <option value=\"\" disabled selected>Select Units</option>\n            </select>\n\t\t</div>\n\n        <div>\n\t\t\tCurrent Height: <input type=\"number\" ng-model=\"$ctrl.heightInput\">\n            <select ng-options=\"x for x in $ctrl.heightUnits\" ng-model=\"$ctrl.heightChoice\">\n            <option value=\"\" disabled selected>Select Units</option>\n            </select>\n\t\t</div>\n\n\t\t<button type=\"submit\" ng-click=\"$ctrl.findMetrics()\">Sign Up</button>\n\t</form>\n\t<div class=\"error\" ng-if='$ctrl.error'>{{$ctrl.error.reason}}</div>\n</section>";
+	module.exports = "<section>\n   \t<h2>Sign up for a user account</h2>\n\t<form name=\"auth\" ng-submit=\"$ctrl.authenticate()\">\n\t\t<div>\n\t\t\t<label>\n\t\t\t\tUsername: <input required ng-model=\"$ctrl.credentials.username\">\n\t\t\t</label>\n\t\t</div>\n\n\t\t<div>\n\t\t\t<label>\n\t\t\t\tPassword: <input required type=\"password\" ng-model=\"$ctrl.credentials.password\">\n\t\t\t</label>\n\t\t</div>\n\n        <div>\n            Gender:\n\t        <input type=\"radio\" name=\"gender\" value=\"male\" ng-model=\"$ctrl.credentials.gender\"> Male\n            <input type=\"radio\" name=\"gender\" value=\"female\" ng-model=\"$ctrl.credentials.gender\"> Female\n            <input type=\"radio\" name=\"gender\" value=\"other\" ng-model=\"$ctrl.credentials.gender\"> Other\n\t\t</div>\n\n          <div>\n\t\t\tAge: <input type=\"number\" ng-model=\"$ctrl.credentials.age\">\n\t\t</div>\n\n        <div>\n\t\t\tCurrent Weight: <input type=\"number\" ng-model=\"$ctrl.weightInput\">\n            <select ng-options=\"x for x in $ctrl.weightUnits\" ng-model=\"$ctrl.weightChoice\"></select>\n\t\t</div>\n\n        <div>\n\t\t\tCurrent Height: <input type=\"number\" ng-model=\"$ctrl.heightInput\">\n            <select ng-options=\"x for x in $ctrl.heightUnits\" ng-model=\"$ctrl.heightChoice\"></select>\n\t\t</div>\n\n\t\t<button type=\"submit\" ng-click=\"$ctrl.findMetrics()\">Sign Up</button>\n\t</form>\n\t<div class=\"error\" ng-if='$ctrl.error'>{{$ctrl.error.message}}</div>\n</section>";
 
 /***/ },
 /* 30 */
@@ -33951,7 +33989,8 @@
 	var map = {
 		"./auth-service.js": 32,
 		"./food-service.js": 33,
-		"./token-service.js": 34
+		"./token-service.js": 34,
+		"./userFood-service.js": 35
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -33982,7 +34021,7 @@
 	function authService(token, $http, apiUrl) {
 	    var current = token.get();
 	    if (current) {
-	        $http.get(apiUrl + '/auth/verify').catch(function () {
+	        $http.get(apiUrl + '/auths/verify').catch(function () {
 	            return token.remove();
 	        });
 	    }
@@ -33991,6 +34030,7 @@
 	        return function (credentials) {
 	            return $http.post(apiUrl + '/auths/' + endpoint, credentials).then(function (result) {
 	                token.set(result.data.token);
+	                return result.data;
 	            }).catch(function (err) {
 	                throw err.data;
 	            });
@@ -34068,6 +34108,39 @@
 
 /***/ },
 /* 35 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = userFoodService;
+	
+	userFoodService.$inject = ['$http', 'apiUrl'];
+	
+	function userFoodService($http, apiUrl) {
+	    return {
+	        get: function get() {
+	            return $http.get(apiUrl + '/userfoods').then(function (res) {
+	                return res.data;
+	            });
+	        },
+	        getOne: function getOne(username) {
+	            return $http.get(apiUrl + '/userfoods/' + username).then(function (res) {
+	                return res.data;
+	            });
+	        },
+	        add: function add(userfood) {
+	            return $http.post(apiUrl + '/userfoods', userfood).then(function (res) {
+	                return res.data;
+	            });
+	        }
+	    };
+	};
+
+/***/ },
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!
@@ -42416,7 +42489,7 @@
 	//# sourceMappingURL=angular-ui-router.js.map
 
 /***/ },
-/* 36 */
+/* 37 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -42475,7 +42548,7 @@
 	}
 
 /***/ },
-/* 37 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!
