@@ -41,7 +41,7 @@ export default function routes($stateProvider, $urlRouterProvider) {
             id: ['transition$', t => t.params().id],
             view: ['$transition$', t => t.params().view || 'add']
         },
-        component: 'foodSerch'
+        component: 'newFood'
         
     });
 
