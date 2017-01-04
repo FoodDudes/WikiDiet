@@ -8,7 +8,8 @@ export default {
 controller.$inject=['userFoodsService'];
 
 function controller(userFoods) {
-    this.menu =[];
+    this.currentUser = JSON.parse(localStorage.getItem('user'));
+    this.currentUserFood = JSON.parse(localStorage.getItem('userFood'));
 
     this.removeFromFavorites = ()=>{
         console.log('remove from favorites clicked');
@@ -22,18 +23,11 @@ function controller(userFoods) {
         item.day = dateArr[0];
         delete item.$$hashKey;
         console.log('item is ', item);
-        this.newEaten = this.users[2].eaten;
+        this.newEaten = this.currentUserFood[0].eaten;
         this.newEaten.push(item);
         console.log('newEaten is', this.newEaten);
         JSON.stringify(this.newEaten);
-        console.log('addind this json array ' + this.newEaten+ ' to this user '+ this.users[2]._id);
-        userFoods.addMeal(this.users[2]._id, {'eaten': this.newEaten}); 
+        userFoods.addMeal(this.currentUserFood[0]._id, {'eaten': this.newEaten}); 
     };
-
-    userFoods.get().then(users => {
-        this.users = users;
-        console.log(users[2]);
-    });
-
 
 }

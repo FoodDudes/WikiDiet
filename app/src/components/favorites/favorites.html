@@ -7,7 +7,7 @@
             <th></th>
         </tr>
 
-        <tr class="favorites-list-item" ng-repeat="favorite in $ctrl.users[2].favorites"> 
+        <tr class="favorites-list-item" ng-repeat="favorite in $ctrl.currentUserFood[0].favorites"> 
            <td>{{favorite.name}}</td>
             <td><button class="favorite-button" ng-click="$ctrl.addToMenu(favorite)">
             Add One Serving
