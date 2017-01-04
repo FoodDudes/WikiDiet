@@ -9,7 +9,7 @@
   "scripts": {
     "test": "npm run test:unit && npm run test:api",
     "test:unit": "mocha ./test/model-tests",
-    "test:api":"mocha ./test/api-tests",
+    "test:api": "mocha ./test/api-tests",
     "lint": "eslint .",
     "pretest": "npm run lint && export MONGODB_URI='mongodb://localhost/food-dudes-test'",
     "start": "nodemon server.js"
@@ -31,7 +31,8 @@
     "express": "^4.14.0",
     "jsonwebtoken": "^7.2.1",
     "mongoose": "^4.7.2",
-    "morgan": "^1.7.0"
+    "morgan": "^1.7.0",
+    "request-promise": "^4.1.1"
   },
   "devDependencies": {
     "chai": "^3.5.0",
