@@ -21,7 +21,7 @@ export default function routes($stateProvider, $urlRouterProvider) {
         name: 'food.search',
         url: '/id:?name',
         params: {
-            view: { dynameic: true }
+            view: { dynamic: true }
         },
         resolve: {
             id: ['transition$', t => t.params().id],
@@ -35,7 +35,7 @@ export default function routes($stateProvider, $urlRouterProvider) {
         name: 'food.add',
         url: '/id:?name',
         params: {
-            view: { dynameic: true }
+            view: { dynamic: true }
         },
         resolve: {
             id: ['transition$', t => t.params().id],

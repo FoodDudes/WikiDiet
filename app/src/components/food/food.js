@@ -1,4 +1,5 @@
 import template from './food.html';
+import styles from './food.scss';
 
 export default {
     template,

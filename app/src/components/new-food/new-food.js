@@ -15,8 +15,16 @@ function controller() {
     this.styles = styles;
     
     this.reset = () => {
-        this.name = '';
-        this.type = '';
+        this.name = '',
+        this.barcode = '',
+        this.servingSize = '',
+        this.calories = '',
+        this.sugars = '',
+        this.fiber = '',
+        this.totalFats = '',
+        this.saturatedFats = '',
+        this.totalProtein = '',
+        this.vetted = '';
 
     };
 
@@ -25,7 +33,17 @@ function controller() {
     this.addNew = () => {
         this.add({
             name: this.name,
-            type: this.type
+            barcode: this.barcode,
+            servingSize: this.servingSize,
+            calories: this.colories,
+            totalCarbs: this.totalCarbs,
+            sugars: this.sugars,
+            fiber: this.fiber,
+            totalFats: this.totalFats,
+            saturatedFats: this.saturatedFats,
+            unsaturatedFats: this.unsaturatedFats,
+            totalProtein: this.totalProtein,
+            vetted: this.vetted            
         });
         this.reset();
     };
