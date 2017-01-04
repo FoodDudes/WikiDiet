@@ -10,6 +10,18 @@ router
         .catch(next);
     })
 
+    .get('/:username', (req, res, next) => {
+        let userName = req.params.username;
+        userFood.find({userName}).lean()
+        .then(userfood => {
+            if (!userfood) {
+                next({code: 404, message: `No userfood found for ${username}.`});
+            }
+            res.send(userfood);            
+        })
+        .catch(next);
+    })
+
     .post('/', jsonParser, (req, res, next) => {
         new userFood(req.body).save()
             .then(saved => res.send(saved))
