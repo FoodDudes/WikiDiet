@@ -7,9 +7,11 @@
     "test": "test"
   },
   "scripts": {
-    "test": "MONGODB_URI=mongodb://localhost/food-dudes-test mocha",
+    "test": "npm run test:unit && npm run test:api",
+    "test:unit": "mocha ./test/model-tests",
+    "test:api":"mocha ./test/api-tests",
     "lint": "eslint .",
-    "pretest": "npm run lint",
+    "pretest": "npm run lint && export MONGODB_URI='mongodb://localhost/food-dudes-test'",
     "start": "nodemon server.js"
   },
   "repository": {
