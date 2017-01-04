@@ -2,13 +2,13 @@
    	<h2>Sign up for a user account</h2>
 	<form name="auth" ng-submit="$ctrl.authenticate()">
 		<div>
-			<label>
+			<label id="username">
 				Username: <input required ng-model="$ctrl.credentials.username">
 			</label>
 		</div>
 
 		<div>
-			<label>
+			<label id="password">
 				Password: <input required type="password" ng-model="$ctrl.credentials.password">
 			</label>
 		</div>

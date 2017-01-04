@@ -9,7 +9,7 @@ const foodSchema = new Schema({
     barcode: Number,
     servingSize: Number,
     servingUnit: String,
-    calories: Number,
+    Calories: Number,
     totalCarbs: Number,
     sugars: Number,
     fiber: Number,

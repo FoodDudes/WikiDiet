@@ -1,4 +1,5 @@
 import template from './login.html';
+import styles from './login.scss';
 
 export default {
     template,
@@ -8,6 +9,7 @@ export default {
 controller.$inject = ['authService', 'userFoodService', '$state'];
 
 function controller(authSvc, userFoodSvc, $state) {
+    this.styles = styles;
     this.credentials = {};
 
     this.authenticate = () => {
@@ -16,6 +18,8 @@ function controller(authSvc, userFoodSvc, $state) {
                 userFoodSvc.getOne(user.userName)
                 .then((userfood) => {
                     user.userfood = userfood;
+                    localStorage.setItem('user', JSON.stringify(user));
+                    localStorage.setItem('userFoodUserName', user.userfood[0].username);
                     $state.go('home');
                 });
             })

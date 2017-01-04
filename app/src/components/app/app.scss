@@ -10,7 +10,7 @@
     float: right;
     background-color:$black;
     height:65vh;
-    width: 25vw;
+    width: 35vw;
     border: 1vh solid $grey;
 }
 
@@ -25,6 +25,8 @@
     background-color: $red;
     border-radius: 0vh 0vh 0vh 5vh;
     margin: 0vh 2vw 0vh 0vw;
+    min-height: 8vh; 
+    padding-top: 3vh;
     height: 5vh;
     width: 96vw; 
 }
@@ -49,12 +51,12 @@
     color: $grey;
 }
 
-table{
+.menu-table{
     color: white;
 }
 
 th{
-   color:white; 
+   color: white;
 }
 
 td{

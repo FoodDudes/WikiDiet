@@ -1,0 +1,60 @@
+<section ng-class="$ctrl.styles['add-class']">
+  <div>
+    <h3>Add a new food:</h3>
+
+    <div>
+      <label>Name of food:</label>
+      <input ng-model="$ctrl.name" placeholder="name">
+    </div>
+
+    <div>
+      <label>Barcode:</label>
+      <input ng-model="$ctrl.barcode" placeholder="barcode">
+    </div>
+
+    <div>
+      <label>Serving size:</label>
+      <input ng-model="$ctrl.servingSize" placeholder="serving size">
+    </div>
+
+    <div>
+      <label>Calories:</label>
+      <input ng-model="$ctrl.Calories" placeholder="Calories">
+    </div>
+
+    <div>
+      <label>Sugars:</label>
+      <input ng-model="$ctrl.sugars" placeholder="sugars">
+    </div>
+
+    <div>
+      <label>Fiber:</label>
+      <input ng-model="$ctrl.fiber" placeholder="fiber">
+    </div>
+
+    <div>
+      <label>Total Fats:</label>
+      <input ng-model="$ctrl.totalFats" placeholder="total fats">
+    </div><div>
+
+      <label>Saturated Fats:</label>
+      <input ng-model="$ctrl.saturatedFats" placeholder="saturated fats">
+    </div>
+
+    <div>
+      <label>Total Protein:</label>
+      <input ng-model="$ctrl.totalProtein" placeholder="total protein">
+    </div>
+
+    <div>
+      <label>Vetted:</label>
+      <input ng-model="$ctrl.totalProtein" placeholder="vetted">
+    </div>
+    
+    
+
+    <button class="viewButton" ng-click=$ctrl.addNew()>Add Food</button>
+
+  </div>
+
+</section>

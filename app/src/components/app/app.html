@@ -10,23 +10,41 @@
             <a ui-sref="signup">Sign Up</a>
         </div>
     </div>
-    
+
     <div class="menu">
-        <h2 class="menu-title">Daily Menu</h2>
-        <table>
+        <h2 class="menu-title">{{$ctrl.user.username}}'s Daily Menu</h2>
+    
+        <table ="menu-table">
             <tr>
                 <th>Food</th>
-                <th>Cal</th>
+                <th>Calories</th>
+                <th>Sugars (g)</th>
+                <th>Fiber(g)</th>
+                <th>Total Fats(g)</th>
+                <th>Saturated Fats(g)</th>
+                <th>Protein(g)</th>
+                <th>Time Eaten</th>
             </tr>
 
-            <tr ng-repeat="meal in $ctrl.meals">
+            <tr ng-repeat="meal in $ctrl.menu">
                 <td>{{ meal.name }}</td>
-                <td>{{ meal.Cal }}</td>
+                <td>{{ meal.Calories }}</td>
+                <td>{{ meal.sugars }}</td>
+                <td>{{ meal.fiber }}</td>
+                <td>{{ meal.totalFats }}</td>
+                <td>{{ meal.saturatedFats}}</td>
+                <td>{{ meal.totalProtein}}</td>
+                <td>{{ meal.time}}</td>
             </tr>
 
             <tr>
-                <th>Total Cal</th>
-                <th>{{$ctrl.totalCal}}</th>
+                <th>Daily Totals</th>
+                <th>{{$ctrl.totalCalories}}</th>
+                <th>{{$ctrl.totalSugars}}</th>
+                <th>{{$ctrl.totalFiber}}</th>
+                <th>{{$ctrl.totalTotalFats}}</th>
+                <th>{{$ctrl.totalSaturatedFats}}</th>
+                <th>{{$ctrl.totalTotalProtein}}</th>
             </tr>
         </table>
     </div>

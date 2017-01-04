@@ -1,13 +1,13 @@
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const server = require('../server.js');
+const server = require('../../server.js');
 const assert = chai.assert;
 
 chai.use(chaiHttp);
 
-const connection = require('../lib/mongoose-config');
-const app = require('../lib/app');
+const connection = require('../../lib/mongoose-config');
+const app = require('../../lib/app');
 
 describe('Validating Foods routes', () => {
 
@@ -28,11 +28,11 @@ describe('Validating Foods routes', () => {
     });
 
     const testFood = {
-        name: 'Test Food',
+        name: 'TestFood',
         barcode: 1098765432,
         servingSize: 2,
         servingUnit: 'tbsp',
-        calories: 184,
+        Calories: 184,
         totalCarbs: 180,
         sugars: 175,
         fiber: 4,
@@ -80,22 +80,32 @@ describe('Validating Foods routes', () => {
             .catch(done);
     });
 
-    it('GET by id', done => {
+    it('GET by barcode', done => {
         request
-            .get(`/api/foods/${testFood._id}`)
+            .get(`/api/foods/${testFood.barcode}/name/none`)
             .then(res => {
-                assert.deepEqual(res.body, testFood);
+                assert.deepEqual(res.body, [testFood]);
                 done();
             })
             .catch(done);
     });
 
-    // it('DELETE an album', done => {
+    it('GET by name', done => {
+        request
+            .get(`/api/foods/0/name/${testFood.name}`)
+            .then(res => {
+                assert.deepEqual(res.body, [testFood]);
+                done();
+            })
+            .catch(done);
+    });
+
+    // it('DELETE a food', done => {
     //     request
-    //         .delete(`/api/albums/${testAlbum._id}`)
+    //         .delete(`/api/foods/${testFood._id}`)
     //         .then(res => {
-    //             const deletedAlbum = res.body;
-    //             assert.ok(deletedAlbum._id);
+    //             const deletedFood = res.body;
+    //             assert.ok(deletedFood._id);
     //             done();
     //         })
     //         .catch(done);
