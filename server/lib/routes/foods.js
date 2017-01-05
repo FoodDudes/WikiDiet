@@ -23,7 +23,7 @@ router
     })
 
     .get('/:id/name/:name', (req, res, next) => {
-
+        console.log(req.params);
         let barcode = req.params.id;
         let name = req.params.name;
 
