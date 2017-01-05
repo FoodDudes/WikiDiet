@@ -109,7 +109,7 @@ router
 
     .post('/', jsonParser, (req, res, next) => {
         new Food(req.body).save()
-            .then(saved => res.send(saved))
+            .then(saved => res.send(saved))
             .catch(next);
     });
 
