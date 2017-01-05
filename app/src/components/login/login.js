@@ -17,9 +17,10 @@ function controller(authSvc, userFoodSvc, $state) {
             .then((user) => {
                 userFoodSvc.getOne(user.userName)
                 .then((userfood) => {
-                    user.userfood = userfood;
+                    console.log('what was found in userfood:', userfood);
+                    user.userfood = userfood[0];
                     localStorage.setItem('user', JSON.stringify(user));
-                    localStorage.setItem('userFoodUserName', user.userfood[0].username);
+                    localStorage.setItem('userFoodUserName', user.userName);
                     $state.go('home');
                 });
             })

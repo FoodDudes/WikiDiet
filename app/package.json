@@ -8,7 +8,7 @@
     "update-webdriver": "webdriver-manager update",
     "e2e": "protractor",
     "start": "webpack-dev-server --inline",
-    "build": "webpack"
+    "build": "webpack --define process.env.API_URL=/api"
   },
   "repository": {
     "type": "git",

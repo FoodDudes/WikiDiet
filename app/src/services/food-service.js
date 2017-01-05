@@ -3,8 +3,12 @@ foodService.$inject = ['$http', 'apiUrl'];
 
 export default function foodService($http, apiUrl) {
     return {
-        get() {
+        getAll() {
             return $http.get(`${apiUrl}/foods`)
+                .then(res => res.data);
+        },
+        getOne(barcode, foodname) {
+            return $http.get(`${apiUrl}/foods/${barcode}/name/${foodname}`)
                 .then(res => res.data);
         },
         add(food) {

@@ -19,6 +19,7 @@ function controller(userFoods, rootScope) {
     //get request here to pull all foods from the user with this day as the eaten property and add them to the daily menu
 
     userFoods.getByName((localStorage.getItem('userFoodUserName'))).then(user => {
+        console.log('user is:', user);
         this.user = user[0];
         console.log('user is ', this.user);
         this.updateMenu();
