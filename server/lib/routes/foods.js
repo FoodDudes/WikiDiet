@@ -50,7 +50,7 @@ router
                                 calories: jsonData.nf_calories,
                                 totalCarbs: jsonData.nf_total_carbohydrate,
                                 sugars: jsonData.nf_sugars,
-                                fiber: jsonData.nf_dietary_fiber,
+                                fiber: jsonData.nf_dietary_fiber
                                 totalFats: jsonData.nf_total_fat,
                                 saturatedFats: jsonData.nf_saturated_fat,
                                 // unsaturatedFats: (jsonData.nf_polyunsaturated_fat + nutrifood.nf_monounsaturated_fat),
