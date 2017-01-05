@@ -6,9 +6,9 @@ export default {
     controller
 };
 
-controller.$inject = ['authService', 'userFoodsService', '$state'];
+controller.$inject = [ '$rootScope', 'authService', 'userFoodsService', '$state'];
 
-function controller(authSvc, userFoodsSvc, $state) {
+function controller(rootScope, authSvc, userFoodsSvc, $state) {
     this.styles = styles;
     this.credentials = {};
 
