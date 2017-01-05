@@ -45,17 +45,15 @@
             <input type="range" name="rangeInput" min="0" max="1000" value="{{$ctrl.selectedFavorite.servingSize}}" ng-change="$ctrl.updateServingSize(this.value)" ng-model="$ctrl.selectedFavorite.newServingSize">
                 <p>New serving size is {{$ctrl.selectedFavorite.newServingSize}}{{$ctrl.selectedFavorite.servingUnit}}</p>
                 <p>{{$ctrl.selectedFavorite.servings}}servings</p>
-                <p>{{$ctrl.selectedFavorite.newCalories}}servings</p>
             </form>
 
-            <button>Add this Amount</button>
+            <button ng-click="$ctrl.addThisAmount()">Add this Amount</button>
+
             <td><button ng-if="$ctrl.showFavorite"class="favorite-button" ng-click="$ctrl.hideFavoriteItem(favorite)">Hide Item View
-                </button></td>
+            </button></td>
         </div>
 
-
-
-        <table class="favorites-list">
+        <table class="favorites-list" ng-if="!$ctrl.showFavorite">
             <tr>
                 <th>Food Name</th>
                 <th></th>
