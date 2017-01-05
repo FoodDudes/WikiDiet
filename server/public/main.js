@@ -56,19 +56,19 @@
 	
 	var _components2 = _interopRequireDefault(_components);
 	
-	var _services = __webpack_require__(30);
+	var _services = __webpack_require__(44);
 	
 	var _services2 = _interopRequireDefault(_services);
 	
-	var _angularUiRouter = __webpack_require__(36);
+	var _angularUiRouter = __webpack_require__(51);
 	
 	var _angularUiRouter2 = _interopRequireDefault(_angularUiRouter);
 	
-	var _routes = __webpack_require__(37);
+	var _routes = __webpack_require__(52);
 	
 	var _routes2 = _interopRequireDefault(_routes);
 	
-	__webpack_require__(38);
+	__webpack_require__(53);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -83,7 +83,9 @@
 	// exported from this import 
 	
 	
-	app.value('apiUrl', 'http://localhost:3000/api');
+	var apiUrl = ("\"/api\"") || 'http://localhost:3000/api';
+	
+	app.value('apiUrl', apiUrl);
 	
 	// app.config(http);
 	app.config(_routes2.default);
@@ -33619,11 +33621,13 @@
 	var map = {
 		"./app/app.js": 12,
 		"./favorites/favorites.js": 16,
-		"./food/food.js": 18,
-		"./home/home.js": 20,
-		"./login/login.js": 24,
-		"./me/me.js": 26,
-		"./sign-up/sign-up.js": 28
+		"./food-search/food-search.js": 18,
+		"./food/food.js": 22,
+		"./home/home.js": 26,
+		"./login/login.js": 30,
+		"./me/me.js": 34,
+		"./new-food/new-food.js": 36,
+		"./sign-up/sign-up.js": 40
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -33663,13 +33667,58 @@
 	};
 	
 	
-	function controller() {}
+	controller.$inject = ['userFoodsService'];
+	
+	function controller(userFoods) {
+	    var _this = this;
+	
+	    var date = new Date();
+	    var datetime = date.toLocaleString();
+	    var dateArr = datetime.split(', ');
+	    //current time
+	    this.time = dateArr[1];
+	    //current day
+	    this.day = dateArr[0];
+	    //get request here to pull all foods from the user with this day as the eaten property and add them to the daily menu
+	
+	
+	    //get this user
+	    userFoods.getByName(localStorage.getItem('userFoodUserName')).then(function (user) {
+	        _this.user = user[0];
+	        console.log('user is ', _this.user);
+	        _this.totalCalories = 0;
+	        _this.totalSugars = 0;
+	        _this.totalFiber = 0;
+	        _this.totalTotalFats = 0;
+	        _this.totalSaturatedFats = 0;
+	        _this.totalTotalProtein = 0;
+	        //populate the menu here
+	        _this.eaten = _this.user.eaten;
+	        console.log('this.eaten is', _this.eaten);
+	        //pull out only today's meals
+	        console.log('this.day = ', _this.day);
+	        _this.menu = _this.eaten.filter(function (item) {
+	            return item.day === _this.day;
+	        });
+	
+	        _this.menu.forEach(function (food) {
+	            _this.totalCalories += food.Calories;
+	            _this.totalSugars += food.sugars;
+	            _this.totalFiber += food.fiber;
+	            _this.totalTotalFats += food.totalFats;
+	            _this.totalSaturatedFats += food.saturatedFats;
+	            _this.totalTotalProtein += food.totalProtein;
+	        });
+	
+	        console.log('menu is ', _this.menu);
+	    });
+	}
 
 /***/ },
 /* 13 */
 /***/ function(module, exports) {
 
-	module.exports = "<section>\n    <div class=\"header\">\n        <h1 class=\"header-text\">WikiDiet</h1>\n        <div class=\"navbar\">\n            <a ui-sref=\"home\">Home</a>\n            <a ui-sref=\"me\">My Health Data</a>\n            <a ui-sref=\"favorites\">Favorites</a>\n            <a ui-sref=\"food\">Food Database</a>\n            <a ui-sref=\"login\">Login</a>\n            <a ui-sref=\"signup\">Sign Up</a>\n        </div>\n    </div>\n\n    <div  class=\"main-content\">\n        <ui-view></ui-view>\n    </div>\n\n    <div class =\"footer\">\n        <h3 class=\"footer-text\">&copy Food Dudes, 2017</h3>\n    </div>\n</section>";
+	module.exports = "<section>\n    <div class=\"header\">\n        <h1 class=\"header-text\">WikiDiet</h1>\n        <div class=\"navbar\">\n            <a ui-sref=\"home\">Home</a>\n            <a ui-sref=\"me\">My Health Data</a>\n            <a ui-sref=\"favorites\">Favorites</a>\n            <a ui-sref=\"food\">Food Database</a>\n            <a ui-sref=\"login\">Login</a>\n            <a ui-sref=\"signup\">Sign Up</a>\n        </div>\n    </div>\n\n    <div class=\"menu\">\n        <h2 class=\"menu-title\">{{$ctrl.user.username}}'s Daily Menu</h2>\n    \n        <table =\"menu-table\">\n            <tr>\n                <th>Food</th>\n                <th>Calories</th>\n                <th>Sugars (g)</th>\n                <th>Fiber(g)</th>\n                <th>Total Fats(g)</th>\n                <th>Saturated Fats(g)</th>\n                <th>Protein(g)</th>\n                <th>Time Eaten</th>\n            </tr>\n\n            <tr ng-repeat=\"meal in $ctrl.menu\">\n                <td>{{ meal.name }}</td>\n                <td>{{ meal.Calories }}</td>\n                <td>{{ meal.sugars }}</td>\n                <td>{{ meal.fiber }}</td>\n                <td>{{ meal.totalFats }}</td>\n                <td>{{ meal.saturatedFats}}</td>\n                <td>{{ meal.totalProtein}}</td>\n                <td>{{ meal.time}}</td>\n            </tr>\n\n            <tr>\n                <th>Daily Totals</th>\n                <th>{{$ctrl.totalCalories}}</th>\n                <th>{{$ctrl.totalSugars}}</th>\n                <th>{{$ctrl.totalFiber}}</th>\n                <th>{{$ctrl.totalTotalFats}}</th>\n                <th>{{$ctrl.totalSaturatedFats}}</th>\n                <th>{{$ctrl.totalTotalProtein}}</th>\n            </tr>\n        </table>\n    </div>\n\n    <div  class=\"main-content\">\n        <ui-view></ui-view>\n    </div>\n\n    <div class =\"footer\">\n        <h3 class=\"footer-text\">&copy Food Dudes, 2017</h3>\n    </div>\n</section>";
 
 /***/ },
 /* 14 */
@@ -33700,13 +33749,43 @@
 	};
 	
 	
-	function controller() {}
+	controller.$inject = ['userFoodsService'];
+	
+	function controller(userFoods) {
+	    var _this = this;
+	
+	    this.removeFromFavorites = function () {
+	        console.log('remove from favorites clicked');
+	    };
+	
+	    this.addToMenu = function (item) {
+	        var date = new Date();
+	        var datetime = date.toLocaleString();
+	        var dateArr = datetime.split(', ');
+	        item.time = dateArr[1];
+	        item.day = dateArr[0];
+	        delete item.$$hashKey;
+	        console.log('item is ', item);
+	        _this.newEaten = _this.user.eaten;
+	        _this.newEaten.push(item);
+	        console.log('newEaten is', _this.newEaten);
+	        JSON.stringify(_this.newEaten);
+	        console.log('addind this json array ' + _this.newEaten + ' to this user ' + _this.user._id);
+	        userFoods.addMeal(_this.user._id, { 'eaten': _this.newEaten });
+	    };
+	
+	    userFoods.getByName(localStorage.getItem('userFoodUserName')).then(function (user) {
+	        console.log(' in get, username', localStorage.getItem('userFoodUserName'));
+	        _this.user = user[0];
+	        console.log('user is ', _this.user);
+	    });
+	}
 
 /***/ },
 /* 17 */
 /***/ function(module, exports) {
 
-	module.exports = "<section>\n    <h1>In Favorites.html</h1>\n    <ul class=\"favorites-list\">\n        <li ng-repeat=\"x in $ctrl.favorites\"></li>\n    </ul>\n</section>";
+	module.exports = "<section>\n    <h1> {{$ctrl.user.username}}'sFavorite Foods</h1>\n    <table class=\"favorites-list\">\n        <tr>\n            <th>Food Name</th>\n            <th></th>\n            <th></th>\n        </tr>\n\n        <tr class=\"favorites-list-item\" ng-repeat=\"favorite in $ctrl.user.favorites\"> \n           <td>{{favorite.name}}</td>\n            <td><button class=\"favorite-button\" ng-click=\"$ctrl.addToMenu(favorite)\">\n            Add One Serving\n            </button></td>\n            <td><button class=\"favorite-button\" ng-click=\"$ctrl.viewFavoriteItem()\">View Item\n            </button></td>\n              <td><button class=\"favorite-button\" ng-click=\"$ctrl.removeFromFavorites()\">\n            Remove from Favorites\n            </button></td>\n        </tr>\n    </table>\n</section>";
 
 /***/ },
 /* 18 */
@@ -33718,9 +33797,69 @@
 	    value: true
 	});
 	
-	var _food = __webpack_require__(19);
+	var _foodSearch = __webpack_require__(19);
+	
+	var _foodSearch2 = _interopRequireDefault(_foodSearch);
+	
+	var _foodSearch3 = __webpack_require__(20);
+	
+	var _foodSearch4 = _interopRequireDefault(_foodSearch3);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = {
+	    template: _foodSearch2.default,
+	    controller: controller
+	};
+	
+	// controller.$inject = ['foodService'];
+	
+	function controller(food) {
+	    var _this = this;
+	
+	    this.styles = _foodSearch4.default;
+	
+	    food.get().then(function (food) {
+	        _this.food = food;
+	    });
+	
+	    this.add = function (food) {
+	        food.add(food).then(function (saved) {
+	            _this.food.push(saved);
+	        });
+	    };
+	}
+
+/***/ },
+/* 19 */
+/***/ function(module, exports) {
+
+	module.exports = "<section ng-class=\"$ctrl.styles['add-class']\">\n  <div>\n    <h3>Search for food:</h3>\n\n    <div>\n      <label>Name of food:</label>\n      <input ng-model=\"$ctrl.name\" placeholder=\"food search\">\n    </div>\n\n    <!--<div>\n      <!--<label>Type of food:</label>\n      <input ng-model=\"$ctrl.type\" placeholder=\"type\">\n    </div>-->-->\n\n    <button class=\"viewButton\" ng-click=$ctrl.search()>Search</button>\n\n  </div>\n\n</section>";
+
+/***/ },
+/* 20 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 21 */,
+/* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _food = __webpack_require__(23);
 	
 	var _food2 = _interopRequireDefault(_food);
+	
+	var _food3 = __webpack_require__(24);
+	
+	var _food4 = _interopRequireDefault(_food3);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -33730,25 +33869,53 @@
 	};
 	
 	
-	controller.$inject = ['$state'];
+	controller.$inject = ['foodService'];
 	
-	function controller($state) {
-	    this.styles = styles;
+	function controller(food) {
+	    var _this = this;
 	
-	    this.goToFavorites = function () {
-	        console.log('button clicked');
-	        $state.go('favorites');
+	    this.styles = _food4.default;
+	
+	    food.getAll().then(function (food) {
+	        _this.food = food;
+	    });
+	
+	    this.add = function (food) {
+	        food.add(food).then(function (saved) {
+	            _this.food.push(saved);
+	        });
+	    };
+	
+	    this.new = function () {
+	        _this.viewNew = true;
+	        _this.viewSearch = false;
+	    };
+	
+	    this.search = function () {
+	        _this.viewSearch = true;
+	        _this.viewNew = false;
 	    };
 	}
+	
+	controller.$inject = ['$state'];
+	
+	function controller($state) {}
 
 /***/ },
-/* 19 */
+/* 23 */
 /***/ function(module, exports) {
 
-	module.exports = "<section>\n    <div class=\"button-link-box\">\n        <a class=\"button-link\" ui-sref=\"search\">Search for Food Item</a>\n    </div>\n\n    <div class=\"button-link-box\">\n        <a class=\"button-link\" ui-sref=\"enter\">Enter Food Item</a>\n    </div>\n\n    <div>\n        <button type=\"button\" ng-click=\"$ctrl.goToFavorites()\">Add Food from Favorites</button>\n    </div>\n</section>";
+	module.exports = "<section>\n    <div class=\"food-link-box\">\n\n        <a class=\"food-link\" ng-click=\"$ctrl.search\" ui-sref=\"food.search\">Search for Food Item</a>\n        <food-search add=\"$ctrl.search\" ng-show=\"$ctrl.viewSearch === true\"></food-search>\n    </div>\n\n    <div class=\"food-link-box\">\n        <a class=\"food-link\" ui-sref=\"food.add\">Enter New Food Item</a>\n        <new-food add=\"$ctrl.add\" ng-show=\"$ctrl.viewNew === true\"><new-food>\n          \n<!--         <a class=\"food-link\" ui-sref=\"search\">Search for Food Item</a>\n    </div>\n\n    <div class=\"food-link-box\">\n        <a class=\"food-link\" ui-sref=\"enter\">Enter Food Item</a> -->\n\n<!--     </div> -->\n\n    <div class=\"food-link-box\">\n        <a class=\"food-link\" ui-sref=\"favorites\">Add Food from Favorites</a>\n    </div>\n</section>";
 
 /***/ },
-/* 20 */
+/* 24 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 25 */,
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33757,11 +33924,11 @@
 	    value: true
 	});
 	
-	var _home = __webpack_require__(21);
+	var _home = __webpack_require__(27);
 	
 	var _home2 = _interopRequireDefault(_home);
 	
-	__webpack_require__(22);
+	__webpack_require__(28);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -33774,20 +33941,20 @@
 	function controller() {}
 
 /***/ },
-/* 21 */
+/* 27 */
 /***/ function(module, exports) {
 
 	module.exports = " <section>\n   <h1>WikiDiet.com:</h1>\n   <h2 class=\"subtitle\">the comprehensive, publicly-sourced nutrition database and health tracker.</h2>\n   <button type=\"button\">test button</button>\n  </section>\n";
 
 /***/ },
-/* 22 */
+/* 28 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 23 */,
-/* 24 */
+/* 29 */,
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33796,9 +33963,13 @@
 	    value: true
 	});
 	
-	var _login = __webpack_require__(25);
+	var _login = __webpack_require__(31);
 	
 	var _login2 = _interopRequireDefault(_login);
+	
+	var _login3 = __webpack_require__(32);
+	
+	var _login4 = _interopRequireDefault(_login3);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -33813,12 +33984,15 @@
 	function controller(authSvc, userFoodSvc, $state) {
 	    var _this = this;
 	
+	    this.styles = _login4.default;
 	    this.credentials = {};
 	
 	    this.authenticate = function () {
 	        return authSvc.login(_this.credentials).then(function (user) {
 	            userFoodSvc.getOne(user.userName).then(function (userfood) {
 	                user.userfood = userfood;
+	                localStorage.setItem('user', JSON.stringify(user));
+	                localStorage.setItem('userFoodUserName', user.userfood[0].username);
 	                $state.go('home');
 	            });
 	        }).catch(function (error) {
@@ -33828,13 +34002,20 @@
 	};
 
 /***/ },
-/* 25 */
+/* 31 */
 /***/ function(module, exports) {
 
-	module.exports = "<section>\n    <h2>Login to access your account</h2>\n\t<form name=\"auth\" ng-submit=\"$ctrl.authenticate()\">\n\t\t<div>\n\t\t\t<label>\n\t\t\t\tUsername: <input required ng-model=\"$ctrl.credentials.username\">\n\t\t\t</label>\n\t\t</div>\n\n\t\t<div>\n\t\t\t<label>\n\t\t\t\tPassword: <input required type=\"password\" ng-model=\"$ctrl.credentials.password\">\n\t\t\t</label>\n\t\t</div>\n\n\t\t<button type=\"submit\">Sign In</button>\n\t</form>\n\t<div class=\"error\" ng-if='$ctrl.error'>{{$ctrl.error.message}}</div>\n</section>";
+	module.exports = "<section>\n    <h2>Login to access your account</h2>\n\t<form name=\"auth\" ng-submit=\"$ctrl.authenticate()\">\n\t\t<div>\n\t\t\t<label id=\"username\">\n\t\t\t\tUsername: <input required ng-model=\"$ctrl.credentials.username\">\n\t\t\t</label>\n\t\t</div>\n\n\t\t<div>\n\t\t\t<label id=\"password\">\n\t\t\t\tPassword: <input required type=\"password\" ng-model=\"$ctrl.credentials.password\">\n\t\t\t</label>\n\t\t</div>\n\n\t\t<button type=\"submit\">Sign In</button>\n\t</form>\n\t<div class=\"error\" ng-if='$ctrl.error'>{{$ctrl.error.message}}</div>\n</section>";
 
 /***/ },
-/* 26 */
+/* 32 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 33 */,
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33843,7 +34024,7 @@
 	    value: true
 	});
 	
-	var _me = __webpack_require__(27);
+	var _me = __webpack_require__(35);
 	
 	var _me2 = _interopRequireDefault(_me);
 	
@@ -33855,16 +34036,25 @@
 	};
 	
 	
-	function controller() {}
+	function controller() {
+	
+	    this.currentUser = JSON.parse(localStorage.getItem('user'));
+	
+	    console.log(this.currentUser);
+	
+	    //AJ's formula will go here to calculate a person's daily calorie needs;
+	
+	    //also any custom nutrition informationconsole.log(this.currentUser);
+	}
 
 /***/ },
-/* 27 */
+/* 35 */
 /***/ function(module, exports) {
 
-	module.exports = "<section>\n    <h2>In me.html</h2>\n        <div  class=\"button-link-box\">\n            <a class=\"button-link\" ui-sref=\"me.favorites\">Manage Favorites</a>\n        </div>\n</section>";
+	module.exports = "<section>\n     <br>\n     <h2>{{$ctrl.currentUser.userName}}'s Health Data</h2>\n     <div>\n \n    </div>\n    <div  class=\"button-link-box\">\n        <a class=\"button-link\" ui-sref=\"me.favorites\">Manage Favorites</a>\n    </div>\n</section>";
 
 /***/ },
-/* 28 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33873,9 +34063,90 @@
 	    value: true
 	});
 	
-	var _signUp = __webpack_require__(29);
+	var _newFood = __webpack_require__(37);
+	
+	var _newFood2 = _interopRequireDefault(_newFood);
+	
+	var _newFood3 = __webpack_require__(38);
+	
+	var _newFood4 = _interopRequireDefault(_newFood3);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = {
+	    template: _newFood2.default,
+	    bindings: {
+	        add: '<'
+	    },
+	    controller: controller
+	};
+	
+	// controller.$inject = ['foodService'];
+	
+	function controller() {
+	    var _this = this;
+	
+	    this.styles = _newFood4.default;
+	
+	    this.reset = function () {
+	        _this.name = '', _this.barcode = '', _this.servingSize = '', _this.calories = '', _this.sugars = '', _this.fiber = '', _this.totalFats = '', _this.saturatedFats = '', _this.totalProtein = '', _this.vetted = '';
+	    };
+	
+	    this.reset();
+	
+	    this.addNew = function () {
+	        _this.add({
+	            name: _this.name,
+	            barcode: _this.barcode,
+	            servingSize: _this.servingSize,
+	            calories: _this.colories,
+	            totalCarbs: _this.totalCarbs,
+	            sugars: _this.sugars,
+	            fiber: _this.fiber,
+	            totalFats: _this.totalFats,
+	            saturatedFats: _this.saturatedFats,
+	            unsaturatedFats: _this.unsaturatedFats,
+	            totalProtein: _this.totalProtein,
+	            vetted: _this.vetted
+	        });
+	        _this.reset();
+	    };
+	
+	    // foodService.get().then(food => {
+	    //     this.food = food;
+	    // });
+	}
+
+/***/ },
+/* 37 */
+/***/ function(module, exports) {
+
+	module.exports = "<section ng-class=\"$ctrl.styles['add-class']\">\n  <div>\n    <h3>Add a new food:</h3>\n\n    <div>\n      <label>Name of food:</label>\n      <input ng-model=\"$ctrl.name\" placeholder=\"name\">\n    </div>\n\n    <div>\n      <label>Barcode:</label>\n      <input ng-model=\"$ctrl.barcode\" placeholder=\"barcode\">\n    </div>\n\n    <div>\n      <label>Serving size:</label>\n      <input ng-model=\"$ctrl.servingSize\" placeholder=\"serving size\">\n    </div>\n\n    <div>\n      <label>Calories:</label>\n      <input ng-model=\"$ctrl.Calories\" placeholder=\"Calories\">\n    </div>\n\n    <div>\n      <label>Sugars:</label>\n      <input ng-model=\"$ctrl.sugars\" placeholder=\"sugars\">\n    </div>\n\n    <div>\n      <label>Fiber:</label>\n      <input ng-model=\"$ctrl.fiber\" placeholder=\"fiber\">\n    </div>\n\n    <div>\n      <label>Total Fats:</label>\n      <input ng-model=\"$ctrl.totalFats\" placeholder=\"total fats\">\n    </div><div>\n\n      <label>Saturated Fats:</label>\n      <input ng-model=\"$ctrl.saturatedFats\" placeholder=\"saturated fats\">\n    </div>\n\n    <div>\n      <label>Total Protein:</label>\n      <input ng-model=\"$ctrl.totalProtein\" placeholder=\"total protein\">\n    </div>\n\n    <div>\n      <label>Vetted:</label>\n      <input ng-model=\"$ctrl.totalProtein\" placeholder=\"vetted\">\n    </div>\n    \n    \n\n    <button class=\"viewButton\" ng-click=$ctrl.addNew()>Add Food</button>\n\n  </div>\n\n</section>";
+
+/***/ },
+/* 38 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 39 */,
+/* 40 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _signUp = __webpack_require__(41);
 	
 	var _signUp2 = _interopRequireDefault(_signUp);
+	
+	var _signUp3 = __webpack_require__(42);
+	
+	var _signUp4 = _interopRequireDefault(_signUp3);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -33889,6 +34160,8 @@
 	
 	function controller(authSvc, userFoodSvc, $state) {
 	    var _this = this;
+	
+	    this.styles = _signUp4.default;
 	
 	    this.weightUnits = ['kg', 'lbs'];
 	    this.heightUnits = ['cm', 'inches'];
@@ -33925,6 +34198,8 @@
 	        return authSvc.signup(_this.credentials).then(function (user) {
 	            userFoodSvc.add(_this.credentials).then(function (userfood) {
 	                user.userfood = userfood;
+	                localStorage.setItem('user', JSON.stringify(user));
+	                localStorage.setItem('userFoodUserName', user.userfood[0].username);
 	                $state.go('home');
 	            });
 	        }).catch(function (error) {
@@ -33934,13 +34209,20 @@
 	};
 
 /***/ },
-/* 29 */
+/* 41 */
 /***/ function(module, exports) {
 
-	module.exports = "<section>\n   \t<h2>Sign up for a user account</h2>\n\t<form name=\"auth\" ng-submit=\"$ctrl.authenticate()\">\n\t\t<div>\n\t\t\t<label>\n\t\t\t\tUsername: <input required ng-model=\"$ctrl.credentials.username\">\n\t\t\t</label>\n\t\t</div>\n\n\t\t<div>\n\t\t\t<label>\n\t\t\t\tPassword: <input required type=\"password\" ng-model=\"$ctrl.credentials.password\">\n\t\t\t</label>\n\t\t</div>\n\n        <div>\n            Gender:\n\t        <input type=\"radio\" name=\"gender\" value=\"male\" ng-model=\"$ctrl.credentials.gender\"> Male\n            <input type=\"radio\" name=\"gender\" value=\"female\" ng-model=\"$ctrl.credentials.gender\"> Female\n            <input type=\"radio\" name=\"gender\" value=\"other\" ng-model=\"$ctrl.credentials.gender\"> Other\n\t\t</div>\n\n          <div>\n\t\t\tAge: <input type=\"number\" ng-model=\"$ctrl.credentials.age\">\n\t\t</div>\n\n        <div>\n\t\t\tCurrent Weight: <input type=\"number\" ng-model=\"$ctrl.weightInput\">\n            <select ng-options=\"x for x in $ctrl.weightUnits\" ng-model=\"$ctrl.weightChoice\"></select>\n\t\t</div>\n\n        <div>\n\t\t\tCurrent Height: <input type=\"number\" ng-model=\"$ctrl.heightInput\">\n            <select ng-options=\"x for x in $ctrl.heightUnits\" ng-model=\"$ctrl.heightChoice\"></select>\n\t\t</div>\n\n\t\t<button type=\"submit\" ng-click=\"$ctrl.findMetrics()\">Sign Up</button>\n\t</form>\n\t<div class=\"error\" ng-if='$ctrl.error'>{{$ctrl.error.message}}</div>\n</section>";
+	module.exports = "<section>\n   \t<h2>Sign up for a user account</h2>\n\t<form name=\"auth\" ng-submit=\"$ctrl.authenticate()\">\n\t\t<div>\n\t\t\t<label id=\"username\">\n\t\t\t\tUsername: <input required ng-model=\"$ctrl.credentials.username\">\n\t\t\t</label>\n\t\t</div>\n\n\t\t<div>\n\t\t\t<label id=\"password\">\n\t\t\t\tPassword: <input required type=\"password\" ng-model=\"$ctrl.credentials.password\">\n\t\t\t</label>\n\t\t</div>\n\n        <div>\n            Gender:\n\t        <input type=\"radio\" name=\"gender\" value=\"male\" ng-model=\"$ctrl.credentials.gender\"> Male\n            <input type=\"radio\" name=\"gender\" value=\"female\" ng-model=\"$ctrl.credentials.gender\"> Female\n            <input type=\"radio\" name=\"gender\" value=\"other\" ng-model=\"$ctrl.credentials.gender\"> Other\n\t\t</div>\n\n          <div>\n\t\t\tAge: <input type=\"number\" ng-model=\"$ctrl.credentials.age\">\n\t\t</div>\n\n        <div>\n\t\t\tCurrent Weight: <input type=\"number\" ng-model=\"$ctrl.weightInput\">\n            <select ng-options=\"x for x in $ctrl.weightUnits\" ng-model=\"$ctrl.weightChoice\"></select>\n\t\t</div>\n\n        <div>\n\t\t\tCurrent Height: <input type=\"number\" ng-model=\"$ctrl.heightInput\">\n            <select ng-options=\"x for x in $ctrl.heightUnits\" ng-model=\"$ctrl.heightChoice\"></select>\n\t\t</div>\n\n\t\t<button type=\"submit\" ng-click=\"$ctrl.findMetrics()\">Sign Up</button>\n\t</form>\n\t<div class=\"error\" ng-if='$ctrl.error'>{{$ctrl.error.message}}</div>\n</section>";
 
 /***/ },
-/* 30 */
+/* 42 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 43 */,
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33964,7 +34246,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	// .context is a method webpack adds to require 
-	var context = __webpack_require__(31);
+	var context = __webpack_require__(45);
 	
 	// create the module to put the resources in,
 	// in this case directives
@@ -33983,14 +34265,15 @@
 	exports.default = _module.name;
 
 /***/ },
-/* 31 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./auth-service.js": 32,
-		"./food-service.js": 33,
-		"./token-service.js": 34,
-		"./userFood-service.js": 35
+		"./auth-service.js": 46,
+		"./food-service.js": 47,
+		"./token-service.js": 48,
+		"./user-foods-service.js": 49,
+		"./userFood-service.js": 50
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -34003,11 +34286,11 @@
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 31;
+	webpackContext.id = 45;
 
 
 /***/ },
-/* 32 */
+/* 46 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -34051,7 +34334,7 @@
 	}
 
 /***/ },
-/* 33 */
+/* 47 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -34079,7 +34362,7 @@
 	};
 
 /***/ },
-/* 34 */
+/* 48 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -34107,7 +34390,48 @@
 	}
 
 /***/ },
-/* 35 */
+/* 49 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = userFoodsService;
+	
+	userFoodsService.$inject = ['$http', 'apiUrl'];
+	
+	function userFoodsService($http, apiUrl) {
+	    return {
+	        get: function get() {
+	            return $http.get(apiUrl + '/userFoods').then(function (res) {
+	                return res.data;
+	            });
+	        },
+	        getById: function getById(userId) {
+	            console.log('in userfoodsservice');
+	            console.log(apiUrl);
+	            return $http.get(apiUrl + '/userFoods/' + userId).then(function (res) {
+	                return res.data;
+	            });
+	        },
+	        getByName: function getByName(username) {
+	            return $http.get(apiUrl + '/userFoods/' + username).then(function (res) {
+	                return res.data;
+	            });
+	        },
+	        addMeal: function addMeal(userId, eaten) {
+	            console.log('in addMeal');
+	            return $http.put(apiUrl + '/userFoods/' + userId, eaten).then(function (res) {
+	                return res.data;
+	            });
+	        }
+	    };
+	};
+
+/***/ },
+/* 50 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -34140,7 +34464,7 @@
 	};
 
 /***/ },
-/* 36 */
+/* 51 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!
@@ -42489,7 +42813,7 @@
 	//# sourceMappingURL=angular-ui-router.js.map
 
 /***/ },
-/* 37 */
+/* 52 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -42514,6 +42838,43 @@
 	        url: '/food',
 	        data: { public: true },
 	        component: 'food'
+	    });
+	
+	    // Food search
+	    $stateProvider.state({
+	        name: 'food.search',
+	        url: '/id:?name',
+	        params: {
+	            view: { dynamic: true }
+	        },
+	        resolve: {
+	            id: ['transition$', function (t) {
+	                return t.params().id;
+	            }],
+	            view: ['$transition$', function (t) {
+	                return t.params().view || 'search';
+	            }]
+	        },
+	        component: 'foodSearch'
+	    });
+	
+	    // Food add
+	    $stateProvider.state({
+	        name: 'food.add',
+	        url: '/id:?name',
+	        params: {
+	            view: { dynamic: true }
+	        },
+	        resolve: {
+	            id: ['transition$', function (t) {
+	                return t.params().id;
+	            }],
+	            view: ['$transition$', function (t) {
+	                return t.params().view || 'add';
+	            }]
+	        },
+	        component: 'newFood'
+	
 	    });
 	
 	    $stateProvider.state({
@@ -42548,7 +42909,7 @@
 	}
 
 /***/ },
-/* 38 */
+/* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!
