@@ -94,7 +94,7 @@ router
                                 // unsaturatedFats: (jsonData.nf_polyunsaturated_fat + nutrifood.nf_monounsaturated_fat),
                                 totalProtein: jsonData.nf_protein,
                                 vetted: true,
-                                uploadedBy: 'NutriData API
+                                uploadedBy: 'NutriData API'
                             };
 
                             // Create a new local DB entry for the item
