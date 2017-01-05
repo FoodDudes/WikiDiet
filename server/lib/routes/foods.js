@@ -44,7 +44,7 @@ router
                             console.log(nutrifood);
                             let jsonData = (JSON.parse(nutrifood))
                             const newFoodEntry = {
-                                name: nutrifood.item_name,
+                                name: jsonData.item_name,
                                 barcode,
                                 servingSize: jsonData.nf_serving_size_qty,
                                 servingUnit: jsonData.nf_serving_size_unit,
@@ -54,7 +54,7 @@ router
                                 fiber: jsonData.nf_dietary_fiber,
                                 totalFats: jsonData.nf_total_fat,
                                 saturatedFats: jsonData.nf_saturated_fat,
-                                unsaturatedFats: (jsonData.nf_polyunsaturated_fat + nutrifood.nf_monounsaturated_fat),
+                                // unsaturatedFats: (jsonData.nf_polyunsaturated_fat + nutrifood.nf_monounsaturated_fat),
                                 totalProtein: jsonData.nf_protein,
                                 vetted: true,
                                 uploadedBy: 'NutriData API'
