@@ -6,9 +6,9 @@ export default {
     controller
 };
 
-controller.$inject = ['authService', 'userFoodsService', '$state'];
+controller.$inject = ['authService', 'userFoodsService', '$state', '$rootScope'];
 
-function controller(authSvc, userFoodsSvc, $state) {
+function controller(authSvc, userFoodsSvc, $state, rootScope) {
     this.styles = styles;
 
     this.weightUnits = ['kg', 'lbs'];

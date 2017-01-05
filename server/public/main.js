@@ -34046,9 +34046,9 @@
 	};
 	
 	
-	controller.$inject = ['authService', 'userFoodsService', '$state'];
+	controller.$inject = ['$rootScope', 'authService', 'userFoodsService', '$state'];
 	
-	function controller(authSvc, userFoodsSvc, $state) {
+	function controller(rootScope, authSvc, userFoodsSvc, $state) {
 	    var _this = this;
 	
 	    this.styles = _login4.default;
@@ -34266,9 +34266,9 @@
 	};
 	
 	
-	controller.$inject = ['authService', 'userFoodsService', '$state'];
+	controller.$inject = ['authService', 'userFoodsService', '$state', '$rootScope'];
 	
-	function controller(authSvc, userFoodsSvc, $state) {
+	function controller(authSvc, userFoodsSvc, $state, rootScope) {
 	    var _this = this;
 	
 	    this.styles = _signUp4.default;
