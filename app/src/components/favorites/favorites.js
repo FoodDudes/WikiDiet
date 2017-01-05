@@ -38,6 +38,34 @@ function controller(userFoods, rootScope) {
         this.selectedFavorite.servings = (this.selectedFavorite.newServingSize/this.selectedFavorite.servingSize).toFixed(2);
         this.newCalories = this.selectedFavorite.Calories*this.selectedFavorite.servings;
         //repeat this for all other factors and show on the display;
+        this.selectedFavorite.newCalories = (this.selectedFavorite.Calories*this.selectedFavorite.servings).toFixed(0);
+        this.selectedFavorite.newTotalCarbs =
+        (this.selectedFavorite.totalCarbs*this.selectedFavorite.servings).toFixed(1);
+        this.selectedFavorite.newSugars = 
+        (this.selectedFavorite.sugars*this.selectedFavorite.servings).toFixed(1);
+        this.selectedFavorite.newFiber = (this.selectedFavorite.fiber*this.selectedFavorite.servings).toFixed(1);
+        this.selectedFavorite.newTotalFats =
+        (this.selectedFavorite.totalFats*this.selectedFavorite.servings).toFixed(1);
+        this.selectedFavorite.newUnsaturatedFats = (this.selectedFavorite.unsaturatedFats*this.selectedFavorite.servings).toFixed(1);
+        this.selectedFavorite.newSaturatedFats = (this.selectedFavorite.saturatedFats*this.selectedFavorite.servings).toFixed(1);
+        this.selectedFavorite.newTotalProtein = (this.selectedFavorite.totalProtein*this.selectedFavorite.servings).toFixed(1);
+    };
+
+    this.addThisAmount = ()=>{
+        console.log('add this amount clicked, new servings are ', this.selectedFavorite.servings);
+        console.log('new selected favorite is ', this.selectedFavorite);
+        this.customServing = this.selectedFavorite;
+        this.customServing.Calories = this.selectedFavorite.newCalories;
+        this.customServing.totalCarbs = this.selectedFavorite.newTotalCarbs;
+        this.customServing.sugars = this.selectedFavorite.newSugars;
+        this.customServing.fiber = this.selectedFavorite.newFiber;
+        this.customServing.totalFats = this.selectedFavorite.newTotalFats;
+        this.customServing.saturatedFats = this.selectedFavorite.newSaturatedFats;
+        this.customServing.unsaturatedFats = this.selectedFavorite.newUnsaturatedFats;
+        this.customServing.totalProtein = this.selectedFavorite.newTotalProtein;
+        this.customServing.servingSize= this.selectedFavorite.newServingSize;
+        console.log('new custom serving is ', this.customServing);
+        this.addToMenu(this.customServing);
     };
 
     this.hideFavoriteItem = (item)=>{

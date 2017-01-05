@@ -10,23 +10,29 @@
             <table ="favorite-detail-table">
                 <tr>
                     <th>Calories</th>  <td class="favorite-item-value">{{$ctrl.selectedFavorite.Calories}}</td>
+                    <th>New Calories</th><td class="favorite-item-value">{{$ctrl.selectedFavorite.newCalories}}</td>
                 </tr>
                 <tr>
                     <th>Sugars (g)</th><td class="favorite-item-value">{{ $ctrl.selectedFavorite.sugars}}</td>
+                    <th>New Sugars(g)</th><td class="favorite-item-value">{{$ctrl.selectedFavorite.newSugars}}</td>
                 </tr>
                 <tr>
             
                     <th>Fiber(g)</th>  <td class="favorite-item-value">{{ $ctrl.selectedFavorite.fiber }}</td>
+                    <th>New Fiber(g)</th><td class="favorite-item-value">{{$ctrl.selectedFavorite.newFiber}}</td>
                 </tr>
                 <tr>
                     <th>Total Fats(g)</th> <td class="favorite-item-value">{{ $ctrl.selectedFavorite.totalFats }}</td>
+                    <th>New Total Fats(g)</th><td class="favorite-item-value">{{$ctrl.selectedFavorite.newTotalFats}}</td>
                 </tr>
                 <tr>
                     <th>Saturated Fats(g)</th>
                     <td class="favorite-item-value">{{ $ctrl.selectedFavorite.saturatedFats}}</td>
+                    <th>New Saturated Fats (g)</th><td class="favorite-item-value">{{$ctrl.selectedFavorite.newSaturatedFats}}</td>
                 </tr>
                 <tr>
                     <th>Protein(g)</th> <td class="favorite-item-value">{{ $ctrl.selectedFavorite.totalProtein}}</td>
+                    <th>New Protein(g)</th><td class="favorite-item-value">{{$ctrl.selectedFavorite.newTotalProtein}}</td>
                 </tr>
                 
                 
@@ -41,14 +47,13 @@
                 <p>{{$ctrl.selectedFavorite.servings}}servings</p>
             </form>
 
-            <button>Add this Amount</button>
+            <button ng-click="$ctrl.addThisAmount()">Add this Amount</button>
+
             <td><button ng-if="$ctrl.showFavorite"class="favorite-button" ng-click="$ctrl.hideFavoriteItem(favorite)">Hide Item View
-                </button></td>
+            </button></td>
         </div>
 
-
-
-        <table class="favorites-list">
+        <table class="favorites-list" ng-if="!$ctrl.showFavorite">
             <tr>
                 <th>Food Name</th>
                 <th></th>
