@@ -38,6 +38,13 @@ function controller(userFoods, rootScope) {
         this.selectedFavorite.servings = (this.selectedFavorite.newServingSize/this.selectedFavorite.servingSize).toFixed(2);
         this.newCalories = this.selectedFavorite.Calories*this.selectedFavorite.servings;
         //repeat this for all other factors and show on the display;
+        this.selectedFavorite.newCalories = (this.selectedFavorite.Calories*this.selectedFavorite.servings).toFixed(0);
+        this.selectedFavorite.newSugars = (this.selectedFavorite.sugars*this.selectedFavorite.servings).toFixed(0);
+        this.selectedFavorite.newFiber = (this.selectedFavorite.fiber*this.selectedFavorite.servings).toFixed(0);
+        this.selectedFavorite.newTotalFats =
+        (this.selectedFavorite.totalFats*this.selectedFavorite.servings).toFixed(0);
+        this.selectedFavorite.newSaturatedFats = (this.selectedFavorite.saturatedFats*this.selectedFavorite.servings).toFixed(0);
+        this.selectedFavorite.newTotalProtein = (this.selectedFavorite.totalProtein*this.selectedFavorite.servings).toFixed(0);
     };
 
     this.hideFavoriteItem = (item)=>{
