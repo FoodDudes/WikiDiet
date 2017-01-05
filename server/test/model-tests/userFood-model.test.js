@@ -2,7 +2,7 @@
 const UserFood = require('../../lib/models/userFood');
 const assert = require('chai').assert;
 
-describe('Validate Food model', () => {
+describe('Validate UserFood model', () => {
   
     it('Validation with all properties', done => {
         const newUserFood = new UserFood({

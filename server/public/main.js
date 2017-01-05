@@ -60,15 +60,15 @@
 	
 	var _services2 = _interopRequireDefault(_services);
 	
-	var _angularUiRouter = __webpack_require__(53);
+	var _angularUiRouter = __webpack_require__(52);
 	
 	var _angularUiRouter2 = _interopRequireDefault(_angularUiRouter);
 	
-	var _routes = __webpack_require__(54);
+	var _routes = __webpack_require__(53);
 	
 	var _routes2 = _interopRequireDefault(_routes);
 	
-	__webpack_require__(55);
+	__webpack_require__(54);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -83,7 +83,7 @@
 	// exported from this import 
 	
 	
-	var apiUrl = (undefined) || 'http://localhost:3000/api';
+	var apiUrl = ("/api") || 'http://localhost:3000/api';
 	
 	app.value('apiUrl', apiUrl);
 	
@@ -33686,13 +33686,27 @@
 	        console.log('user is:', user);
 	        _this.user = user[0];
 	        console.log('user is ', _this.user);
-	        _this.updateMenu();
+	        if (_this.user) {
+	            _this.updateMenu();
+	        }
 	    });
 	
 	    rootScope.$on('foodAdded', function (event, user) {
-	        console.log('Hooray, useris ', user);
+	        console.log('Hooray, useris ', user.user);
 	        _this.user = user.user;
 	        _this.updateMenu();
+	    });
+	
+	    rootScope.$on('login', function (event, user) {
+	        console.log('Logged in, useris ', user.user);
+	        _this.user = user.user.userfood;
+	        _this.updateMenu();
+	    });
+	
+	    rootScope.$on('logout', function (event) {
+	        _this.user = null;
+	        console.log('Logged out, useris ', user.user);
+	        // this.updateMenu();
 	    });
 	
 	    this.updateMenu = function () {
@@ -33826,14 +33840,16 @@
 	        });
 	    };
 	
-	    this.updateUser();
+	    if (localStorage.getItem('user')) {
+	        this.updateUser();
+	    }
 	}
 
 /***/ },
 /* 17 */
 /***/ function(module, exports) {
 
-	module.exports = "<section>\n    <br><h2> {{$ctrl.user.username}}'s Favorite Foods</h2>\n\n    <div class=\"favorite-item-detail\" ng-if=\"$ctrl.showFavorite\">\n        <h3>{{$ctrl.selectedFavorite.name}}</h3>\n        <table =\"favorite-detail-table\">\n            <tr>\n                <th>Calories</th>  <td class=\"favorite-item-value\">{{$ctrl.selectedFavorite.Calories}}</td>\n            </tr>\n            <tr>\n                <th>Sugars (g)</th><td class=\"favorite-item-value\">{{ $ctrl.selectedFavorite.sugars}}</td>\n            </tr>\n            <tr>\n          \n                <th>Fiber(g)</th>  <td class=\"favorite-item-value\">{{ $ctrl.selectedFavorite.fiber }}</td>\n            </tr>\n            <tr>\n                <th>Total Fats(g)</th> <td class=\"favorite-item-value\">{{ $ctrl.selectedFavorite.totalFats }}</td>\n            </tr>\n            <tr>\n                <th>Saturated Fats(g)</th>\n                 <td class=\"favorite-item-value\">{{ $ctrl.selectedFavorite.saturatedFats}}</td>\n            </tr>\n            <tr>\n                <th>Protein(g)</th> <td class=\"favorite-item-value\">{{ $ctrl.selectedFavorite.totalProtein}}</td>\n            </tr>\n            \n               \n            <!--add rangebar to adjust serving size-->\n        </table>\n\n        <h4>Original Serving Size:  {{$ctrl.selectedFavorite.servingSize}}  {{$ctrl.selectedFavorite.servingUnit}}</h4>\n\n        <form>\n           <input type=\"range\" name=\"rangeInput\" min=\"0\" max=\"1000\" value=\"{{$ctrl.selectedFavorite.servingSize}}\" ng-change=\"$ctrl.updateServingSize(this.value)\" ng-model=\"$ctrl.selectedFavorite.newServingSize\">\n            <p>New serving size is {{$ctrl.selectedFavorite.newServingSize}}{{$ctrl.selectedFavorite.servingUnit}}</p>\n            <p>{{$ctrl.selectedFavorite.servings}}servings</p>\n        </form>\n\n        <button>Add this Amount</button>\n         <td><button ng-if=\"$ctrl.showFavorite\"class=\"favorite-button\" ng-click=\"$ctrl.hideFavoriteItem(favorite)\">Hide Item View\n            </button></td>\n    </div>\n\n\n\n    <table class=\"favorites-list\">\n        <tr>\n            <th>Food Name</th>\n            <th></th>\n            <th></th>\n        </tr>\n\n        <tr class=\"favorites-list-item\" ng-repeat=\"favorite in $ctrl.user.favorites\"> \n           <td ng-if=\"!$ctrl.showFavorite\">{{favorite.name}}</td>\n            <td ng-if=\"!$ctrl.showFavorite\"><button class=\"favorite-button\" ng-click=\"$ctrl.addToMenu(favorite)\">\n            Add One Serving\n            </button></td>\n            <td><button ng-if=\"!$ctrl.showFavorite\"class=\"favorite-button\" ng-click=\"$ctrl.viewFavoriteItem(favorite)\">View Item\n            </button></td>\n              <td ng-if=\"!$ctrl.showFavorite\"><button class=\"favorite-button\" ng-click=\"$ctrl.removeFromFavorites(favorite)\">\n            Remove from Favorites\n            </button></td>\n        </tr>\n    </table>\n</section>";
+	module.exports = "<section>\n    <br>\n    <h2 ng-hide=\"$ctrl.user\">Sign up or login to view and manage your favorite food items</h2>\n\n    <div class=\"favorites-page\" ng-if=\"$ctrl.user\">\n        <h2> {{$ctrl.user.username}}'s Favorite Foods</h2>\n\n        <div class=\"favorite-item-detail\" ng-if=\"$ctrl.showFavorite\">\n            <h3>{{$ctrl.selectedFavorite.name}}</h3>\n            <table =\"favorite-detail-table\">\n                <tr>\n                    <th>Calories</th>  <td class=\"favorite-item-value\">{{$ctrl.selectedFavorite.Calories}}</td>\n                </tr>\n                <tr>\n                    <th>Sugars (g)</th><td class=\"favorite-item-value\">{{ $ctrl.selectedFavorite.sugars}}</td>\n                </tr>\n                <tr>\n            \n                    <th>Fiber(g)</th>  <td class=\"favorite-item-value\">{{ $ctrl.selectedFavorite.fiber }}</td>\n                </tr>\n                <tr>\n                    <th>Total Fats(g)</th> <td class=\"favorite-item-value\">{{ $ctrl.selectedFavorite.totalFats }}</td>\n                </tr>\n                <tr>\n                    <th>Saturated Fats(g)</th>\n                    <td class=\"favorite-item-value\">{{ $ctrl.selectedFavorite.saturatedFats}}</td>\n                </tr>\n                <tr>\n                    <th>Protein(g)</th> <td class=\"favorite-item-value\">{{ $ctrl.selectedFavorite.totalProtein}}</td>\n                </tr>\n                \n                \n                <!--add rangebar to adjust serving size-->\n            </table>\n\n            <h4>Original Serving Size:  {{$ctrl.selectedFavorite.servingSize}}  {{$ctrl.selectedFavorite.servingUnit}}</h4>\n\n            <form>\n            <input type=\"range\" name=\"rangeInput\" min=\"0\" max=\"1000\" value=\"{{$ctrl.selectedFavorite.servingSize}}\" ng-change=\"$ctrl.updateServingSize(this.value)\" ng-model=\"$ctrl.selectedFavorite.newServingSize\">\n                <p>New serving size is {{$ctrl.selectedFavorite.newServingSize}}{{$ctrl.selectedFavorite.servingUnit}}</p>\n                <p>{{$ctrl.selectedFavorite.servings}}servings</p>\n            </form>\n\n            <button>Add this Amount</button>\n            <td><button ng-if=\"$ctrl.showFavorite\"class=\"favorite-button\" ng-click=\"$ctrl.hideFavoriteItem(favorite)\">Hide Item View\n                </button></td>\n        </div>\n\n\n\n        <table class=\"favorites-list\">\n            <tr>\n                <th>Food Name</th>\n                <th></th>\n                <th></th>\n            </tr>\n\n            <tr class=\"favorites-list-item\" ng-repeat=\"favorite in $ctrl.user.favorites\"> \n            <td ng-if=\"!$ctrl.showFavorite\">{{favorite.name}}</td>\n                <td ng-if=\"!$ctrl.showFavorite\"><button class=\"favorite-button\" ng-click=\"$ctrl.addToMenu(favorite)\">\n                Add One Serving\n                </button></td>\n                <td><button ng-if=\"!$ctrl.showFavorite\"class=\"favorite-button\" ng-click=\"$ctrl.viewFavoriteItem(favorite)\">View Item\n                </button></td>\n                <td ng-if=\"!$ctrl.showFavorite\"><button class=\"favorite-button\" ng-click=\"$ctrl.removeFromFavorites(favorite)\">\n                Remove from Favorites\n                </button></td>\n            </tr>\n        </table>\n    </div>\n</section>";
 
 /***/ },
 /* 18 */
@@ -34030,9 +34046,9 @@
 	};
 	
 	
-	controller.$inject = ['authService', 'userFoodService', '$state'];
+	controller.$inject = ['authService', 'userFoodsService', '$state'];
 	
-	function controller(authSvc, userFoodSvc, $state) {
+	function controller(authSvc, userFoodsSvc, $state) {
 	    var _this = this;
 	
 	    this.styles = _login4.default;
@@ -34040,11 +34056,13 @@
 	
 	    this.authenticate = function () {
 	        return authSvc.login(_this.credentials).then(function (user) {
-	            userFoodSvc.getOne(user.userName).then(function (userfood) {
+	            userFoodsSvc.getByName(user.userName).then(function (userfood) {
 	                console.log('what was found in userfood:', userfood);
 	                user.userfood = userfood[0];
+	                console.log('user is ', user);
 	                localStorage.setItem('user', JSON.stringify(user));
 	                localStorage.setItem('userFoodUserName', user.userName);
+	                rootScope.$emit('login', { user: user });
 	                $state.go('home');
 	            });
 	        }).catch(function (error) {
@@ -34088,15 +34106,16 @@
 	};
 	
 	
-	controller.$inject = ['tokenService', '$state'];
+	controller.$inject = ['tokenService', '$state', '$rootScope'];
 	
-	function controller(tokenService, $state) {
+	function controller(tokenService, $state, rootScope) {
 	
 	    console.log('before clear ' + localStorage.getItem('user') + localStorage.getItem('userFoodUserName'));
 	    tokenService.remove();
 	    localStorage.removeItem('user');
 	    localStorage.removeItem('userFoodUserName');
 	    console.log('after clear ' + localStorage.getItem('user') + localStorage.getItem('userFoodUserName'));
+	    rootScope.$emit('logout');
 	}
 
 /***/ },
@@ -34142,7 +34161,7 @@
 /* 37 */
 /***/ function(module, exports) {
 
-	module.exports = "<section>\n     <br>\n     <h2>{{$ctrl.currentUser.userName}}'s Health Data</h2>\n     <div>\n \n    </div>\n    <div  class=\"button-link-box\">\n        <a class=\"button-link\" ui-sref=\"me.favorites\">Manage Favorites</a>\n    </div>\n</section>";
+	module.exports = "<section>\n     <br>\n     <h2 ng-hide=\"$ctrl.currentUser\">Sign up or login to see your detailed health information</h2>\n\n     <div class=\"my-health-data\" ng-if=\"$ctrl.currentUser\">\n     <h2>{{$ctrl.currentUser.userName}}'s Health Data</h2>\n     <div>\n \n    <div  class=\"button-link-box\">\n        <a class=\"button-link\" ui-sref=\"me.favorites\">Manage Favorites</a>\n    </div>\n    </div>\n</section>";
 
 /***/ },
 /* 38 */
@@ -34247,9 +34266,9 @@
 	};
 	
 	
-	controller.$inject = ['authService', 'userFoodService', '$state'];
+	controller.$inject = ['authService', 'userFoodsService', '$state'];
 	
-	function controller(authSvc, userFoodSvc, $state) {
+	function controller(authSvc, userFoodsSvc, $state) {
 	    var _this = this;
 	
 	    this.styles = _signUp4.default;
@@ -34263,7 +34282,8 @@
 	        gender: '',
 	        age: '',
 	        height: '',
-	        weight: ''
+	        weight: '',
+	        email: ''
 	    };
 	
 	    this.$onInit = function () {
@@ -34287,10 +34307,13 @@
 	
 	    this.authenticate = function () {
 	        return authSvc.signup(_this.credentials).then(function (user) {
-	            userFoodSvc.add(_this.credentials).then(function (userfood) {
+	            var newUserFood = userFoodsSvc.add(_this.credentials).then(function (userfood) {
+	                console.log('what was found in userfood:', userfood);
 	                user.userfood = userfood;
+	                console.log('user is ', user);
 	                localStorage.setItem('user', JSON.stringify(user));
-	                localStorage.setItem('userFoodUserName', user.userfood[0].username);
+	                localStorage.setItem('userFoodUserName', user.userName);
+	                rootScope.$emit('login', { user: user });
 	                $state.go('home');
 	            });
 	        }).catch(function (error) {
@@ -34303,7 +34326,7 @@
 /* 43 */
 /***/ function(module, exports) {
 
-	module.exports = "<section>\n   \t<h2>Sign up for a user account</h2>\n\t<form name=\"auth\" ng-submit=\"$ctrl.authenticate()\">\n\t\t<div>\n\t\t\t<label id=\"username\">\n\t\t\t\tUsername: <input required ng-model=\"$ctrl.credentials.username\">\n\t\t\t</label>\n\t\t</div>\n\n\t\t<div>\n\t\t\t<label id=\"password\">\n\t\t\t\tPassword: <input required type=\"password\" ng-model=\"$ctrl.credentials.password\">\n\t\t\t</label>\n\t\t</div>\n\n        <div>\n            Gender:\n\t        <input type=\"radio\" name=\"gender\" value=\"male\" ng-model=\"$ctrl.credentials.gender\"> Male\n            <input type=\"radio\" name=\"gender\" value=\"female\" ng-model=\"$ctrl.credentials.gender\"> Female\n            <input type=\"radio\" name=\"gender\" value=\"other\" ng-model=\"$ctrl.credentials.gender\"> Other\n\t\t</div>\n\n          <div>\n\t\t\tAge: <input type=\"number\" ng-model=\"$ctrl.credentials.age\">\n\t\t</div>\n\n        <div>\n\t\t\tCurrent Weight: <input type=\"number\" ng-model=\"$ctrl.weightInput\">\n            <select ng-options=\"x for x in $ctrl.weightUnits\" ng-model=\"$ctrl.weightChoice\"></select>\n\t\t</div>\n\n        <div>\n\t\t\tCurrent Height: <input type=\"number\" ng-model=\"$ctrl.heightInput\">\n            <select ng-options=\"x for x in $ctrl.heightUnits\" ng-model=\"$ctrl.heightChoice\"></select>\n\t\t</div>\n\n\t\t<button type=\"submit\" ng-click=\"$ctrl.findMetrics()\">Sign Up</button>\n\t</form>\n\t<div class=\"error\" ng-if='$ctrl.error'>{{$ctrl.error.message}}</div>\n</section>";
+	module.exports = "<section>\n   \t<h2>Sign up for a user account</h2>\n\t<form name=\"auth\" ng-submit=\"$ctrl.authenticate()\">\n\t\t<div>\n\t\t\t<label id=\"username\">\n\t\t\t\tUsername: <input required ng-model=\"$ctrl.credentials.username\">\n\t\t\t</label>\n\t\t</div>\n\n\t\t<div>\n\t\t\t<label id=\"password\">\n\t\t\t\tPassword: <input required type=\"password\" ng-model=\"$ctrl.credentials.password\">\n\t\t\t</label>\n\t\t</div>\n\n\t\t<div>\n\t\t\t<label id=\"email\">\n\t\t\t\tMy Email: <input type=\"text\" ng-model=\"$ctrl.credentials.email\">\n\t\t\t</label>\n\t\t</div>\n\n        <div>\n            Gender:\n\t        <input type=\"radio\" name=\"gender\" value=\"male\" ng-model=\"$ctrl.credentials.gender\"> Male\n            <input type=\"radio\" name=\"gender\" value=\"female\" ng-model=\"$ctrl.credentials.gender\"> Female\n            <input type=\"radio\" name=\"gender\" value=\"other\" ng-model=\"$ctrl.credentials.gender\"> Other\n\t\t</div>\n\n          <div>\n\t\t\tAge: <input type=\"number\" ng-model=\"$ctrl.credentials.age\">\n\t\t</div>\n\n        <div>\n\t\t\tCurrent Weight: <input type=\"number\" ng-model=\"$ctrl.weightInput\">\n            <select ng-options=\"x for x in $ctrl.weightUnits\" ng-model=\"$ctrl.weightChoice\"></select>\n\t\t</div>\n\n        <div>\n\t\t\tCurrent Height: <input type=\"number\" ng-model=\"$ctrl.heightInput\">\n            <select ng-options=\"x for x in $ctrl.heightUnits\" ng-model=\"$ctrl.heightChoice\"></select>\n\t\t</div>\n\n\t\t<button type=\"submit\" ng-click=\"$ctrl.findMetrics()\">Sign Up</button>\n\t</form>\n\t<div class=\"error\" ng-if='$ctrl.error'>{{$ctrl.error.message}}</div>\n</section>";
 
 /***/ },
 /* 44 */
@@ -34363,8 +34386,7 @@
 		"./auth-service.js": 48,
 		"./food-service.js": 49,
 		"./token-service.js": 50,
-		"./user-foods-service.js": 51,
-		"./userFood-service.js": 52
+		"./user-foods-service.js": 51
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -34523,34 +34545,6 @@
 	            return $http.put(apiUrl + '/userFoods/' + userId, eaten).then(function (res) {
 	                return res.data;
 	            });
-	        }
-	    };
-	};
-
-/***/ },
-/* 52 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.default = userFoodService;
-	
-	userFoodService.$inject = ['$http', 'apiUrl'];
-	
-	function userFoodService($http, apiUrl) {
-	    return {
-	        get: function get() {
-	            return $http.get(apiUrl + '/userfoods').then(function (res) {
-	                return res.data;
-	            });
-	        },
-	        getOne: function getOne(username) {
-	            return $http.get(apiUrl + '/userfoods/' + username).then(function (res) {
-	                return res.data;
-	            });
 	        },
 	        add: function add(userfood) {
 	            return $http.post(apiUrl + '/userfoods', userfood).then(function (res) {
@@ -34561,7 +34555,7 @@
 	};
 
 /***/ },
-/* 53 */
+/* 52 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!
@@ -42910,7 +42904,7 @@
 	//# sourceMappingURL=angular-ui-router.js.map
 
 /***/ },
-/* 54 */
+/* 53 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -43010,7 +43004,7 @@
 	}
 
 /***/ },
-/* 55 */
+/* 54 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!
