@@ -41,6 +41,7 @@ router
                     // No entry attempt to locate the info on a 3rd party
                     rp(`${process.env.NUTRI_API}item?upc=${barcode}&appId=${process.env.APPID}&appKey=${process.env.APP_SECRET}`)
                         .then(nutrifood => {
+                            console.log(nutrifood);
                             const newFoodEntry = {
                                 name: nutrifood.item_name,
                                 barcode,
@@ -56,7 +57,8 @@ router
                                 totalProtein: nutrifood.nf_protein,
                                 vetted: true,
                                 uploadedBy: 'NutriData API'
-                            };
+                            }
+                            .catch(next);
 
                             // Create a new local DB entry for the item
                             new Food(newFoodEntry).save()
