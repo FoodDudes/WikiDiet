@@ -73,6 +73,13 @@ export default function routes($stateProvider, $urlRouterProvider) {
         component: 'signUp'
     });
 
+    $stateProvider.state({
+        name: 'logout',
+        url: '/logout',
+        data: { public: true },
+        component: 'logout'
+    });
+
     $urlRouterProvider.otherwise('/');
 }
 
