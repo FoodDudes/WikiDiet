@@ -12,6 +12,7 @@ module.exports = {
     },
     devtool: 'source-map',
     plugins: [
+        new EnvironmentPlugin(['API_URL']),
         new HtmlWebpackPlugin({
             template: './src/index.html'
         }),
