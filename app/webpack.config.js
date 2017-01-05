@@ -2,6 +2,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 const EnvironmentPlugin = require('webpack').EnvironmentPlugin;
 
+
 const cssExtract = new ExtractTextPlugin('main.css');
 
 module.exports = {

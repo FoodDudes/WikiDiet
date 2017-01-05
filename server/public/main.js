@@ -83,7 +83,7 @@
 	// exported from this import 
 	
 	
-	var apiUrl = (undefined) || 'http://localhost:3000/api';
+	var apiUrl = ("\"/api\"") || 'http://localhost:3000/api';
 	
 	app.value('apiUrl', apiUrl);
 	
