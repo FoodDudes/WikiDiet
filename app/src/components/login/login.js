@@ -6,16 +6,16 @@ export default {
     controller
 };
 
-controller.$inject = ['authService', 'userFoodService', '$state'];
+controller.$inject = ['authService', 'userFoodsService', '$state'];
 
-function controller(authSvc, userFoodSvc, $state) {
+function controller(authSvc, userFoodsSvc, $state) {
     this.styles = styles;
     this.credentials = {};
 
     this.authenticate = () => {
         return authSvc.login(this.credentials)
             .then((user) => {
-                userFoodSvc.getOne(user.userName)
+                userFoodsSvc.getByName(user.userName)
                 .then((userfood) => {
                     console.log('what was found in userfood:', userfood);
                     user.userfood = userfood[0];

@@ -1,7 +1,13 @@
+@import 'colors';
+
 #username {
-  color: #570000;
+  color: $red;
 }
 
 #password {
-  color: #570000;
+  color: $red;
+}
+
+#email {
+    color: $black;
 }

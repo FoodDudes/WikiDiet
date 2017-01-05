@@ -60,15 +60,15 @@
 	
 	var _services2 = _interopRequireDefault(_services);
 	
-	var _angularUiRouter = __webpack_require__(51);
+	var _angularUiRouter = __webpack_require__(50);
 	
 	var _angularUiRouter2 = _interopRequireDefault(_angularUiRouter);
 	
-	var _routes = __webpack_require__(52);
+	var _routes = __webpack_require__(51);
 	
 	var _routes2 = _interopRequireDefault(_routes);
 	
-	__webpack_require__(53);
+	__webpack_require__(52);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -83,7 +83,7 @@
 	// exported from this import 
 	
 	
-	var apiUrl = ("/api") || 'http://localhost:3000/api';
+	var apiUrl = (undefined) || 'http://localhost:3000/api';
 	
 	app.value('apiUrl', apiUrl);
 	
@@ -33682,6 +33682,7 @@
 	    //get request here to pull all foods from the user with this day as the eaten property and add them to the daily menu
 	
 	    userFoods.getByName(localStorage.getItem('userFoodUserName')).then(function (user) {
+	        console.log('user is:', user);
 	        _this.user = user[0];
 	        console.log('user is ', _this.user);
 	        _this.updateMenu();
@@ -33727,7 +33728,7 @@
 /* 13 */
 /***/ function(module, exports) {
 
-	module.exports = "<section>\n    <div class=\"header\">\n        <h1 class=\"header-text\">WikiDiet</h1>\n        <div class=\"navbar\">\n            <a ui-sref=\"home\">Home</a>\n            <a ui-sref=\"me\">My Health Data</a>\n            <a ui-sref=\"favorites\">Favorites</a>\n            <a ui-sref=\"food\">Food Database</a>\n            <a ui-sref=\"login\">Login</a>\n            <a ui-sref=\"signup\">Sign Up</a>\n        </div>\n    </div>\n\n    <div class=\"menu\">\n        <h2 class=\"menu-title\">{{$ctrl.user.username}}'s Daily Menu</h2>\n    \n        <table =\"menu-table\">\n            <tr>\n                <th>Food</th>\n                <th>Calories</th>\n                <th>Sugars (g)</th>\n                <th>Fiber(g)</th>\n                <th>Total Fats(g)</th>\n                <th>Saturated Fats(g)</th>\n                <th>Protein(g)</th>\n                <th>Time Eaten</th>\n            </tr>\n\n            <tr ng-repeat=\"meal in $ctrl.menu\">\n                <td>{{ meal.name }}</td>\n                <td>{{ meal.Calories }}</td>\n                <td>{{ meal.sugars }}</td>\n                <td>{{ meal.fiber }}</td>\n                <td>{{ meal.totalFats }}</td>\n                <td>{{ meal.saturatedFats}}</td>\n                <td>{{ meal.totalProtein}}</td>\n                <td>{{ meal.time}}</td>\n            </tr>\n\n            <tr>\n                <th>Daily Totals</th>\n                <th>{{$ctrl.totalCalories}}</th>\n                <th>{{$ctrl.totalSugars}}</th>\n                <th>{{$ctrl.totalFiber}}</th>\n                <th>{{$ctrl.totalTotalFats}}</th>\n                <th>{{$ctrl.totalSaturatedFats}}</th>\n                <th>{{$ctrl.totalTotalProtein}}</th>\n            </tr>\n        </table>\n    </div>\n\n    <div  class=\"main-content\">\n        <ui-view></ui-view>\n    </div>\n\n    <div class =\"footer\">\n        <h3 class=\"footer-text\">&copy Food Dudes, 2017</h3>\n    </div>\n</section>";
+	module.exports = "<section>\n    <div class=\"header\">\n        <h1 class=\"header-text\">WikiDiet</h1>\n        <div class=\"navbar\">\n            <a ui-sref=\"home\">Home</a>\n            <a ui-sref=\"me\">My Health Data</a>\n            <a ui-sref=\"favorites\">Favorites</a>\n            <a ui-sref=\"food\">Food Database</a>\n            <a ui-sref=\"login\">Login</a>\n            <a ui-sref=\"signup\">Sign Up</a>\n        </div>\n    </div>\n\n    <div class=\"menu\" ng-if=\"$ctrl.user\" >\n        <h2 class=\"menu-title\">{{$ctrl.user.username}}'s Daily Menu</h2>\n    \n        <table =\"menu-table\">\n            <tr>\n                <th>Food</th>\n                <th>Calories</th>\n                <th>Sugars (g)</th>\n                <th>Fiber(g)</th>\n                <th>Total Fats(g)</th>\n                <th>Saturated Fats(g)</th>\n                <th>Protein(g)</th>\n                <th>Time Eaten</th>\n            </tr>\n\n            <tr ng-repeat=\"meal in $ctrl.menu\">\n                <td>{{ meal.name }}</td>\n                <td>{{ meal.Calories }}</td>\n                <td>{{ meal.sugars }}</td>\n                <td>{{ meal.fiber }}</td>\n                <td>{{ meal.totalFats }}</td>\n                <td>{{ meal.saturatedFats}}</td>\n                <td>{{ meal.totalProtein}}</td>\n                <td>{{ meal.time}}</td>\n            </tr>\n\n            <tr>\n                <th>Daily Totals</th>\n                <th>{{$ctrl.totalCalories}}</th>\n                <th>{{$ctrl.totalSugars}}</th>\n                <th>{{$ctrl.totalFiber}}</th>\n                <th>{{$ctrl.totalTotalFats}}</th>\n                <th>{{$ctrl.totalSaturatedFats}}</th>\n                <th>{{$ctrl.totalTotalProtein}}</th>\n            </tr>\n        </table>\n    </div>\n\n    <div  class=\"main-content\">\n        <ui-view></ui-view>\n    </div>\n\n    <div class =\"footer\">\n        <h3 class=\"footer-text\">&copy Food Dudes, 2017</h3>\n    </div>\n</section>";
 
 /***/ },
 /* 14 */
@@ -34028,9 +34029,9 @@
 	};
 	
 	
-	controller.$inject = ['authService', 'userFoodService', '$state'];
+	controller.$inject = ['authService', 'userFoodsService', '$state'];
 	
-	function controller(authSvc, userFoodSvc, $state) {
+	function controller(authSvc, userFoodsSvc, $state) {
 	    var _this = this;
 	
 	    this.styles = _login4.default;
@@ -34038,10 +34039,11 @@
 	
 	    this.authenticate = function () {
 	        return authSvc.login(_this.credentials).then(function (user) {
-	            userFoodSvc.getOne(user.userName).then(function (userfood) {
-	                user.userfood = userfood;
+	            userFoodSvc.getByName(user.userName).then(function (userfood) {
+	                console.log('what was found in userfood:', userfood);
+	                user.userfood = userfood[0];
 	                localStorage.setItem('user', JSON.stringify(user));
-	                localStorage.setItem('userFoodUserName', user.userfood[0].username);
+	                localStorage.setItem('userFoodUserName', user.userName);
 	                $state.go('home');
 	            });
 	        }).catch(function (error) {
@@ -34205,9 +34207,9 @@
 	};
 	
 	
-	controller.$inject = ['authService', 'userFoodService', '$state'];
+	controller.$inject = ['authService', 'userFoodsService', '$state'];
 	
-	function controller(authSvc, userFoodSvc, $state) {
+	function controller(authSvc, userFoodsSvc, $state) {
 	    var _this = this;
 	
 	    this.styles = _signUp4.default;
@@ -34221,7 +34223,8 @@
 	        gender: '',
 	        age: '',
 	        height: '',
-	        weight: ''
+	        weight: '',
+	        email: ''
 	    };
 	
 	    this.$onInit = function () {
@@ -34245,7 +34248,7 @@
 	
 	    this.authenticate = function () {
 	        return authSvc.signup(_this.credentials).then(function (user) {
-	            userFoodSvc.add(_this.credentials).then(function (userfood) {
+	            var newUserFood = userFoodsSvc.add(_this.credentials).then(function (userfood) {
 	                user.userfood = userfood;
 	                localStorage.setItem('user', JSON.stringify(user));
 	                localStorage.setItem('userFoodUserName', user.userfood[0].username);
@@ -34261,7 +34264,7 @@
 /* 41 */
 /***/ function(module, exports) {
 
-	module.exports = "<section>\n   \t<h2>Sign up for a user account</h2>\n\t<form name=\"auth\" ng-submit=\"$ctrl.authenticate()\">\n\t\t<div>\n\t\t\t<label id=\"username\">\n\t\t\t\tUsername: <input required ng-model=\"$ctrl.credentials.username\">\n\t\t\t</label>\n\t\t</div>\n\n\t\t<div>\n\t\t\t<label id=\"password\">\n\t\t\t\tPassword: <input required type=\"password\" ng-model=\"$ctrl.credentials.password\">\n\t\t\t</label>\n\t\t</div>\n\n        <div>\n            Gender:\n\t        <input type=\"radio\" name=\"gender\" value=\"male\" ng-model=\"$ctrl.credentials.gender\"> Male\n            <input type=\"radio\" name=\"gender\" value=\"female\" ng-model=\"$ctrl.credentials.gender\"> Female\n            <input type=\"radio\" name=\"gender\" value=\"other\" ng-model=\"$ctrl.credentials.gender\"> Other\n\t\t</div>\n\n          <div>\n\t\t\tAge: <input type=\"number\" ng-model=\"$ctrl.credentials.age\">\n\t\t</div>\n\n        <div>\n\t\t\tCurrent Weight: <input type=\"number\" ng-model=\"$ctrl.weightInput\">\n            <select ng-options=\"x for x in $ctrl.weightUnits\" ng-model=\"$ctrl.weightChoice\"></select>\n\t\t</div>\n\n        <div>\n\t\t\tCurrent Height: <input type=\"number\" ng-model=\"$ctrl.heightInput\">\n            <select ng-options=\"x for x in $ctrl.heightUnits\" ng-model=\"$ctrl.heightChoice\"></select>\n\t\t</div>\n\n\t\t<button type=\"submit\" ng-click=\"$ctrl.findMetrics()\">Sign Up</button>\n\t</form>\n\t<div class=\"error\" ng-if='$ctrl.error'>{{$ctrl.error.message}}</div>\n</section>";
+	module.exports = "<section>\n   \t<h2>Sign up for a user account</h2>\n\t<form name=\"auth\" ng-submit=\"$ctrl.authenticate()\">\n\t\t<div>\n\t\t\t<label id=\"username\">\n\t\t\t\tUsername: <input required ng-model=\"$ctrl.credentials.username\">\n\t\t\t</label>\n\t\t</div>\n\n\t\t<div>\n\t\t\t<label id=\"password\">\n\t\t\t\tPassword: <input required type=\"password\" ng-model=\"$ctrl.credentials.password\">\n\t\t\t</label>\n\t\t</div>\n\n\t\t<div>\n\t\t\t<label>\n\t\t\t\tEmail: <input type=\"text\" ng-model=\"$ctrl.credentials.email\">\n\t\t\t</label>\n\t\t</div>\n\n        <div>\n            Gender:\n\t        <input type=\"radio\" name=\"gender\" value=\"male\" ng-model=\"$ctrl.credentials.gender\"> Male\n            <input type=\"radio\" name=\"gender\" value=\"female\" ng-model=\"$ctrl.credentials.gender\"> Female\n            <input type=\"radio\" name=\"gender\" value=\"other\" ng-model=\"$ctrl.credentials.gender\"> Other\n\t\t</div>\n\n          <div>\n\t\t\tAge: <input type=\"number\" ng-model=\"$ctrl.credentials.age\">\n\t\t</div>\n\n        <div>\n\t\t\tCurrent Weight: <input type=\"number\" ng-model=\"$ctrl.weightInput\">\n            <select ng-options=\"x for x in $ctrl.weightUnits\" ng-model=\"$ctrl.weightChoice\"></select>\n\t\t</div>\n\n        <div>\n\t\t\tCurrent Height: <input type=\"number\" ng-model=\"$ctrl.heightInput\">\n            <select ng-options=\"x for x in $ctrl.heightUnits\" ng-model=\"$ctrl.heightChoice\"></select>\n\t\t</div>\n\n\t\t<button type=\"submit\" ng-click=\"$ctrl.findMetrics()\">Sign Up</button>\n\t</form>\n\t<div class=\"error\" ng-if='$ctrl.error'>{{$ctrl.error.message}}</div>\n</section>";
 
 /***/ },
 /* 42 */
@@ -34321,8 +34324,7 @@
 		"./auth-service.js": 46,
 		"./food-service.js": 47,
 		"./token-service.js": 48,
-		"./user-foods-service.js": 49,
-		"./userFood-service.js": 50
+		"./user-foods-service.js": 49
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -34397,8 +34399,13 @@
 	
 	function foodService($http, apiUrl) {
 	    return {
-	        get: function get() {
+	        getAll: function getAll() {
 	            return $http.get(apiUrl + '/foods').then(function (res) {
+	                return res.data;
+	            });
+	        },
+	        getOne: function getOne(barcode, foodname) {
+	            return $http.get(apiUrl + '/foods/' + barcode + '/name/' + foodname).then(function (res) {
 	                return res.data;
 	            });
 	        },
@@ -34475,34 +34482,6 @@
 	            return $http.put(apiUrl + '/userFoods/' + userId, eaten).then(function (res) {
 	                return res.data;
 	            });
-	        }
-	    };
-	};
-
-/***/ },
-/* 50 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.default = userFoodService;
-	
-	userFoodService.$inject = ['$http', 'apiUrl'];
-	
-	function userFoodService($http, apiUrl) {
-	    return {
-	        get: function get() {
-	            return $http.get(apiUrl + '/userfoods').then(function (res) {
-	                return res.data;
-	            });
-	        },
-	        getOne: function getOne(username) {
-	            return $http.get(apiUrl + '/userfoods/' + username).then(function (res) {
-	                return res.data;
-	            });
 	        },
 	        add: function add(userfood) {
 	            return $http.post(apiUrl + '/userfoods', userfood).then(function (res) {
@@ -34513,7 +34492,7 @@
 	};
 
 /***/ },
-/* 51 */
+/* 50 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!
@@ -42862,7 +42841,7 @@
 	//# sourceMappingURL=angular-ui-router.js.map
 
 /***/ },
-/* 52 */
+/* 51 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -42955,7 +42934,7 @@
 	}
 
 /***/ },
-/* 53 */
+/* 52 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!
