@@ -22,7 +22,9 @@ function controller(userFoods, rootScope) {
         console.log('user is:', user);
         this.user = user[0];
         console.log('user is ', this.user);
-        this.updateMenu();
+        if(this.user){
+            this.updateMenu();
+        }
     });
 
     rootScope.$on('foodAdded', (event, user)=>{
