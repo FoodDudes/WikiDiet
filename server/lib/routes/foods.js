@@ -42,6 +42,7 @@ router
                     rp(`${process.env.NUTRI_API}item?upc=${barcode}&appId=${process.env.APPID}&appKey=${process.env.APP_SECRET}`)
                         .then(nutrifood => {
                             console.log(nutrifood);
+                            console.log(JSON.parse(nutrifood))
                             const newFoodEntry = {
                                 name: nutrifood.item_name,
                                 barcode,
