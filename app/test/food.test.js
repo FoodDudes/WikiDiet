@@ -12,7 +12,7 @@ describe('Food component', () => {
     }));
 
     const foodService = {
-        get() {
+        getAll() {
             return Promise.resolve(food);
         },
         add(food) {

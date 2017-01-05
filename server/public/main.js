@@ -83,7 +83,7 @@
 	// exported from this import 
 	
 	
-	var apiUrl = ("\"/api\"") || 'http://localhost:3000/api';
+	var apiUrl = ("/api") || 'http://localhost:3000/api';
 	
 	app.value('apiUrl', apiUrl);
 	
@@ -33667,9 +33667,9 @@
 	};
 	
 	
-	controller.$inject = ['userFoodsService'];
+	controller.$inject = ['userFoodsService', '$rootScope'];
 	
-	function controller(userFoods) {
+	function controller(userFoods, rootScope) {
 	    var _this = this;
 	
 	    var date = new Date();
@@ -33681,11 +33681,20 @@
 	    this.day = dateArr[0];
 	    //get request here to pull all foods from the user with this day as the eaten property and add them to the daily menu
 	
-	
-	    //get this user
 	    userFoods.getByName(localStorage.getItem('userFoodUserName')).then(function (user) {
 	        _this.user = user[0];
 	        console.log('user is ', _this.user);
+	        _this.updateMenu();
+	    });
+	
+	    rootScope.$on('foodAdded', function (event, user) {
+	        console.log('Hooray, useris ', user);
+	        _this.user = user.user;
+	        _this.updateMenu();
+	    });
+	
+	    this.updateMenu = function () {
+	        //get this user
 	        _this.totalCalories = 0;
 	        _this.totalSugars = 0;
 	        _this.totalFiber = 0;
@@ -33711,7 +33720,7 @@
 	        });
 	
 	        console.log('menu is ', _this.menu);
-	    });
+	    };
 	}
 
 /***/ },
@@ -33749,13 +33758,44 @@
 	};
 	
 	
-	controller.$inject = ['userFoodsService'];
+	controller.$inject = ['userFoodsService', '$rootScope'];
 	
-	function controller(userFoods) {
+	function controller(userFoods, rootScope) {
 	    var _this = this;
 	
-	    this.removeFromFavorites = function () {
+	    this.removeFromFavorites = function (item) {
 	        console.log('remove from favorites clicked');
+	        console.log('this.user favorites', _this.user.favorites);
+	        console.log('item is ', item);
+	        _this.newFavorites = _this.user.favorites.filter(function (favorite) {
+	            return favorite.name !== item.name;
+	        });
+	        console.log(_this.newFavorites);
+	        JSON.stringify(_this.newFavorites);
+	        console.log('addind this json array ' + _this.newFavorites + ' to this user ' + _this.user._id);
+	        userFoods.addMeal(_this.user._id, { 'favorites': _this.newFavorites }).then(_this.updateUser());
+	    };
+	
+	    this.updateServingSize = function (value) {
+	        console.log(value);
+	    };
+	
+	    this.viewFavoriteItem = function (item) {
+	        _this.showFavorite = true;
+	        _this.selectedFavorite = item;
+	        console.log(_this.selectedFavorite);
+	        _this.selectedFavorite.newServingSize = _this.selectedFavorite.servingSize;
+	        _this.selectedFavorite.servings = (_this.selectedFavorite.newServingSize / _this.selectedFavorite.servingSize).toFixed(2);
+	    };
+	
+	    this.updateServingSize = function () {
+	        _this.selectedFavorite.servings = (_this.selectedFavorite.newServingSize / _this.selectedFavorite.servingSize).toFixed(2);
+	        _this.newCalories = _this.selectedFavorite.Calories * _this.selectedFavorite.servings;
+	        //repeat this for all other factors and show on the display;
+	    };
+	
+	    this.hideFavoriteItem = function (item) {
+	        _this.showFavorite = false;
 	    };
 	
 	    this.addToMenu = function (item) {
@@ -33771,21 +33811,27 @@
 	        console.log('newEaten is', _this.newEaten);
 	        JSON.stringify(_this.newEaten);
 	        console.log('addind this json array ' + _this.newEaten + ' to this user ' + _this.user._id);
-	        userFoods.addMeal(_this.user._id, { 'eaten': _this.newEaten });
+	        userFoods.addMeal(_this.user._id, { 'eaten': _this.newEaten }).then(function (user) {
+	            return rootScope.$emit('foodAdded', { user: user });
+	        });
 	    };
 	
-	    userFoods.getByName(localStorage.getItem('userFoodUserName')).then(function (user) {
-	        console.log(' in get, username', localStorage.getItem('userFoodUserName'));
-	        _this.user = user[0];
-	        console.log('user is ', _this.user);
-	    });
+	    this.updateUser = function () {
+	        userFoods.getByName(localStorage.getItem('userFoodUserName')).then(function (user) {
+	            console.log(' in get, username', localStorage.getItem('userFoodUserName'));
+	            _this.user = user[0];
+	            console.log('user is ', _this.user);
+	        });
+	    };
+	
+	    this.updateUser();
 	}
 
 /***/ },
 /* 17 */
 /***/ function(module, exports) {
 
-	module.exports = "<section>\n    <h1> {{$ctrl.user.username}}'sFavorite Foods</h1>\n    <table class=\"favorites-list\">\n        <tr>\n            <th>Food Name</th>\n            <th></th>\n            <th></th>\n        </tr>\n\n        <tr class=\"favorites-list-item\" ng-repeat=\"favorite in $ctrl.user.favorites\"> \n           <td>{{favorite.name}}</td>\n            <td><button class=\"favorite-button\" ng-click=\"$ctrl.addToMenu(favorite)\">\n            Add One Serving\n            </button></td>\n            <td><button class=\"favorite-button\" ng-click=\"$ctrl.viewFavoriteItem()\">View Item\n            </button></td>\n              <td><button class=\"favorite-button\" ng-click=\"$ctrl.removeFromFavorites()\">\n            Remove from Favorites\n            </button></td>\n        </tr>\n    </table>\n</section>";
+	module.exports = "<section>\n    <br><h2> {{$ctrl.user.username}}'s Favorite Foods</h2>\n\n    <div class=\"favorite-item-detail\" ng-if=\"$ctrl.showFavorite\">\n        <h3>{{$ctrl.selectedFavorite.name}}</h3>\n        <table =\"favorite-detail-table\">\n            <tr>\n                <th>Calories</th>  <td class=\"favorite-item-value\">{{$ctrl.selectedFavorite.Calories}}</td>\n            </tr>\n            <tr>\n                <th>Sugars (g)</th><td class=\"favorite-item-value\">{{ $ctrl.selectedFavorite.sugars}}</td>\n            </tr>\n            <tr>\n          \n                <th>Fiber(g)</th>  <td class=\"favorite-item-value\">{{ $ctrl.selectedFavorite.fiber }}</td>\n            </tr>\n            <tr>\n                <th>Total Fats(g)</th> <td class=\"favorite-item-value\">{{ $ctrl.selectedFavorite.totalFats }}</td>\n            </tr>\n            <tr>\n                <th>Saturated Fats(g)</th>\n                 <td class=\"favorite-item-value\">{{ $ctrl.selectedFavorite.saturatedFats}}</td>\n            </tr>\n            <tr>\n                <th>Protein(g)</th> <td class=\"favorite-item-value\">{{ $ctrl.selectedFavorite.totalProtein}}</td>\n            </tr>\n            \n               \n            <!--add rangebar to adjust serving size-->\n        </table>\n\n        <h4>Original Serving Size:  {{$ctrl.selectedFavorite.servingSize}}  {{$ctrl.selectedFavorite.servingUnit}}</h4>\n\n        <form>\n           <input type=\"range\" name=\"rangeInput\" min=\"0\" max=\"1000\" value=\"{{$ctrl.selectedFavorite.servingSize}}\" ng-change=\"$ctrl.updateServingSize(this.value)\" ng-model=\"$ctrl.selectedFavorite.newServingSize\">\n            <p>New serving size is {{$ctrl.selectedFavorite.newServingSize}}{{$ctrl.selectedFavorite.servingUnit}}</p>\n            <p>{{$ctrl.selectedFavorite.servings}}servings</p>\n        </form>\n\n        <button>Add this Amount</button>\n         <td><button ng-if=\"$ctrl.showFavorite\"class=\"favorite-button\" ng-click=\"$ctrl.hideFavoriteItem(favorite)\">Hide Item View\n            </button></td>\n    </div>\n\n\n\n    <table class=\"favorites-list\">\n        <tr>\n            <th>Food Name</th>\n            <th></th>\n            <th></th>\n        </tr>\n\n        <tr class=\"favorites-list-item\" ng-repeat=\"favorite in $ctrl.user.favorites\"> \n           <td ng-if=\"!$ctrl.showFavorite\">{{favorite.name}}</td>\n            <td ng-if=\"!$ctrl.showFavorite\"><button class=\"favorite-button\" ng-click=\"$ctrl.addToMenu(favorite)\">\n            Add One Serving\n            </button></td>\n            <td><button ng-if=\"!$ctrl.showFavorite\"class=\"favorite-button\" ng-click=\"$ctrl.viewFavoriteItem(favorite)\">View Item\n            </button></td>\n              <td ng-if=\"!$ctrl.showFavorite\"><button class=\"favorite-button\" ng-click=\"$ctrl.removeFromFavorites(favorite)\">\n            Remove from Favorites\n            </button></td>\n        </tr>\n    </table>\n</section>";
 
 /***/ },
 /* 18 */
@@ -33834,7 +33880,7 @@
 /* 19 */
 /***/ function(module, exports) {
 
-	module.exports = "<section ng-class=\"$ctrl.styles['add-class']\">\n  <div>\n    <h3>Search for food:</h3>\n\n    <div>\n      <label>Name of food:</label>\n      <input ng-model=\"$ctrl.name\" placeholder=\"food search\">\n    </div>\n\n    <!--<div>\n      <!--<label>Type of food:</label>\n      <input ng-model=\"$ctrl.type\" placeholder=\"type\">\n    </div>-->-->\n\n    <button class=\"viewButton\" ng-click=$ctrl.search()>Search</button>\n\n  </div>\n\n</section>";
+	module.exports = "<section ng-class=\"$ctrl.styles['add-class']\">\n  <div>\n\n    <div>\n      <label>Name of food:</label>\n      <input ng-model=\"$ctrl.name\" placeholder=\"food search\">\n    </div>\n\n    <!--<div>\n      <!--<label>Type of food:</label>\n      <input ng-model=\"$ctrl.type\" placeholder=\"type\">\n    </div>-->-->\n\n    <button class=\"viewButton\" ng-click=$ctrl.search()>Search</button>\n\n  </div>\n\n</section>";
 
 /***/ },
 /* 20 */
@@ -33938,13 +33984,16 @@
 	};
 	
 	
-	function controller() {}
+	function controller() {
+	
+	    this.currentUser = JSON.parse(localStorage.getItem('user'));
+	}
 
 /***/ },
 /* 27 */
 /***/ function(module, exports) {
 
-	module.exports = " <section>\n   <h1>WikiDiet.com:</h1>\n   <h2 class=\"subtitle\">the comprehensive, publicly-sourced nutrition database and health tracker.</h2>\n   <button type=\"button\">test button</button>\n  </section>\n";
+	module.exports = " <section>\n   <h1>WikiDiet.com:</h1>\n   <h2 class=\"subtitle\">the comprehensive, publicly-sourced nutrition database and health tracker.</h2>\n   <br>\n   <h1 ng-show=\"$ctrl.currentUser\">Welcome, {{$ctrl.currentUser.userName}}!</h1>\n  </section>\n";
 
 /***/ },
 /* 28 */
@@ -34121,7 +34170,7 @@
 /* 37 */
 /***/ function(module, exports) {
 
-	module.exports = "<section ng-class=\"$ctrl.styles['add-class']\">\n  <div>\n    <h3>Add a new food:</h3>\n\n    <div>\n      <label>Name of food:</label>\n      <input ng-model=\"$ctrl.name\" placeholder=\"name\">\n    </div>\n\n    <div>\n      <label>Barcode:</label>\n      <input ng-model=\"$ctrl.barcode\" placeholder=\"barcode\">\n    </div>\n\n    <div>\n      <label>Serving size:</label>\n      <input ng-model=\"$ctrl.servingSize\" placeholder=\"serving size\">\n    </div>\n\n    <div>\n      <label>Calories:</label>\n      <input ng-model=\"$ctrl.Calories\" placeholder=\"Calories\">\n    </div>\n\n    <div>\n      <label>Sugars:</label>\n      <input ng-model=\"$ctrl.sugars\" placeholder=\"sugars\">\n    </div>\n\n    <div>\n      <label>Fiber:</label>\n      <input ng-model=\"$ctrl.fiber\" placeholder=\"fiber\">\n    </div>\n\n    <div>\n      <label>Total Fats:</label>\n      <input ng-model=\"$ctrl.totalFats\" placeholder=\"total fats\">\n    </div><div>\n\n      <label>Saturated Fats:</label>\n      <input ng-model=\"$ctrl.saturatedFats\" placeholder=\"saturated fats\">\n    </div>\n\n    <div>\n      <label>Total Protein:</label>\n      <input ng-model=\"$ctrl.totalProtein\" placeholder=\"total protein\">\n    </div>\n\n    <div>\n      <label>Vetted:</label>\n      <input ng-model=\"$ctrl.totalProtein\" placeholder=\"vetted\">\n    </div>\n    \n    \n\n    <button class=\"viewButton\" ng-click=$ctrl.addNew()>Add Food</button>\n\n  </div>\n\n</section>";
+	module.exports = "<section ng-class=\"$ctrl.styles['add-class']\">\n  <div>\n    \n    <div>\n      <label>Name of food:</label>\n      <input ng-model=\"$ctrl.name\" placeholder=\"name\">\n    </div>\n\n    <div>\n      <label>Barcode:</label>\n      <input ng-model=\"$ctrl.barcode\" placeholder=\"barcode\">\n    </div>\n\n    <div>\n      <label>Serving size:</label>\n      <input ng-model=\"$ctrl.servingSize\" placeholder=\"serving size\">\n    </div>\n\n    <div>\n      <label>Calories:</label>\n      <input ng-model=\"$ctrl.Calories\" placeholder=\"Calories\">\n    </div>\n\n    <div>\n      <label>Sugars:</label>\n      <input ng-model=\"$ctrl.sugars\" placeholder=\"sugars\">\n    </div>\n\n    <div>\n      <label>Fiber:</label>\n      <input ng-model=\"$ctrl.fiber\" placeholder=\"fiber\">\n    </div>\n\n    <div>\n      <label>Total Fats:</label>\n      <input ng-model=\"$ctrl.totalFats\" placeholder=\"total fats\">\n    </div><div>\n\n      <label>Saturated Fats:</label>\n      <input ng-model=\"$ctrl.saturatedFats\" placeholder=\"saturated fats\">\n    </div>\n\n    <div>\n      <label>Total Protein:</label>\n      <input ng-model=\"$ctrl.totalProtein\" placeholder=\"total protein\">\n    </div>\n\n    <div>\n      <label>Vetted:</label>\n      <input ng-model=\"$ctrl.totalProtein\" placeholder=\"vetted\">\n    </div>\n    \n    \n\n    <button class=\"viewButton\" ng-click=$ctrl.addNew()>Add Food</button>\n\n  </div>\n\n</section>";
 
 /***/ },
 /* 38 */
@@ -42841,41 +42890,38 @@
 	    });
 	
 	    // Food search
-	    $stateProvider.state({
-	        name: 'food.search',
-	        url: '/id:?name',
-	        params: {
-	            view: { dynamic: true }
-	        },
-	        resolve: {
-	            id: ['transition$', function (t) {
-	                return t.params().id;
-	            }],
-	            view: ['$transition$', function (t) {
-	                return t.params().view || 'search';
-	            }]
-	        },
-	        component: 'foodSearch'
-	    });
+	    // $stateProvider.state({
+	    //     name: 'food.search',
+	    //     url: '/id:?name',
+	    //     params: {
+	    //         view: { dynamic: true }
+	    //     },
+	    //     resolve: {
+	    //         id: ['transition$', t => t.params().id],
+	    //         view: ['$transition$', t => t.params().view || 'search']
+	    //     },
+	    //     component: 'foodSearch'
+	    // });
 	
 	    // Food add
-	    $stateProvider.state({
-	        name: 'food.add',
-	        url: '/id:?name',
-	        params: {
-	            view: { dynamic: true }
-	        },
-	        resolve: {
-	            id: ['transition$', function (t) {
-	                return t.params().id;
-	            }],
-	            view: ['$transition$', function (t) {
-	                return t.params().view || 'add';
-	            }]
-	        },
-	        component: 'newFood'
+	    // $stateProvider.state({
+	    //     name: 'food.add',
+	    //     url: '/id:?name',
+	    //     params: {
+	    //         view: { dynamic: true }
+	    //     },
+	    //     resolve: {
+	    //         id: ['transition$', t => t.params().id],
+	    //         view: ['$transition$', t => t.params().view || 'add']
+	    //     },
+	    //     component: 'newFood'
 	
-	    });
+	    // });
+	
+	
+	    // $stateProvider.state({
+	    //     name
+	    // })
 	
 	    $stateProvider.state({
 	        name: 'me',

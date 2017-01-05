@@ -37,6 +37,14 @@ a {
   border: 0.1vh solid #a5a5a5;
   border-radius: 5vh; }
 
+.favorite-item-detail {
+  background-color: #a5a5a5;
+  border: 1vh solid #570000;
+  border-radius: 5vh; }
+
+.favorite-item-value {
+  color: black; }
+
 .favorites-list-item {
   font-size: 4vh; }
 .header {

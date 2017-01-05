@@ -34,7 +34,7 @@ describe( 'Food Service', () => {
             .respond(foods);
 
         // make the call against SUT
-        foodService.get()
+        foodService.getAll()
             .then(allFoods => {
                 // $httpBackend serializes the object we pass to
                 // .respond, so to "test" we need to do 
