@@ -36,7 +36,14 @@ a {
     border-radius: 5vh;
 }
 
-.favorites-list{
+.favorite-item-detail{
+    background-color: $grey;
+     border: 1vh solid $red;
+    border-radius: 5vh;
+}
+
+.favorite-item-value{
+    color: black;
 }
 
 .favorites-list-item{
