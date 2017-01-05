@@ -7,7 +7,7 @@ export default {
 };
 
 
-controller.$inject = ['foodService'];
+// controller.$inject = ['foodService'];
 
 function controller(food) {
     this.styles = styles;
