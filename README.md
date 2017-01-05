@@ -17,6 +17,6 @@ Our app makes use of git webhooks, travis-ci, and Heroku pipelines to automate t
 
 ### Database 
 
-Our database self populates itself based on user requests. If an item is not in our DB it attempts to get information from a third party and if successful a new entry is created.
+Our database is self-learning based on user requests. If an item is not in our DB it attempts to get information from a third party and if successful a new entry is created.
 
 
