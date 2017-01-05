@@ -22,7 +22,6 @@ describe('Validating UserFoods routes', () => {
                 .listCollections({ name })
                 .next( (err, collinfo) => {
                     if (!collinfo) return done();
-                    console.log('dropping collection:', name);
                     connection.db.dropCollection(name, done);
                 });
         };

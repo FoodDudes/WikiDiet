@@ -4,7 +4,7 @@
   "description": "Enter, track and report on food you eat",
   "main": "index.js",
   "scripts": {
-   "start": "cd app && npm i && cd ../server && npm i && node server.js",
+    "start": "cd app && npm i && cd ../server && npm i && node server.js",
     "test": "cd app && npm i && npm test && cd ../server && npm i && npm test"
   },
   "repository": {
