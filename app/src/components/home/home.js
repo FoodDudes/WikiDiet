@@ -6,4 +6,8 @@ export default {
     controller
 };
 
-function controller() {}
+function controller() {
+
+    this.currentUser = JSON.parse(localStorage.getItem('user'));
+
+}
