@@ -24,7 +24,7 @@ function controller(userFoods, rootScope) {
 
     this.updateServingSize = (value) =>{
         console.log(value);
-    }
+    };
 
     this.viewFavoriteItem = (item)=>{
         this.showFavorite = true;

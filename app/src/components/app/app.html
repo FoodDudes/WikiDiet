@@ -11,7 +11,7 @@
         </div>
     </div>
 
-    <div class="menu">
+    <div class="menu" ng-if="$ctrl.user" >
         <h2 class="menu-title">{{$ctrl.user.username}}'s Daily Menu</h2>
     
         <table ="menu-table">
