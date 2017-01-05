@@ -8,7 +8,14 @@ const User = require('../models/user');
 router
     .get('/', (req, res, next) => {
         User.find({})
-        .then(users => res.send(users))
+        .then(users => {
+            if (!users || users.length === 0) {
+                next({code: 404, message: 'No users found.'});
+            }
+            else {
+                res.send(users);
+            };
+        })
         .catch(next);
     });
 

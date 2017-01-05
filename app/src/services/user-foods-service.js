@@ -19,10 +19,14 @@ export default function userFoodsService($http, apiUrl) {
             .then(res => res.data);
         },
 
-
         addMeal(userId, eaten){
             console.log('in addMeal');
             return $http.put(`${apiUrl}/userFoods/${userId}`, eaten)
+                .then(res => res.data);
+        },
+        
+        add(userfood) {
+            return $http.post(`${apiUrl}/userfoods`,userfood)
                 .then(res => res.data);
         }
     };

@@ -22,13 +22,27 @@ function controller(userFoods, rootScope) {
         console.log('user is:', user);
         this.user = user[0];
         console.log('user is ', this.user);
-        this.updateMenu();
+        if(this.user){
+            this.updateMenu();
+        }
     });
 
     rootScope.$on('foodAdded', (event, user)=>{
-        console.log('Hooray, useris ', user);
+        console.log('Hooray, useris ', user.user);
         this.user = user.user;
         this.updateMenu();
+    });
+
+    rootScope.$on('login', (event, user)=>{
+        console.log('Logged in, useris ', user.user);
+        this.user = user.user.userfood;
+        this.updateMenu();
+    });
+
+    rootScope.$on('logout', (event)=>{
+        this.user = null;
+        console.log('Logged out, useris ', user.user);
+        // this.updateMenu();
     });
 
     this.updateMenu = ()=>{
@@ -49,12 +63,12 @@ function controller(userFoods, rootScope) {
         });
 
         this.menu.forEach((food)=>{
-            this.totalCalories += food.Calories;
-            this.totalSugars += food.sugars;
-            this.totalFiber += food.fiber;
-            this.totalTotalFats += food.totalFats;
-            this.totalSaturatedFats += food.saturatedFats;
-            this.totalTotalProtein += food.totalProtein;
+            this.totalCalories += parseInt(food.Calories);
+            this.totalSugars += parseInt(food.sugars);
+            this.totalFiber += parseInt(food.fiber);
+            this.totalTotalFats += parseInt(food.totalFats);
+            this.totalSaturatedFats += parseInt(food.saturatedFats);
+            this.totalTotalProtein += parseInt(food.totalProtein);
         });
 
         console.log('menu is ', this.menu);
