@@ -1,5 +1,49 @@
 <section>
-    <h1> {{$ctrl.user.username}}'sFavorite Foods</h1>
+    <br><h2> {{$ctrl.user.username}}'s Favorite Foods</h2>
+
+    <div class="favorite-item-detail" ng-if="$ctrl.showFavorite">
+        <h3>{{$ctrl.selectedFavorite.name}}</h3>
+        <table ="favorite-detail-table">
+            <tr>
+                <th>Calories</th>  <td class="favorite-item-value">{{$ctrl.selectedFavorite.Calories}}</td>
+            </tr>
+            <tr>
+                <th>Sugars (g)</th><td class="favorite-item-value">{{ $ctrl.selectedFavorite.sugars}}</td>
+            </tr>
+            <tr>
+          
+                <th>Fiber(g)</th>  <td class="favorite-item-value">{{ $ctrl.selectedFavorite.fiber }}</td>
+            </tr>
+            <tr>
+                <th>Total Fats(g)</th> <td class="favorite-item-value">{{ $ctrl.selectedFavorite.totalFats }}</td>
+            </tr>
+            <tr>
+                <th>Saturated Fats(g)</th>
+                 <td class="favorite-item-value">{{ $ctrl.selectedFavorite.saturatedFats}}</td>
+            </tr>
+            <tr>
+                <th>Protein(g)</th> <td class="favorite-item-value">{{ $ctrl.selectedFavorite.totalProtein}}</td>
+            </tr>
+            
+               
+            <!--add rangebar to adjust serving size-->
+        </table>
+
+        <h4>Original Serving Size:  {{$ctrl.selectedFavorite.servingSize}}  {{$ctrl.selectedFavorite.servingUnit}}</h4>
+
+        <form>
+           <input type="range" name="rangeInput" min="0" max="1000" value="{{$ctrl.selectedFavorite.servingSize}}" ng-change="$ctrl.updateServingSize(this.value)" ng-model="$ctrl.selectedFavorite.newServingSize">
+            <p>New serving size is {{$ctrl.selectedFavorite.newServingSize}}{{$ctrl.selectedFavorite.servingUnit}}</p>
+            <p>{{$ctrl.selectedFavorite.servings}}servings</p>
+        </form>
+
+        <button>Add this Amount</button>
+         <td><button ng-if="$ctrl.showFavorite"class="favorite-button" ng-click="$ctrl.hideFavoriteItem(favorite)">Hide Item View
+            </button></td>
+    </div>
+
+
+
     <table class="favorites-list">
         <tr>
             <th>Food Name</th>
@@ -8,13 +52,13 @@
         </tr>
 
         <tr class="favorites-list-item" ng-repeat="favorite in $ctrl.user.favorites"> 
-           <td>{{favorite.name}}</td>
-            <td><button class="favorite-button" ng-click="$ctrl.addToMenu(favorite)">
+           <td ng-if="!$ctrl.showFavorite">{{favorite.name}}</td>
+            <td ng-if="!$ctrl.showFavorite"><button class="favorite-button" ng-click="$ctrl.addToMenu(favorite)">
             Add One Serving
             </button></td>
-            <td><button class="favorite-button" ng-click="$ctrl.viewFavoriteItem()">View Item
+            <td><button ng-if="!$ctrl.showFavorite"class="favorite-button" ng-click="$ctrl.viewFavoriteItem(favorite)">View Item
             </button></td>
-              <td><button class="favorite-button" ng-click="$ctrl.removeFromFavorites()">
+              <td ng-if="!$ctrl.showFavorite"><button class="favorite-button" ng-click="$ctrl.removeFromFavorites(favorite)">
             Remove from Favorites
             </button></td>
         </tr>

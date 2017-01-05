@@ -17,33 +17,38 @@ export default function routes($stateProvider, $urlRouterProvider) {
     });
 
     // Food search
-    $stateProvider.state({
-        name: 'food.search',
-        url: '/id:?name',
-        params: {
-            view: { dynamic: true }
-        },
-        resolve: {
-            id: ['transition$', t => t.params().id],
-            view: ['$transition$', t => t.params().view || 'search']
-        },
-        component: 'foodSearch'
-    });
+    // $stateProvider.state({
+    //     name: 'food.search',
+    //     url: '/id:?name',
+    //     params: {
+    //         view: { dynamic: true }
+    //     },
+    //     resolve: {
+    //         id: ['transition$', t => t.params().id],
+    //         view: ['$transition$', t => t.params().view || 'search']
+    //     },
+    //     component: 'foodSearch'
+    // });
 
     // Food add
-    $stateProvider.state({
-        name: 'food.add',
-        url: '/id:?name',
-        params: {
-            view: { dynamic: true }
-        },
-        resolve: {
-            id: ['transition$', t => t.params().id],
-            view: ['$transition$', t => t.params().view || 'add']
-        },
-        component: 'newFood'
+    // $stateProvider.state({
+    //     name: 'food.add',
+    //     url: '/id:?name',
+    //     params: {
+    //         view: { dynamic: true }
+    //     },
+    //     resolve: {
+    //         id: ['transition$', t => t.params().id],
+    //         view: ['$transition$', t => t.params().view || 'add']
+    //     },
+    //     component: 'newFood'
         
-    });
+    // });
+
+
+    // $stateProvider.state({
+    //     name
+    // })
 
     $stateProvider.state({
         name: 'me',
