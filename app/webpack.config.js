@@ -1,5 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+const EnvironmentPlugin = require('webpack').EnvironmentPlugin;
+
 
 const cssExtract = new ExtractTextPlugin('main.css');
 
@@ -12,6 +14,7 @@ module.exports = {
     },
     devtool: 'source-map',
     plugins: [
+        new EnvironmentPlugin(['API_URL']),
         new HtmlWebpackPlugin({
             template: './src/index.html'
         }),

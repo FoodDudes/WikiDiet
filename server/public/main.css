@@ -4,11 +4,11 @@ button {
   border: 0.1vh solid #a5a5a5;
   border-radius: 5vh;
   min-height: 5vh;
-  min-width: 20vw;
+  width: 10vw;
   font-size: 2vh; }
-  button :hover {
+  button:hover {
     cursor: pointer;
-    background-color: #570000; }
+    background-color: #a5a5a5; }
 
 * {
   color: #570000;
@@ -21,37 +21,51 @@ h2 {
   font-size: 5vh; }
 
 a {
-  font-size: 2vh;
+  font-size: 2.2vh;
   color: white;
   margin: 2vh 3vw 0vh 3vw;
   text-decoration: none; }
-  a :hover {
-    cursor: pointer; }
+  a:hover {
+    cursor: pointer;
+    color: #a5a5a5; }
 
-.button-link {
+.food-link {
   font-size: 2em; }
 
-.button-link-box {
+.food-link-box {
   background-color: #570000;
   border: 0.1vh solid #a5a5a5;
   border-radius: 5vh; }
+
+.favorites-list-item {
+  font-size: 4vh; }
 .header {
   background-color: white;
-  min-height: 20vh;
+  height: 20vh;
   border: 1vh solid #a5a5a5;
-  border-radius: 5vh; }
+  border-radius: 5vh 5vh 0vh 5vh; }
+
+.menu {
+  float: right;
+  background-color: #11151c;
+  height: 65vh;
+  width: 35vw;
+  border: 1vh solid #a5a5a5; }
 
 .footer {
   background-color: #031a6b;
-  min-height: 10vh;
+  height: 10vh;
   border: 1vh solid #a5a5a5;
-  border-radius: 5vh; }
+  border-radius: 5vh 0vh 5vh 5vh; }
 
 .navbar {
   background-color: #570000;
-  border-radius: 0vh 5vh;
+  border-radius: 0vh 0vh 0vh 5vh;
   margin: 0vh 2vw 0vh 0vw;
-  min-height: 8vh; }
+  min-height: 8vh;
+  padding-top: 3vh;
+  height: 5vh;
+  width: 96vw; }
 
 .footer-text {
   text-align: center;
@@ -59,15 +73,41 @@ a {
   color: white; }
 
 .header-text {
-  margin: 10vh 60vw 2vh 10vw;
+  margin: 4vh 60vw 1vh 10vw;
   font-size: 10vh;
   color: #031a6b; }
 
 .main-content {
-  min-height: 40vh; }
+  height: 59vh; }
+
+.menu-title {
+  color: #a5a5a5; }
+
+.menu-table {
+  color: white; }
+
+th {
+  color: white; }
+
+td {
+  color: #a5a5a5; }
+label {
+  color: white; }
 .subtitle {
   font-style: italic;
   margin-left: 10vw;
   color: black; }
+#username {
+  color: #570000; }
+
+#password {
+  color: #570000; }
+label {
+  color: white; }
+#username {
+  color: #570000; }
+
+#password {
+  color: #570000; }
 
 /*# sourceMappingURL=main.css.map*/
