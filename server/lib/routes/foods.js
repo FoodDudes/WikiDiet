@@ -58,8 +58,7 @@ router
                                 vetted: true,
                                 uploadedBy: 'NutriData API'
                             }
-                            .catch(next);
-
+                            console.log(newFoodEntry);
                             // Create a new local DB entry for the item
                             new Food(newFoodEntry).save()
                                 .then(saved => res.send(saved));
