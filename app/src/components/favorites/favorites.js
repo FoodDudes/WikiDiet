@@ -68,7 +68,8 @@ function controller(userFoods, rootScope) {
         });
     };
 
-    this.updateUser();
-
+    if (localStorage.getItem('user')){
+        this.updateUser();
+    }
 
 }
