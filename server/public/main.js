@@ -83,7 +83,7 @@
 	// exported from this import 
 	
 	
-	var apiUrl = ("/api") || 'http://localhost:3000/api';
+	var apiUrl = (undefined) || 'http://localhost:3000/api';
 	
 	app.value('apiUrl', apiUrl);
 	
@@ -33682,6 +33682,7 @@
 	    //get request here to pull all foods from the user with this day as the eaten property and add them to the daily menu
 	
 	    userFoods.getByName(localStorage.getItem('userFoodUserName')).then(function (user) {
+	        console.log('user is:', user);
 	        _this.user = user[0];
 	        console.log('user is ', _this.user);
 	        _this.updateMenu();
@@ -33727,7 +33728,7 @@
 /* 13 */
 /***/ function(module, exports) {
 
-	module.exports = "<section>\n    <div class=\"header\">\n        <h1 class=\"header-text\">WikiDiet</h1>\n        <div class=\"navbar\">\n            <a ui-sref=\"home\">Home</a>\n            <a ui-sref=\"me\">My Health Data</a>\n            <a ui-sref=\"favorites\">Favorites</a>\n            <a ui-sref=\"food\">Food Database</a>\n            <a ui-sref=\"login\">Login</a>\n            <a ui-sref=\"signup\">Sign Up</a>\n        </div>\n    </div>\n\n    <div class=\"menu\">\n        <h2 class=\"menu-title\">{{$ctrl.user.username}}'s Daily Menu</h2>\n    \n        <table =\"menu-table\">\n            <tr>\n                <th>Food</th>\n                <th>Calories</th>\n                <th>Sugars (g)</th>\n                <th>Fiber(g)</th>\n                <th>Total Fats(g)</th>\n                <th>Saturated Fats(g)</th>\n                <th>Protein(g)</th>\n                <th>Time Eaten</th>\n            </tr>\n\n            <tr ng-repeat=\"meal in $ctrl.menu\">\n                <td>{{ meal.name }}</td>\n                <td>{{ meal.Calories }}</td>\n                <td>{{ meal.sugars }}</td>\n                <td>{{ meal.fiber }}</td>\n                <td>{{ meal.totalFats }}</td>\n                <td>{{ meal.saturatedFats}}</td>\n                <td>{{ meal.totalProtein}}</td>\n                <td>{{ meal.time}}</td>\n            </tr>\n\n            <tr>\n                <th>Daily Totals</th>\n                <th>{{$ctrl.totalCalories}}</th>\n                <th>{{$ctrl.totalSugars}}</th>\n                <th>{{$ctrl.totalFiber}}</th>\n                <th>{{$ctrl.totalTotalFats}}</th>\n                <th>{{$ctrl.totalSaturatedFats}}</th>\n                <th>{{$ctrl.totalTotalProtein}}</th>\n            </tr>\n        </table>\n    </div>\n\n    <div  class=\"main-content\">\n        <ui-view></ui-view>\n    </div>\n\n    <div class =\"footer\">\n        <h3 class=\"footer-text\">&copy Food Dudes, 2017</h3>\n    </div>\n</section>";
+	module.exports = "<section>\n    <div class=\"header\">\n        <h1 class=\"header-text\">WikiDiet</h1>\n        <div class=\"navbar\">\n            <a ui-sref=\"home\">Home</a>\n            <a ui-sref=\"me\">My Health Data</a>\n            <a ui-sref=\"favorites\">Favorites</a>\n            <a ui-sref=\"food\">Food Database</a>\n            <a ui-sref=\"login\">Login</a>\n            <a ui-sref=\"signup\">Sign Up</a>\n        </div>\n    </div>\n\n    <div class=\"menu\" ng-if=\"$ctrl.user\" >\n        <h2 class=\"menu-title\">{{$ctrl.user.username}}'s Daily Menu</h2>\n    \n        <table =\"menu-table\">\n            <tr>\n                <th>Food</th>\n                <th>Calories</th>\n                <th>Sugars (g)</th>\n                <th>Fiber(g)</th>\n                <th>Total Fats(g)</th>\n                <th>Saturated Fats(g)</th>\n                <th>Protein(g)</th>\n                <th>Time Eaten</th>\n            </tr>\n\n            <tr ng-repeat=\"meal in $ctrl.menu\">\n                <td>{{ meal.name }}</td>\n                <td>{{ meal.Calories }}</td>\n                <td>{{ meal.sugars }}</td>\n                <td>{{ meal.fiber }}</td>\n                <td>{{ meal.totalFats }}</td>\n                <td>{{ meal.saturatedFats}}</td>\n                <td>{{ meal.totalProtein}}</td>\n                <td>{{ meal.time}}</td>\n            </tr>\n\n            <tr>\n                <th>Daily Totals</th>\n                <th>{{$ctrl.totalCalories}}</th>\n                <th>{{$ctrl.totalSugars}}</th>\n                <th>{{$ctrl.totalFiber}}</th>\n                <th>{{$ctrl.totalTotalFats}}</th>\n                <th>{{$ctrl.totalSaturatedFats}}</th>\n                <th>{{$ctrl.totalTotalProtein}}</th>\n            </tr>\n        </table>\n    </div>\n\n    <div  class=\"main-content\">\n        <ui-view></ui-view>\n    </div>\n\n    <div class =\"footer\">\n        <h3 class=\"footer-text\">&copy Food Dudes, 2017</h3>\n    </div>\n</section>";
 
 /***/ },
 /* 14 */
@@ -34039,9 +34040,10 @@
 	    this.authenticate = function () {
 	        return authSvc.login(_this.credentials).then(function (user) {
 	            userFoodSvc.getOne(user.userName).then(function (userfood) {
-	                user.userfood = userfood;
+	                console.log('what was found in userfood:', userfood);
+	                user.userfood = userfood[0];
 	                localStorage.setItem('user', JSON.stringify(user));
-	                localStorage.setItem('userFoodUserName', user.userfood[0].username);
+	                localStorage.setItem('userFoodUserName', user.userName);
 	                $state.go('home');
 	            });
 	        }).catch(function (error) {
@@ -34397,8 +34399,13 @@
 	
 	function foodService($http, apiUrl) {
 	    return {
-	        get: function get() {
+	        getAll: function getAll() {
 	            return $http.get(apiUrl + '/foods').then(function (res) {
+	                return res.data;
+	            });
+	        },
+	        getOne: function getOne(barcode, foodname) {
+	            return $http.get(apiUrl + '/foods/' + barcode + '/name/' + foodname).then(function (res) {
 	                return res.data;
 	            });
 	        },
