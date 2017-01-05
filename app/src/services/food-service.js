@@ -8,7 +8,7 @@ export default function foodService($http, apiUrl) {
                 .then(res => res.data);
         },
         add(food) {
-            return $http.post(`${apiUrl}/foods`, foods)
+            return $http.post(`${apiUrl}/foods`, food)
                 .then(res => res.data);
         }
     };
