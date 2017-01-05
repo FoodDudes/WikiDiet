@@ -30,7 +30,7 @@ export default function routes($stateProvider, $urlRouterProvider) {
     //     component: 'foodSearch'
     // });
 
-    // Food add
+    // // Food add
     // $stateProvider.state({
     //     name: 'food.add',
     //     url: '/id:?name',

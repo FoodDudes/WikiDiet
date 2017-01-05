@@ -1,22 +1,98 @@
 <section>
+    <br>
+    <br>
     <div class="food-link-box">
 
-        <a class="food-link" ng-click="$ctrl.search" ui-sref="food.search">Search for Food Item</a>
-        <food-search add="$ctrl.search" ng-show="$ctrl.viewSearch === true"></food-search>
+        <a class="food-link" ng-click="$ctrl.toggleSearch()">Search for Food Item</a>
+        <div class="food-search" add="$ctrl.search" ng-show="$ctrl.viewSearch === true">
+            <section ng-class="$ctrl.styles['add-class']">
+                <div>
+                <label>Name of food:</label>
+                <input ng-model="$ctrl.name" placeholder="food search">
+                </div>
+                <!--<div>
+                <!--<label>Type of food:</label>
+                <input ng-model="$ctrl.type" placeholder="type">
+                </div>-->-->
+                <button class="viewButton" ng-click=$ctrl.search()>Search</button>
+             </section>
+        </div>
     </div>
 
+
     <div class="food-link-box">
-        <a class="food-link" ui-sref="food.add">Enter New Food Item</a>
-        <new-food add="$ctrl.add" ng-show="$ctrl.viewNew === true"><new-food>
+        <a class="food-link" ng-click="$ctrl.toggleNew()">Add New Food Item</a>
+        <div class="new-food" add="$ctrl.add" ng-show="$ctrl.viewNew === true" >
+            <section ng-if="!$ctrl.user">
+                <h2 class="white-text">You must be logged in to add new food items to the database.</h2>
+            </section>
+            <section ng-class="$ctrl.styles['add-class']" ng-if="$ctrl.user">
+                <div>
+                    <label>Name of Food:</label>
+                    <input ng-model="$ctrl.name" placeholder="name">
+                </div>
+
+                <div>
+                    <label>Barcode:</label>
+                    <input ng-model="$ctrl.barcode" placeholder="barcode">
+                </div>
+
+                <div>
+                    <label>Serving Unit:</label>
+                    <select ng-model="$ctrl.servingUnit" ng-options="x for x in $ctrl.units" placeholder="serving unit">{{x}}</select>
+
+                </div>
+
+                    <div>
+                    <label>Serving Size:</label>
+                    <input ng-model="$ctrl.servingSize" placeholder="serving size">
+                </div>
+
+                <div>
+                    <label>Calories (g):</label>
+                    <input ng-model="$ctrl.Calories" placeholder="Calories">
+                </div>
+
+                <div>
+                    <label>Total Carbs (g):</label>
+                    <input ng-model="$ctrl.totalCarbs" placeholder="total carbs">
+                </div>
+
+                <div>
+                    <label>Sugars (g):</label>
+                    <input ng-model="$ctrl.sugars" placeholder="sugars">
+                </div>
+
+                <div>
+                    <label>Fiber (g):</label>
+                    <input ng-model="$ctrl.fiber" placeholder="fiber">
+                </div>
+
+                <div>
+                    <label>Total Fats (g):</label>
+                    <input ng-model="$ctrl.totalFats" placeholder="total fats">
+                </div>
+                
+                <div>
+                    <label>Unsaturated Fats (g):</label>
+                    <input ng-model="$ctrl.unsaturatedFats" placeholder="unsaturated fats">
+                </div>
+
+                <div>
+                    <label>Saturated Fats (g):</label>
+                    <input ng-model="$ctrl.saturatedFats" placeholder="saturated fats">
+                </div>
+
+                <div>
+                    <label>Total Protein (g):</label>
+                    <input ng-model="$ctrl.totalProtein" placeholder="total protein">
+                </div>
+    
+                <button class="viewButton" ng-click=$ctrl.addNew()>Add Food</button>
+            </section>
+        </div>
+    </div>
           
-<!--         <a class="food-link" ui-sref="search">Search for Food Item</a>
-    </div>
-
-    <div class="food-link-box">
-        <a class="food-link" ui-sref="enter">Enter Food Item</a> -->
-
-<!--     </div> -->
-
     <div class="food-link-box">
         <a class="food-link" ui-sref="favorites">Add Food from Favorites</a>
     </div>

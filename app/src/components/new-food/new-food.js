@@ -23,9 +23,7 @@ function controller() {
         this.fiber = '',
         this.totalFats = '',
         this.saturatedFats = '',
-        this.totalProtein = '',
-        this.vetted = '';
-
+        this.totalProtein = '';
     };
 
     this.reset();
@@ -43,7 +41,7 @@ function controller() {
             saturatedFats: this.saturatedFats,
             unsaturatedFats: this.unsaturatedFats,
             totalProtein: this.totalProtein,
-            vetted: this.vetted            
+            vetted: false           
         });
         this.reset();
     };

@@ -6,14 +6,14 @@ export default {
     controller
 };
 
-// controller.$inject = ['foodService'];
+controller.$inject = ['foodService'];
 
 function controller(food) {
     this.styles = styles;
 
-    food.get().then(food => {
-        this.food = food;
-    });
+    // food.getAll().then(food => {
+    //     this.food = food;
+    // });
 
     this.add = food => {
         food.add(food)
