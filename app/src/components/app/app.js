@@ -28,9 +28,21 @@ function controller(userFoods, rootScope) {
     });
 
     rootScope.$on('foodAdded', (event, user)=>{
-        console.log('Hooray, useris ', user);
+        console.log('Hooray, useris ', user.user);
         this.user = user.user;
         this.updateMenu();
+    });
+
+    rootScope.$on('login', (event, user)=>{
+        console.log('Logged in, useris ', user.user);
+        this.user = user.user.userfood;
+        this.updateMenu();
+    });
+
+    rootScope.$on('logout', (event)=>{
+        this.user = null;
+        console.log('Logged out, useris ', user.user);
+        // this.updateMenu();
     });
 
     this.updateMenu = ()=>{

@@ -6,9 +6,9 @@ export default {
     controller
 };
 
-controller.$inject = ['authService', 'userFoodService', '$state'];
+controller.$inject = ['authService', 'userFoodService', '$state', '$rootScope'];
 
-function controller(authSvc, userFoodSvc, $state) {
+function controller(authSvc, userFoodSvc, $state, rootScope) {
     this.styles = styles;
 
     this.weightUnits = ['kg', 'lbs'];
@@ -49,9 +49,12 @@ function controller(authSvc, userFoodSvc, $state) {
             .then((user) => {
                 userFoodSvc.add(this.credentials)
                 .then((userfood) => {
+                    console.log('what was found in userfood:', userfood);
                     user.userfood = userfood;
+                    console.log('user is ', user);
                     localStorage.setItem('user', JSON.stringify(user));
-                    localStorage.setItem('userFoodUserName', user.userfood[0].username);
+                    localStorage.setItem('userFoodUserName', user.userName);
+                    rootScope.$emit('login', {user: user});
                     $state.go('home');
                 });
             })
