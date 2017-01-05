@@ -38,7 +38,7 @@ router
                     res.send(food);
                 } else {
                     console.log('No food item found in our db, call out', barcode);
-                    // No entry atmilktempt to locate the info on a 3rd party
+                    // No entry attempt to locate the info on a 3rd party
                     rp(`${process.env.NUTRI_API}item?upc=${barcode}&appId=${process.env.APPID}&appKey=${process.env.APP_SECRET}`)
                         .then(nutrifood => {
                             let jsonData = (JSON.parse(nutrifood))
