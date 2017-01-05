@@ -51,9 +51,12 @@ function controller(authSvc, userFoodsSvc, $state) {
                 const newUserFood = 
                 userFoodsSvc.add(this.credentials)
                 .then((userfood) => {
+                    console.log('what was found in userfood:', userfood);
                     user.userfood = userfood;
+                    console.log('user is ', user);
                     localStorage.setItem('user', JSON.stringify(user));
-                    localStorage.setItem('userFoodUserName', user.userfood[0].username);
+                    localStorage.setItem('userFoodUserName', user.userName);
+                    rootScope.$emit('login', {user: user});
                     $state.go('home');
                 });
             })

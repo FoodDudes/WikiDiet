@@ -19,8 +19,10 @@ function controller(authSvc, userFoodsSvc, $state) {
                 .then((userfood) => {
                     console.log('what was found in userfood:', userfood);
                     user.userfood = userfood[0];
+                    console.log('user is ', user);
                     localStorage.setItem('user', JSON.stringify(user));
                     localStorage.setItem('userFoodUserName', user.userName);
+                    rootScope.$emit('login', {user: user});
                     $state.go('home');
                 });
             })
