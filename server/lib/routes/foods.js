@@ -71,6 +71,7 @@ router
             Food.find({name}).lean()
             .then(food => {
                 if (food) {
+                    console.log('Food string found: ', food);
                     // found in our local db, return it
                     res.send(food);
                 } else {
@@ -78,6 +79,7 @@ router
                     rp(`${process.env.NUTRI_API}search/${name}?${resultParams}}&appId=${process.env.APPID}&appKey=${process.env.APP_SECRET}`)
                         .then(nutrifood => {
                             let jsonData = (JSON.parse(nutrifood))
+                            console.log(jsonData);
                             const newFoodEntry = {
                                 name: jsonData.item_name,
                                 barcodebarcode: 888888888888,
