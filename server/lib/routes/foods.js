@@ -68,7 +68,7 @@ router
             .catch(next);
         } else {
             // search by name
-            console.log(name);l
+            console.log(name);
             Food.find(name).lean()
             .then(food => {
                 if (food) {
