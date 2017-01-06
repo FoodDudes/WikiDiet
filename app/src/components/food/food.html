@@ -94,13 +94,17 @@
                 <p>{{$ctrl.selectedResult.servings}}servings</p>
             </form>
 
+            <div ng-if="$ctrl.favoriteAdded === true" class="added-message-box">
+                <h2 class="white-text">{{$ctrl.addedName}} was added to your favorite foods list.</p>
+            </div>
+
             <tr class="button-row">
 
             <td><button class="search-result-button" ng-click="$ctrl.addToMenu(result)">Add One Serving</button></td>
 
             <td><button class="search-result-button" ng-click="$ctrl.addThisAmount(result)">Add this Amount</button></td>
 
-             <td><button class="search-result-button" ng-click="$ctrl.addtofavorites(result)">Add this Food to Favorites</button></td>
+             <td><button class="search-result-button" ng-click="$ctrl.addToFavorites(result)">Add this Food to Favorites</button></td>
 
             </div>
 
