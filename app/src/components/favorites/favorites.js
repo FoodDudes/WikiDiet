@@ -5,20 +5,20 @@ export default {
     controller
 };
 
-controller.$inject=['userFoodsService', '$rootScope'];
+controller.$inject=['userFoodsService', '$rootScope', '$state'];
 
-function controller(userFoods, rootScope) {
+function controller(userFoods, rootScope, $state) {
 
     this.removeFromFavorites = (item)=>{
-        console.log('remove from favorites clicked');
-        console.log('this.user favorites', this.user.favorites);
-        console.log('item is ', item);
+        // console.log('remove from favorites clicked');
+        // console.log('this.user favorites', this.user.favorites);
+        // console.log('item is ', item);
         this.newFavorites = this.user.favorites.filter((favorite)=>{
             return favorite.name !== item.name;
         });
-        console.log(this.newFavorites);
+        // console.log(this.newFavorites);
         JSON.stringify(this.newFavorites);
-        console.log('addind this json array ' + this.newFavorites + ' to this user '+ this.user._id);
+        // console.log('addind this json array ' + this.newFavorites + ' to this user '+ this.user._id);
         userFoods.addMeal(this.user._id, {'favorites': this.newFavorites}).then(this.updateUser());
     };
 
@@ -47,21 +47,24 @@ function controller(userFoods, rootScope) {
         this.selectedFavorite.newTotalProtein = (this.selectedFavorite.totalProtein*this.selectedFavorite.servings).toFixed(1);
     };
 
-    this.addThisAmount = ()=>{
-        console.log('add this amount clicked, new servings are ', this.selectedFavorite.servings);
-        console.log('new selected favorite is ', this.selectedFavorite);
-        this.customServing = this.selectedFavorite;
-        this.customServing.Calories = this.selectedFavorite.newCalories;
-        this.customServing.totalCarbs = this.selectedFavorite.newTotalCarbs;
-        this.customServing.sugars = this.selectedFavorite.newSugars;
-        this.customServing.fiber = this.selectedFavorite.newFiber;
-        this.customServing.totalFats = this.selectedFavorite.newTotalFats;
-        this.customServing.saturatedFats = this.selectedFavorite.newSaturatedFats;
-        this.customServing.unsaturatedFats = this.selectedFavorite.newUnsaturatedFats;
-        this.customServing.totalProtein = this.selectedFavorite.newTotalProtein;
-        this.customServing.servingSize= this.selectedFavorite.newServingSize;
-        console.log('new custom serving is ', this.customServing);
-        this.addToMenu(this.customServing);
+    this.addThisAmount = (theUpdatedFavorite)=>{
+        let myCustomServing = {};
+        console.log('add this amount clicked, new servings are ', theUpdatedFavorite.servings);
+        console.log('new selected favorite is ', theUpdatedFavorite);
+        // Object.assign(myCustomServing, theUpdatedFavorite);
+        myCustomServing.name = theUpdatedFavorite.name;
+        myCustomServing.barcode = theUpdatedFavorite.barcode;
+        myCustomServing.Calories = theUpdatedFavorite.newCalories;
+        myCustomServing.totalCarbs = theUpdatedFavorite.newTotalCarbs;
+        myCustomServing.sugars = theUpdatedFavorite.newSugars;
+        myCustomServing.fiber = theUpdatedFavorite.newFiber;
+        myCustomServing.totalFats = theUpdatedFavorite.newTotalFats;
+        myCustomServing.saturatedFats = theUpdatedFavorite.newSaturatedFats;
+        myCustomServing.unsaturatedFats = theUpdatedFavorite.newUnsaturatedFats;
+        myCustomServing.totalProtein = theUpdatedFavorite.newTotalProtein;
+        myCustomServing.servingSize= theUpdatedFavorite.newServingSize;
+        console.log('addThisAmount new custom serving is ', myCustomServing);
+        this.addToMenu(myCustomServing);
     };
 
     this.hideFavoriteItem = (item)=>{
@@ -72,23 +75,29 @@ function controller(userFoods, rootScope) {
         var date = new Date();
         var datetime = date.toLocaleString();
         var dateArr = datetime.split(', ');
-        item.time = dateArr[1];
-        item.day = dateArr[0];
-        delete item.$$hashKey;
-        console.log('item is ', item);
-        this.newEaten = this.user.eaten;
-        this.newEaten.push(item);
-        console.log('newEaten is', this.newEaten);
-        JSON.stringify(this.newEaten);
-        console.log('addind this json array ' + this.newEaten+ ' to this user '+ this.user._id);
-        userFoods.addMeal(this.user._id, {'eaten': this.newEaten}).then((user)=>(rootScope.$emit('foodAdded', {user: user})));
+        let newItem = {};
+        Object.assign(newItem, item);
+        newItem.time = dateArr[1];
+        newItem.day = dateArr[0];
+        delete newItem.$$hashKey;
+        let newEaten = [];
+        this.user.eaten.push(newItem);
+        for (var i = 0; i < this.user.eaten.length; i++) {
+            newEaten[i] = this.user.eaten[i];
+        };
+        JSON.stringify(newEaten);
+        userFoods.addMeal(this.user._id, {'eaten': newEaten})
+            .then((user) => {
+                rootScope.$emit('foodAdded', {user: user});
+                // $state.go('favorites');
+            });
     };
 
     this.updateUser = ()=>{
         userFoods.getByName((localStorage.getItem('userFoodUserName'))).then(user => {
-            console.log(' in get, username', localStorage.getItem('userFoodUserName'));
+            // console.log(' in get, username', localStorage.getItem('userFoodUserName'));
             this.user = user[0];
-            console.log('user is ', this.user);
+            // console.log('user is ', this.user);
         });
     };
 

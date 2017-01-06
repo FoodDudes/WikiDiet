@@ -19,22 +19,22 @@ function controller(userFoods, rootScope, $state) {
     //get request here to pull all foods from the user with this day as the eaten property and add them to the daily menu
 
     userFoods.getByName((localStorage.getItem('userFoodUserName'))).then(user => {
-        console.log('user is:', user);
+        // console.log('user is:', user);
         this.user = user[0];
-        console.log('after getbyname the user is ', this.user);
+        // console.log('after getbyname the user is ', this.user);
         if(this.user){
             this.updateMenu();
         }
     });
 
     rootScope.$on('foodAdded', (event, user)=>{
-        console.log('Hooray, useris ', user.user);
+        // console.log('foodAdded event, user is ', user.user);
         this.user = user.user;
         this.updateMenu();
     });
 
     rootScope.$on('login', (event, user)=>{
-        console.log('after Logged in, useris ', user.user);
+        // console.log('after Logged in, useris ', user.user);
         this.user = user.user.userfood;
         this.updateMenu();
     });
@@ -57,9 +57,9 @@ function controller(userFoods, rootScope, $state) {
         this.totalTotalProtein=0;
         //populate the menu here
         this.eaten = this.user.eaten;
-        console.log('this.eaten is', this.eaten);
+        // console.log('this.eaten is', this.eaten);
             //pull out only today's meals
-        console.log('this.day = ', this.day);
+        // console.log('this.day = ', this.day);
         this.menu = this.eaten.filter((item)=>{
             return item.day === this.day;
         });
