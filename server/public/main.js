@@ -83,7 +83,7 @@
 	// exported from this import 
 	
 	
-	var apiUrl = 'https://wikidiet.herokuapp.com/api/';
+	var apiUrl = 'https://wikidiet.herokuapp.com/api';
 	
 	app.value('apiUrl', apiUrl);
 	
@@ -33744,7 +33744,7 @@
 /* 13 */
 /***/ function(module, exports) {
 
-	module.exports = "<section>\n    <div class=\"header\">\n        <h1 class=\"header-text\">WikiDiet</h1>\n        <!--<img src=\"../../../assets/logo.png\">-->\n\n        <div class=\"navbar\">\n            <a ui-sref=\"home\">Home</a>\n            <a ui-sref=\"food\">Food Database</a>\n            <a ui-sref=\"me({name: $ctrl.user.username})\" ng-if=\"$ctrl.user\">My Health Data</a>\n            <a ui-sref=\"favorites\" ng-if=\"$ctrl.user\">Favorites</a>\n            <a ui-sref=\"login\" ng-hide=\"$ctrl.user\">Login</a>\n            <a ui-sref=\"signup\" ng-hide=\"$ctrl.user\">Sign Up</a>\n            <a ui-sref=\"logout\" ng-if=\"$ctrl.user\">Logout</a>\n        </div>\n    </div>\n\n    <div class=\"menu\" ng-if=\"$ctrl.user\" >\n        <h2 class=\"menu-title\">{{$ctrl.user.username}}'s Daily Menu</h2>\n    \n        <table =\"menu-table\">\n            <tr>\n                <th>Food</th>\n                <th>Calories</th>\n                <th>Total Carbs(g)</th>\n                <th>Sugars (g)</th>\n                <th>Fiber(g)</th>\n                <th>Total Fats(g)</th>\n                <th>Saturated Fats(g)</th>\n                <th>Protein(g)</th>\n                <th>Time Eaten</th>\n            </tr>\n\n            <tr ng-repeat=\"meal in $ctrl.menu\">\n                <td>{{ meal.name }}</td>\n                <td>{{ meal.Calories }}</td>\n                <td>{{ meal.totalCarbs }}</td>\n                <td>{{ meal.sugars }}</td>\n                <td>{{ meal.fiber }}</td>\n                <td>{{ meal.totalFats }}</td>\n                <td>{{ meal.saturatedFats}}</td>\n                <td>{{ meal.totalProtein}}</td>\n                <td>{{ meal.time}}</td>\n            </tr>\n\n            <tr>\n                <th>Daily Totals</th>\n                <th>{{$ctrl.totalCalories}}</th>\n                <th>{{$ctrl.totalTotalCarbs}}</th>\n                <th>{{$ctrl.totalSugars}}</th>\n                <th>{{$ctrl.totalFiber}}</th>\n                <th>{{$ctrl.totalTotalFats}}</th>\n                <th>{{$ctrl.totalSaturatedFats}}</th>\n                <th>{{$ctrl.totalTotalProtein}}</th>\n            </tr>\n        </table>\n    </div>\n\n    <div  class=\"main-content\">\n        <ui-view></ui-view>\n    </div>\n\n    <div class =\"footer\">\n        <h3 class=\"footer-text\">&copy Food Dudes, 2017</h3>\n    </div>\n</section>";
+	module.exports = "<section>\n    <div class=\"header\">\n        <h1 class=\"header-text\">WikiDiet</h1>\n        <!--<img src=\"../../../assets/logo.png\">-->\n\n        <div class=\"navbar\">\n            <a ui-sref=\"home\">Home</a>\n            <a ui-sref=\"food\">Food Database</a>\n            <a ui-sref=\"favorites\" >Favorites</a>\n            <a ui-sref=\"me({name: $ctrl.user.username})\" ng-if=\"$ctrl.user\">My Health Data</a>\n            <a ui-sref=\"login\" ng-hide=\"$ctrl.user\">Login</a>\n            <a ui-sref=\"signup\" ng-hide=\"$ctrl.user\">Sign Up</a>\n            <a ui-sref=\"logout\" ng-if=\"$ctrl.user\">Logout</a>\n        </div>\n    </div>\n\n    <div class=\"menu\" ng-if=\"$ctrl.user\" >\n        <h2 class=\"menu-title\">{{$ctrl.user.username}}'s Daily Menu</h2>\n    \n        <table =\"menu-table\">\n            <tr>\n                <th>Food</th>\n                <th>Calories</th>\n                <th>Total Carbs(g)</th>\n                <th>Sugars (g)</th>\n                <th>Fiber(g)</th>\n                <th>Total Fats(g)</th>\n                <th>Saturated Fats(g)</th>\n                <th>Protein(g)</th>\n                <th>Time Eaten</th>\n            </tr>\n\n            <tr ng-repeat=\"meal in $ctrl.menu\">\n                <td>{{ meal.name }}</td>\n                <td>{{ meal.Calories }}</td>\n                <td>{{ meal.totalCarbs }}</td>\n                <td>{{ meal.sugars }}</td>\n                <td>{{ meal.fiber }}</td>\n                <td>{{ meal.totalFats }}</td>\n                <td>{{ meal.saturatedFats}}</td>\n                <td>{{ meal.totalProtein}}</td>\n                <td>{{ meal.time}}</td>\n            </tr>\n\n            <tr>\n                <th>Daily Totals</th>\n                <th>{{$ctrl.totalCalories}}</th>\n                <th>{{$ctrl.totalTotalCarbs}}</th>\n                <th>{{$ctrl.totalSugars}}</th>\n                <th>{{$ctrl.totalFiber}}</th>\n                <th>{{$ctrl.totalTotalFats}}</th>\n                <th>{{$ctrl.totalSaturatedFats}}</th>\n                <th>{{$ctrl.totalTotalProtein}}</th>\n            </tr>\n        </table>\n    </div>\n\n    <div  class=\"main-content\">\n        <ui-view></ui-view>\n    </div>\n\n    <div class =\"footer\">\n        <h3 class=\"footer-text\">&copy Food Dudes, 2017</h3>\n    </div>\n</section>";
 
 /***/ },
 /* 14 */
@@ -43073,7 +43073,7 @@
 	
 	    $stateProvider.state({
 	        name: 'me',
-	        url: '/:name',
+	        url: '/me/:name',
 	        data: { public: false },
 	        resolve: {
 	            myname: ['$transition$', function (t) {

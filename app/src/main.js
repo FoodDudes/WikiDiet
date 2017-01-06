@@ -16,7 +16,7 @@ import 'angular-ui-router/release/stateEvents';
 
 const app = angular.module('myApp', [components, services, uiRouter]);
 
-const apiUrl = 'https://wikidiet.herokuapp.com/api/';
+const apiUrl = 'https://wikidiet.herokuapp.com/api';
 
 app.value('apiUrl', apiUrl);
 
