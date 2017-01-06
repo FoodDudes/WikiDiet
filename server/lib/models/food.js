@@ -8,7 +8,7 @@ const foodSchema = new Schema({
     name: requiredString,
     barcode: {type: Number, default: 0}, 
     servingSize: {type: Number, default: 0}, 
-    servingUnit: {type: Number, default: 'g'}, 
+    servingUnit: {type: String, default: 'g'}, 
     Calories: {type: Number, default: 0}, 
     totalCarbs: {type: Number, default: 0}, 
     sugars: {type: Number, default: 0}, 
