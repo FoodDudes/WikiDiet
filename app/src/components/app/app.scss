@@ -9,7 +9,7 @@
 .menu{
     float: right;
     background-color:$black;
-    height:65vh;
+    min-height:65vh;
     width: 35vw;
     border: 1vh solid $grey;
 }
