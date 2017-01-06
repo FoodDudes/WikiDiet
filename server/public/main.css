@@ -18,7 +18,8 @@ h1 {
   font-size: 7vh; }
 
 h2 {
-  font-size: 5vh; }
+  font-size: 4vh;
+  margin-left: 40px; }
 
 a {
   font-size: 2.2vh;
@@ -34,8 +35,10 @@ a {
 
 .food-link-box {
   background-color: #570000;
-  border: 0.1vh solid #a5a5a5;
-  border-radius: 5vh; }
+  border: 0.5vh solid #a5a5a5;
+  border-radius: 5vh;
+  margin-top: 15px;
+  padding: 15px; }
 
 .favorite-item-detail {
   background-color: #a5a5a5;
@@ -47,11 +50,24 @@ a {
 
 .favorites-list-item {
   font-size: 4vh; }
+
+.login-box {
+  background-color: #570000;
+  border: 0.5vh solid #a5a5a5;
+  border-radius: 5vh;
+  margin-top: 15px;
+  padding: 15px; }
+
+.signup-box {
+  background-color: #570000;
+  border: 0.5vh solid #a5a5a5;
+  border-radius: 5vh;
+  margin-top: 15px;
+  padding: 15px; }
 .header {
   background-color: white;
-  height: 20vh;
   border: 1vh solid #a5a5a5;
-  border-radius: 5vh 5vh 0vh 5vh; }
+  border-radius: 5vh 5vh 5vh 5vh; }
 
 .menu {
   float: right;
@@ -64,20 +80,19 @@ a {
   background-color: #031a6b;
   height: 10vh;
   border: 1vh solid #a5a5a5;
-  border-radius: 5vh 0vh 5vh 5vh; }
+  border-radius: 5vh 5vh 5vh 5vh; }
 
 .navbar {
   background-color: #570000;
-  border-radius: 0vh 0vh 0vh 5vh;
-  margin: 0vh 2vw 0vh 0vw;
+  border-radius: 5vh 5vh 5vh 5vh;
+  margin: 0vh 0vw 0vh 0vw;
   min-height: 8vh;
-  padding-top: 3vh;
-  height: 5vh;
-  width: 96vw; }
+  padding-top: 4vh;
+  height: 5vh; }
 
 .footer-text {
   text-align: center;
-  padding: 3vh 1vh;
+  padding: 1vh 1vh;
   color: white; }
 
 .header-text {
@@ -101,24 +116,48 @@ td {
   color: #a5a5a5; }
 label {
   color: white; }
+input {
+  margin-left: 20px;
+  display: block; }
 .subtitle {
   font-style: italic;
-  margin-left: 10vw;
   color: black; }
 #username {
-  color: #570000; }
+  color: white; }
 
 #password {
-  color: #570000; }
+  color: white; }
+
+#login-header {
+  color: white; }
 label {
   color: white; }
+
+input {
+  margin-left: 50px;
+  display: inline-block; }
 #username {
-  color: #570000; }
+  color: white; }
 
 #password {
-  color: #570000; }
+  color: white; }
 
 #email {
-  color: #11151c; }
+  color: white; }
+
+#signup-header {
+  color: white; }
+
+#gender {
+  color: white; }
+
+#age {
+  color: white; }
+
+#weight {
+  color: white; }
+
+#height {
+  color: white; }
 
 /*# sourceMappingURL=main.css.map*/
