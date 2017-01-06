@@ -24,6 +24,12 @@ function controller(food, userFoods, $timeout, rootScope) {
 
     this.viewNew = false;
 
+    this.favoriteAdded = false;
+
+    this.nonFavoriteAdded = false;
+
+    this.fav = false;
+
     this.reset = () => {
         this.name = '',
         this.barcode = '',
@@ -45,7 +51,7 @@ function controller(food, userFoods, $timeout, rootScope) {
         this.lowerName = this.name.toLowerCase();
         this.correctName = this.lowerName[0].toUpperCase() + this.lowerName.substring(1);
         console.log(this.correctName);
-
+        console.log('this.fav is ', this.fav);
         food.add({
             name: this.correctName,
             barcode: this.barcode,
@@ -60,11 +66,22 @@ function controller(food, userFoods, $timeout, rootScope) {
             unsaturatedFats: this.unsaturatedFats,
             totalProtein: this.totalProtein,
             vetted: false           
-        }).then((food)=>
-            console.log('food is ', food));
+        }).then((food)=>{
+            console.log('foodAdded');
+            if (this.fav==='true'){
+                console.log('food added, fav === true');
+                this.addToFavorites(food);
+            }
+            else{
+                this.addedName=food.name;
+                this.nonFavoriteAdded = true;
+                $timeout(()=>{
+                    this.nonFavoriteAdded = false;
+                }, 2000);
+            };
+        });
         this.reset();
     };
-
 
     this.toggleSearch = ()=>{
         console.log('toggle called', this.viewSearch);
@@ -91,7 +108,7 @@ function controller(food, userFoods, $timeout, rootScope) {
         if (this.searchBarcode){
             this.notFound = false;
             console.log('barcode search selected for this barcode ', this.searchBarcode);
-            food.getOne(this.searchBarcode, 'name')
+            food.getOne(this.searchBarcode, 'none')
             .then((foods)=>{
                 this.results = foods;
                 console.log('this is what came back from the search ', foods);
@@ -107,14 +124,18 @@ function controller(food, userFoods, $timeout, rootScope) {
               .then((foods)=>{
                   this.results = foods;
                   console.log('this is what came back from the search ', foods);
-              })
-            .catch(this.showErrorText());
+                  if (!foods){
+                      this.showErrorText();
+                  }
+              });
+            // .catch(this.showErrorText());
         }
     };
 
     this.showErrorText= ()=>{
         console.log('in error text');
         this.notFound = true;
+        this.results= false;
         $timeout(()=>{
             this.notFound = false;
         }, 3000);
@@ -123,7 +144,7 @@ function controller(food, userFoods, $timeout, rootScope) {
     this.viewResultItem=(item)=>{
         this.showResult = true;
         this.selectedResult = item;
-        console.log(this.selectedResult);
+        console.log('view result clicked: ', this.selectedResult);
         this.selectedResult.newServingSize=this.selectedResult.servingSize;
         this.selectedResult.servings = (this.selectedResult.newServingSize/this.selectedResult.servingSize).toFixed(2);
     };
@@ -166,6 +187,24 @@ function controller(food, userFoods, $timeout, rootScope) {
         console.log('new custom serving is ', this.customServing);
         this.addToMenu(this.customServing);
     };
+
+    this.addToFavorites = (item)=>{
+        console.log('add to favorites clicked');
+        console.log('this.user favorites', this.user.favorites);
+        console.log('item is ', item);
+        this.newFavorites = this.user.favorites;
+        this.newFavorites.push(item);
+        console.log(this.newFavorites);
+        JSON.stringify(this.newFavorites);
+        console.log('addind this json array ' + this.newFavorites + ' to this user '+ this.user._id);
+        userFoods.addMeal(this.user._id, {'favorites': this.newFavorites}).then(this.updateUser());
+        this.addedName = item.name;
+        this.favoriteAdded= true;
+        $timeout(()=>{
+            this.favoriteAdded = false;
+        }, 2000);
+    };
+    
 
     this.addToMenu = (item)=>{
         var date = new Date();
