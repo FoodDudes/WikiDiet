@@ -83,7 +83,7 @@ router
                             console.log(jsonData);
                             const newFoodEntry = {
                                 name: jsonData.item_name,
-                                barcodebarcode: 888888888888,
+                                barcode: 888888888888,
                                 servingSize: jsonData.nf_serving_size_qty,
                                 servingUnit: jsonData.nf_serving_size_unit,
                                 calories: jsonData.nf_calories,
