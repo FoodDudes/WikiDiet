@@ -34304,7 +34304,7 @@
 	        var gender = _this.myData.gender;
 	
 	        var bEE = 0;
-	        var metricWeight = weight * 2.2;
+	        var metricWeight = weight / 2.2;
 	        var metricHeight = height * 2.54;
 	        var dietGuide = {};
 	
