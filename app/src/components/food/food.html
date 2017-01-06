@@ -7,8 +7,6 @@
         <div class="food-search" add="$ctrl.search" ng-show="$ctrl.viewSearch === true">
             <section ng-class="$ctrl.styles['add-class']">
               
-              
-              
                 <div>
                 <label>Barcode (UPC):</label>
                 <input ng-model="$ctrl.searchBarcode" placeholder="food UPC search">
@@ -23,6 +21,64 @@
                 </div>-->-->
                 <button class="viewButton" ng-click="$ctrl.search()">Search</button>
              </section>
+
+             <div class="search-results" ng-if="$ctrl.results" ng-repeat="result in $ctrl.results">
+             
+            <h3>{{result.name}}</h3>
+            <table ="search-detail-table">
+                <tr>
+                    <th>Calories</th>  <td class="result-item-value">{{result.Calories}}</td>
+                    <th>New Calories</th><td class="result-item-value">{{$ctrl.result.newCalories}}</td>
+                </tr>
+                <tr>
+                    <th>Sugars (g)</th><td class="result-item-value">{{result.sugars}}</td>
+                    <th>New Sugars(g)</th><td class="result-item-value">{{$ctrl.result.newSugars}}</td>
+                </tr>
+                <tr>
+            
+                    <th>Fiber(g)</th>  <td class="result-item-value">{{result.fiber }}</td>
+                    <th>New Fiber(g)</th><td class="result-item-value">{{$ctrl.result.newFiber}}</td>
+                </tr>
+                <tr>
+                    <th>Total Fats(g)</th> <td class="result-item-value">{{result.totalFats }}</td>
+                    <th>New Total Fats(g)</th><td class="result-item-value">{{$ctrl.result.newTotalFats}}</td>
+                </tr>
+                <tr>
+                    <th>Saturated Fats(g)</th>
+                    <td class="result-item-value">{{result.saturatedFats}}</td>
+                    <th>New Saturated Fats (g)</th><td class="result-item-value">{{$ctrl.result.newSaturatedFats}}</td>
+                </tr>
+                <tr>
+                    <th>Protein(g)</th> <td class="result-item-value">{{result.totalProtein}}</td>
+                    <th>New Protein(g)</th><td class="result-item-value">{{$ctrl.result.newTotalProtein}}</td>
+                </tr>
+                
+                
+                <!--add rangebar to adjust serving size-->
+            </table>
+
+            <h4>Original Serving Size:  {{result.servingSize}}  {{result.servingUnit}}</h4>
+
+            <form>
+            <input type="range" name="rangeInput" min="0" max="1000" value="{{$ctrl.result.servingSize}}" ng-change="$ctrl.updateServingSize(this.value)" ng-model="$ctrl.result.newServingSize">
+                <p>New serving size is {{$ctrl.result.newServingSize}}{{$ctrl.result.servingUnit}}</p>
+                <p>{{$ctrl.result.servings}}servings</p>
+            </form>
+
+            <tr class="button-row">
+
+            <td><button class="search-result-button" ng-click="$ctrl.addToMenu(result)">Add One Serving</button></td>
+
+            <td><button class="search-result-button" ng-click="$ctrl.addThisAmount()">Add this Amount</button></td>
+
+            <td><button class="search-result-button" ng-click="$ctrl.hideresultItem(result)">Hide Item View
+            </button></td>
+
+
+            </div>
+
+
+
         </div>
     </div>
 
@@ -101,6 +157,6 @@
     </div>
           
     <div class="food-link-box">
-        <a class="food-link" ui-sref="favorites">Add Food from Favorites</a>
+        <a class="food-link" ui-sref="results">Add Food from results</a>
     </div>
 </section>

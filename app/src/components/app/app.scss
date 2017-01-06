@@ -44,7 +44,7 @@
 }
 
 .main-content{
-    height: 59vh;
+    min-height: 59vh;
 }
 
 .menu-title{
@@ -65,6 +65,10 @@ td{
 
 .white-text{
     color: white;
+}
+
+.search-results{
+    background-color:$grey;
 }
 
 

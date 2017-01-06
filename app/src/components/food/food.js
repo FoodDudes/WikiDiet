@@ -70,6 +70,7 @@ function controller(food, $timeout) {
         console.log('toggle called', this.viewSearch);
         if (this.viewSearch === true){
             this.viewSearch = false;
+            this.results = [];
         }
         else{
             this.viewSearch = true;
@@ -92,6 +93,7 @@ function controller(food, $timeout) {
             console.log('barcode search selected for this barcode ', this.searchBarcode);
             food.getOne(this.searchBarcode, 'name')
             .then((foods)=>{
+                this.results = foods;
                 console.log('this is what came back from the search ', foods);
             })
             .catch(this.showErrorText());
@@ -103,6 +105,7 @@ function controller(food, $timeout) {
             console.log('name search selected for this name ', this.correctSearchName);
             food.getOne(0,this.correctSearchName)
               .then((foods)=>{
+                  this.results = foods;
                   console.log('this is what came back from the search ', foods);
               })
             .catch(this.showErrorText());
