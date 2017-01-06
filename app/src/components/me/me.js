@@ -1,4 +1,5 @@
 import template from './me.html';
+import styles from './me.scss';
 
 export default {
     template,
@@ -11,6 +12,8 @@ export default {
 
 
 function controller() {
+    this.styles = styles;
+    
     this.activityLevels = [
         {desc: 'None', value: 1},
         {desc: 'Average', value: 2},
