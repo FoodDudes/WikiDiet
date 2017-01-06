@@ -13,7 +13,6 @@ function controller(authSvc, userFoodsSvc, $state, rootScope) {
 
     this.weightUnits = ['kg', 'lbs'];
     this.heightUnits = ['cm', 'inches'];
-
     this.credentials = {
         username: '',
         password: '',

@@ -1,15 +1,14 @@
 @import 'colors';
 .header{
     background-color: white;
-    height: 20vh;
     border: 1vh solid $grey;
-    border-radius: 5vh 5vh 0vh 5vh;
+    border-radius: 5vh 5vh 5vh 5vh;
 }
 
 .menu{
     float: right;
     background-color:$black;
-    height:65vh;
+    min-height:65vh;
     width: 35vw;
     border: 1vh solid $grey;
 }
@@ -18,22 +17,21 @@
     background-color:$blue;
     height: 10vh;
     border: 1vh solid $grey;
-    border-radius: 5vh 0vh 5vh 5vh;
+    border-radius: 5vh 5vh 5vh 5vh;
 }
 
 .navbar{
     background-color: $red;
-    border-radius: 0vh 0vh 0vh 5vh;
-    margin: 0vh 2vw 0vh 0vw;
+    border-radius: 5vh 5vh 5vh 5vh;
+    margin: 0vh 0vw 0vh 0vw;
     min-height: 8vh; 
-    padding-top: 3vh;
+    padding-top: 4vh;
     height: 5vh;
-    width: 96vw; 
 }
 
 .footer-text{
     text-align: center;
-    padding: 3vh 1vh;
+    padding: 1vh 1vh;
     color: white;
 }
 
@@ -44,7 +42,7 @@
 }
 
 .main-content{
-    height: 59vh;
+    min-height: 59vh;
 }
 
 .menu-title{
@@ -62,5 +60,19 @@ th{
 td{
     color: $grey;
 }
+
+
+.white-text{
+    color: white;
+}
+
+.search-results{
+    background-color:$grey;
+}
+
+// #logo {
+//     display: inline-block;
+// }
+
 
 

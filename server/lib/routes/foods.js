@@ -38,10 +38,9 @@ router
                     res.send(food);
                 } else {
                     console.log('No food item found in our db, call out', barcode);
-                    // No entry attempt to locate the info on a 3rd party
+                    // Attempt to locate the info on a 3rd party
                     rp(`${process.env.NUTRI_API}item?upc=${barcode}&appId=${process.env.APPID}&appKey=${process.env.APP_SECRET}`)
                         .then(nutrifood => {
-                            console.log(nutrifood);
                             let jsonData = (JSON.parse(nutrifood))
                             const newFoodEntry = {
                                 name: jsonData.item_name,
@@ -69,28 +68,32 @@ router
             .catch(next);
         } else {
             // search by name
-            Food.find({name}).lean()
+            console.log(name);
+            Food.find(name).lean()
             .then(food => {
                 if (food) {
+                    console.log('Food string found: ', food);
                     // found in our local db, return it
                     res.send(food);
                 } else {
                     // No entry attempt to locate the info on a 3rd party
                     rp(`${process.env.NUTRI_API}search/${name}?${resultParams}}&appId=${process.env.APPID}&appKey=${process.env.APP_SECRET}`)
                         .then(nutrifood => {
+                            let jsonData = (JSON.parse(nutrifood))
+                            console.log(jsonData);
                             const newFoodEntry = {
-                                name: nutrifood.item_name,
-                                barcode: 888888888888,
-                                servingSize: nutrifood.nf_serving_size_qty,
-                                servingUnit: nutrifood.nf_serving_size_unit,
-                                calories: nutrifood.nf_calories,
-                                totalCarbs: nutrifood.nf_total_carbohydrate,
-                                sugars: nutrifood.nf_sugars,
-                                fiber: nutrifood.nf_dietary_fiber,
-                                totalFats: nutrifood.nf_total_fat,
-                                saturatedFats: nutrifood.nf_saturated_fat,
-                                unsaturatedFats: (nutrifood.nf_polyunsaturated_fat + nutrifood.nf_monounsaturated_fat),
-                                totalProtein: nutrifood.nf_protein,
+                                name: jsonData.item_name,
+                                barcodebarcode: 888888888888,
+                                servingSize: jsonData.nf_serving_size_qty,
+                                servingUnit: jsonData.nf_serving_size_unit,
+                                calories: jsonData.nf_calories,
+                                totalCarbs: jsonData.nf_total_carbohydrate,
+                                sugars: jsonData.nf_sugars,
+                                fiber: jsonData.nf_dietary_fiber,
+                                totalFats: jsonData.nf_total_fat,
+                                saturatedFats: jsonData.nf_saturated_fat,
+                                // unsaturatedFats: (jsonData.nf_polyunsaturated_fat + nutrifood.nf_monounsaturated_fat),
+                                totalProtein: jsonData.nf_protein,
                                 vetted: true,
                                 uploadedBy: 'NutriData API'
                             };
