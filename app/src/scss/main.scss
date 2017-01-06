@@ -11,7 +11,8 @@ h1{
 }
 
 h2{
-    font-size: 5vh;
+    font-size: 4vh;
+    margin-left: 40px;
 }
 
 a {
@@ -31,9 +32,13 @@ a {
 }
 
 .food-link-box{
-    background-color: $black;
-    border: 0.1vh solid $grey;
+    // background-color: $black;
+    // border: 0.1vh solid $grey;
+    background-color: $red;
+    border: 0.5vh solid $grey;
     border-radius: 5vh;
+    margin-top: 15px;
+    padding: 15px;
 }
 
 .favorite-item-detail{
@@ -60,4 +65,19 @@ a {
 
 .search-result-button:hover{
     background-color: $red;
+
+.login-box {
+    background-color: $red;
+    border: 0.5vh solid $grey;
+    border-radius: 5vh;
+    margin-top: 15px;
+    padding: 15px;
+}
+
+.signup-box {
+    background-color: $red;
+    border: 0.5vh solid $grey;
+    border-radius: 5vh;
+    margin-top: 15px;
+    padding: 15px;
 }
