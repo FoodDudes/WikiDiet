@@ -42,7 +42,7 @@
             <h4>Original Serving Size:  {{$ctrl.selectedFavorite.servingSize}}  {{$ctrl.selectedFavorite.servingUnit}}</h4>
 
             <form>
-            <input type="range" name="rangeInput" min="0" max="10" value="{{$ctrl.selectedFavorite.servingSize}}" ng-change="$ctrl.updateServingSize(this.value)" ng-model="$ctrl.selectedFavorite.newServingSize">
+            <input type="range" name="rangeInput" min="0" max="100" value="{{$ctrl.selectedFavorite.servingSize}}" ng-change="$ctrl.updateServingSize(this.value)" ng-model="$ctrl.selectedFavorite.newServingSize">
                 <p>New serving size is {{$ctrl.selectedFavorite.newServingSize}}{{$ctrl.selectedFavorite.servingUnit}}</p>
                 <p>{{$ctrl.selectedFavorite.servings}}servings</p>
             </form>
