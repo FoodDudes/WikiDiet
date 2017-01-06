@@ -16,10 +16,8 @@
                 </div>
 
                 <h2 class="white-text" ng-if="$ctrl.notFound">No results found for barcode: "{{$ctrl.searchBarcode}}" or name: "{{$ctrl.searchName}}".</h2>
-                <!--<div>
-                <!--<label>Type of food:</label>
-                <input ng-model="$ctrl.type" placeholder="type">
-                </div>-->-->
+
+
                 <button class="viewButton" ng-click="$ctrl.search()">Search</button>
              </section>
 
@@ -90,7 +88,7 @@
             <h4>Original Serving Size:  {{$ctrl.selectedResult.servingSize}}  {{$ctrl.selectedResult.servingUnit}}</h4>
 
             <form>
-            <input type="range" name="rangeInput" min="0" max="10" value="{{$ctrl.selectedResult.servingSize}}" ng-change="$ctrl.updateServingSize(this.value)" ng-model="$ctrl.selectedResult.newServingSize">
+            <input type="range" name="rangeInput" min="0" max="100" value="{{$ctrl.selectedResult.servingSize}}" ng-change="$ctrl.updateServingSize(this.value)" ng-model="$ctrl.selectedResult.newServingSize">
                 <p>New serving size is {{$ctrl.selectedResult.newServingSize}}{{$ctrl.selectedResult.servingUnit}}</p>
                 <p>{{$ctrl.selectedResult.servings}}servings</p>
             </form>
