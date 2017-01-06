@@ -13,7 +13,9 @@ const userFoodSchema = new Schema({
     favorites: [],
     eaten: [],
     weight: Number,
+    weightUnits: String,
     height: Number,
+    heightUnits: String,
     age: Number,
     gender: String
 });

@@ -33666,9 +33666,9 @@
 	};
 	
 	
-	controller.$inject = ['userFoodsService', '$rootScope'];
+	controller.$inject = ['userFoodsService', '$rootScope', '$state'];
 	
-	function controller(userFoods, rootScope) {
+	function controller(userFoods, rootScope, $state) {
 	    var _this = this;
 	
 	    var date = new Date();
@@ -33683,7 +33683,7 @@
 	    userFoods.getByName(localStorage.getItem('userFoodUserName')).then(function (user) {
 	        console.log('user is:', user);
 	        _this.user = user[0];
-	        console.log('user is ', _this.user);
+	        console.log('after getbyname the user is ', _this.user);
 	        if (_this.user) {
 	            _this.updateMenu();
 	        }
@@ -33696,14 +33696,15 @@
 	    });
 	
 	    rootScope.$on('login', function (event, user) {
-	        console.log('Logged in, useris ', user.user);
+	        console.log('after Logged in, useris ', user.user);
 	        _this.user = user.user.userfood;
 	        _this.updateMenu();
 	    });
 	
 	    rootScope.$on('logout', function (event) {
 	        _this.user = null;
-	        console.log('Logged out, useris ', user.user);
+	        $state.go('home');
+	        // console.log('Logged out, useris ', user.user);
 	        // this.updateMenu();
 	    });
 	
@@ -33743,7 +33744,7 @@
 /* 13 */
 /***/ function(module, exports) {
 
-	module.exports = "<section>\n    <div class=\"header\">\n        <h1 class=\"header-text\">WikiDiet</h1>\n        <!--<img src=\"../../../assets/logo.png\">-->\n\n        <div class=\"navbar\">\n            <a ui-sref=\"home\">Home</a>\n            <a ui-sref=\"me\">My Health Data</a>\n            <a ui-sref=\"favorites\">Favorites</a>\n            <a ui-sref=\"food\">Food Database</a>\n            <a ui-sref=\"login\" ng-hide=\"$ctrl.user\">Login</a>\n            <a ui-sref=\"signup\" ng-hide=\"$ctrl.user\">Sign Up</a>\n            <a ui-sref=\"logout\" ng-if=\"$ctrl.user\">Logout</a>\n        </div>\n    </div>\n\n    <div class=\"menu\" ng-if=\"$ctrl.user\" >\n        <h2 class=\"menu-title\">{{$ctrl.user.username}}'s Daily Menu</h2>\n    \n        <table =\"menu-table\">\n            <tr>\n                <th>Food</th>\n                <th>Calories</th>\n                <th>Total Carbs(g)</th>\n                <th>Sugars (g)</th>\n                <th>Fiber(g)</th>\n                <th>Total Fats(g)</th>\n                <th>Saturated Fats(g)</th>\n                <th>Protein(g)</th>\n                <th>Time Eaten</th>\n            </tr>\n\n            <tr ng-repeat=\"meal in $ctrl.menu\">\n                <td>{{ meal.name }}</td>\n                <td>{{ meal.Calories }}</td>\n                <td>{{ meal.totalCarbs }}</td>\n                <td>{{ meal.sugars }}</td>\n                <td>{{ meal.fiber }}</td>\n                <td>{{ meal.totalFats }}</td>\n                <td>{{ meal.saturatedFats}}</td>\n                <td>{{ meal.totalProtein}}</td>\n                <td>{{ meal.time}}</td>\n            </tr>\n\n            <tr>\n                <th>Daily Totals</th>\n                <th>{{$ctrl.totalCalories}}</th>\n                <th>{{$ctrl.totalTotalCarbs}}</th>\n                <th>{{$ctrl.totalSugars}}</th>\n                <th>{{$ctrl.totalFiber}}</th>\n                <th>{{$ctrl.totalTotalFats}}</th>\n                <th>{{$ctrl.totalSaturatedFats}}</th>\n                <th>{{$ctrl.totalTotalProtein}}</th>\n            </tr>\n        </table>\n    </div>\n\n    <div  class=\"main-content\">\n        <ui-view></ui-view>\n    </div>\n\n    <div class =\"footer\">\n        <h3 class=\"footer-text\">&copy Food Dudes, 2017</h3>\n    </div>\n</section>";
+	module.exports = "<section>\n    <div class=\"header\">\n        <h1 class=\"header-text\">WikiDiet</h1>\n        <!--<img src=\"../../../assets/logo.png\">-->\n\n        <div class=\"navbar\">\n            <a ui-sref=\"home\">Home</a>\n            <a ui-sref=\"food\">Food Database</a>\n            <a ui-sref=\"me({name: $ctrl.user.username})\" ng-if=\"$ctrl.user\">My Health Data</a>\n            <a ui-sref=\"favorites\" ng-if=\"$ctrl.user\">Favorites</a>\n            <a ui-sref=\"login\" ng-hide=\"$ctrl.user\">Login</a>\n            <a ui-sref=\"signup\" ng-hide=\"$ctrl.user\">Sign Up</a>\n            <a ui-sref=\"logout\" ng-if=\"$ctrl.user\">Logout</a>\n        </div>\n    </div>\n\n    <div class=\"menu\" ng-if=\"$ctrl.user\" >\n        <h2 class=\"menu-title\">{{$ctrl.user.username}}'s Daily Menu</h2>\n    \n        <table =\"menu-table\">\n            <tr>\n                <th>Food</th>\n                <th>Calories</th>\n                <th>Total Carbs(g)</th>\n                <th>Sugars (g)</th>\n                <th>Fiber(g)</th>\n                <th>Total Fats(g)</th>\n                <th>Saturated Fats(g)</th>\n                <th>Protein(g)</th>\n                <th>Time Eaten</th>\n            </tr>\n\n            <tr ng-repeat=\"meal in $ctrl.menu\">\n                <td>{{ meal.name }}</td>\n                <td>{{ meal.Calories }}</td>\n                <td>{{ meal.totalCarbs }}</td>\n                <td>{{ meal.sugars }}</td>\n                <td>{{ meal.fiber }}</td>\n                <td>{{ meal.totalFats }}</td>\n                <td>{{ meal.saturatedFats}}</td>\n                <td>{{ meal.totalProtein}}</td>\n                <td>{{ meal.time}}</td>\n            </tr>\n\n            <tr>\n                <th>Daily Totals</th>\n                <th>{{$ctrl.totalCalories}}</th>\n                <th>{{$ctrl.totalTotalCarbs}}</th>\n                <th>{{$ctrl.totalSugars}}</th>\n                <th>{{$ctrl.totalFiber}}</th>\n                <th>{{$ctrl.totalTotalFats}}</th>\n                <th>{{$ctrl.totalSaturatedFats}}</th>\n                <th>{{$ctrl.totalTotalProtein}}</th>\n            </tr>\n        </table>\n    </div>\n\n    <div  class=\"main-content\">\n        <ui-view></ui-view>\n    </div>\n\n    <div class =\"footer\">\n        <h3 class=\"footer-text\">&copy Food Dudes, 2017</h3>\n    </div>\n</section>";
 
 /***/ },
 /* 14 */
@@ -34247,18 +34248,92 @@
 	
 	exports.default = {
 	    template: _me2.default,
+	    bindings: {
+	        myname: '<',
+	        userData: '<'
+	    },
 	    controller: controller
 	};
 	
 	
 	function controller() {
+	    var _this = this;
 	
-	    this.currentUser = JSON.parse(localStorage.getItem('user'));
+	    this.activityLevels = [{ desc: 'None', value: 1 }, { desc: 'Average', value: 2 }, { desc: 'Active', value: 3 }, { desc: 'Very Active', value: 4 }];
+	    this.dietaryGuide = {};
 	
-	    console.log(this.currentUser);
+	    this.$onInit = function () {
+	        _this.myData = _this.userData[0];
+	        _this.currentUser = JSON.parse(localStorage.getItem('user'));
+	        _this.myActivityLevel = _this.activityLevels[1];
+	        _this.dietaryGuide = _this.makeGuide(_this.myActivityLevel.value);
+	    };
+	
+	    this.getEaten = function () {
+	        var storedEaten = _this.myData.eaten;
+	        var displayEaten = [];
+	        if (storedEaten.length > 7) {
+	            displayEaten = storedEaten.slice(-7);
+	        } else {
+	            dispalyEaten = storedEaten.slice(0);
+	        }
+	
+	        // calories
+	        var theChartTitle = 'Nutritional Info';
+	        var theChartData = [];
+	        displayEaten.forEach(function (element, idx, array) {
+	            totCals.push(element.Calories || 0);
+	            totCarbs.push(element.Carbs || 0);
+	            totFats.push(element.totalFats || 0);
+	            totProtein.push(element.totalProtein || 0);
+	            theChartLabels.push(element.time || 'none');
+	        });
+	    };
+	
+	    this.showChart = function () {};
+	
+	    this.updateView = function (newActivityLevel) {
+	        _this.dietaryGuide = _this.makeGuide(newActivityLevel);
+	    };
 	
 	    //AJ's formula will go here to calculate a person's daily calorie needs;
+	    this.makeGuide = function (activityLevel) {
+	        var age = _this.myData.age;
+	        var height = _this.myData.height;
+	        var weight = _this.myData.weight;
+	        var gender = _this.myData.gender;
 	
+	        var bEE = 0;
+	        var metricWeight = weight * 2.2;
+	        var metricHeight = height * 2.54;
+	        var dietGuide = {};
+	
+	        // Determine the Basal Energy Expenditure
+	        if (gender === 'male') {
+	            bEE = 66.5 + 13.8 * metricWeight + 5.0 * metricHeight - 6.8 * age;
+	        } else {
+	            bEE = 655.1 + 9.6 * metricWeight + 1.9 * metricHeight - 4.7 * age;
+	        };
+	
+	        // Activity level, 0 = none, 1 = average, 3 = active, 4 = Very active
+	        if (activityLevel === 4) {
+	            bEE = bEE * 1.5;
+	        } else if (activityLevel === 3) {
+	            bEE = bEE * 1.25;
+	        } else if (activityLevel === 2) {
+	            bEE = bEE * 1.1;
+	        } else {
+	            bEE = bEE;
+	            // Get up and move
+	        };
+	
+	        dietGuide.calories = bEE.toFixed(0);
+	        dietGuide.carbTarget = (bEE * .5 / 4).toFixed(0); // 45% - 65% cals from carbs
+	        dietGuide.fatMax = (bEE * .33 / 9).toFixed(0); // 1/3 cals from fats
+	        dietGuide.proteinTarget = (metricWeight * .9).toFixed(0); // .8 - 1.0 grams per kilo
+	
+	        return dietGuide;
+	    };
 	    //also any custom nutrition informationconsole.log(this.currentUser);
 	}
 
@@ -34266,7 +34341,7 @@
 /* 33 */
 /***/ function(module, exports) {
 
-	module.exports = "<section>\n     <br>\n     <h2 ng-hide=\"$ctrl.currentUser\">Sign up or login to see your detailed health information</h2>\n\n     <div class=\"my-health-data\" ng-if=\"$ctrl.currentUser\">\n     <h2>{{$ctrl.currentUser.userName}}'s Health Data</h2>\n     <div>\n \n    <div  class=\"button-link-box\">\n        <a class=\"button-link\" ui-sref=\"me.favorites\">Manage Favorites</a>\n    </div>\n    </div>\n</section>";
+	module.exports = "<section>\n     <br>\n     <h2 ng-hide=\"$ctrl.currentUser\">Sign up or login to see your detailed health information</h2>\n\n     <div class=\"my-health-data\" ng-if=\"$ctrl.currentUser\">\n        <h2>{{$ctrl.myname}}'s Health Data</h2>\n        <span>\n            Your Basic Stats:\n            Age: {{$ctrl.myData.age}},\n            Height: {{$ctrl.myData.height}} {{$ctrl.myData.heightUnits}},\n            Weight: {{$ctrl.myData.weight}} {{$ctrl.myData.weightUnits}}</span>\n        <span>Activity Level: <select ng-model=\"$ctrl.myActivityLevel\" \n            ng-options=\"level.desc for level in $ctrl.activityLevels\"\n            ng-change=\"$ctrl.updateView($ctrl.myActivityLevel.value)\"></select></span>\n        \n        <hr>\n        <div>\n        <p>Dietary Guide (all in grams): </p>\n        <p>\n            <span>Total Calories - {{$ctrl.dietaryGuide.calories}},</span>\n            <span>Total Protein - {{$ctrl.dietaryGuide.proteinTarget}},</span>\n            <span>Total Carbohydrates - {{$ctrl.dietaryGuide.carbTarget}}, </span>\n            <span>Total Fat - {{$ctrl.dietaryGuide.fatMax}}</span>\n        </p>\n        </div>\n        <hr>\n        <div>\n            <!--<canvas id=\"myChart\" width=\"300\" height=\"300\"></canvas>-->\n        </div>\n     <div>\n \n    <div>\n        <button ng-click=\"$ctrl.showChart()\" hidden>Show Chart</a>\n    </div>\n    </div>\n</section>\n";
 
 /***/ },
 /* 34 */
@@ -34310,7 +34385,9 @@
 	        age: '',
 	        height: '',
 	        weight: '',
-	        email: ''
+	        email: '',
+	        weightUnits: '',
+	        heightUnits: ''
 	    };
 	
 	    this.$onInit = function () {
@@ -34320,16 +34397,18 @@
 	
 	    this.findMetrics = function () {
 	        if (this.weightChoice === 'kg') {
-	            this.credentials.weight = this.weightInput * 2.20462;
+	            this.credentials.weight = (this.weightInput * 2.20462).toFixed(0);
 	        } else if (this.weightChoice === 'lbs') {
 	            this.credentials.weight = this.weightInput;
 	        };
 	
 	        if (this.heightChoice === 'cm') {
-	            this.credentials.height = this.heightInput * 0.393701;
+	            this.credentials.height = (this.heightInput * 0.393701).toFixed(0);
 	        } else if (this.heightChoice === 'inches') {
 	            this.credentials.height = this.heightInput;
 	        };
+	        this.credentials.weightUnits = 'lbs';
+	        this.credentials.heightUnits = 'inches';
 	    };
 	
 	    this.authenticate = function () {
@@ -42994,8 +43073,16 @@
 	
 	    $stateProvider.state({
 	        name: 'me',
-	        url: '/me',
+	        url: '/:name',
 	        data: { public: false },
+	        resolve: {
+	            myname: ['$transition$', function (t) {
+	                return t.params().name;
+	            }],
+	            userData: ['userFoodsService', 'myname', function (userFoodsSvc, myname) {
+	                return userFoodsSvc.getByName(myname);
+	            }]
+	        },
 	        component: 'me'
 	    });
 	
