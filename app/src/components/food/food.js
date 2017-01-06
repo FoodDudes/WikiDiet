@@ -26,6 +26,10 @@ function controller(food, userFoods, $timeout, rootScope) {
 
     this.favoriteAdded = false;
 
+    this.nonFavoriteAdded = false;
+
+    this.fav = false;
+
     this.reset = () => {
         this.name = '',
         this.barcode = '',
@@ -47,7 +51,7 @@ function controller(food, userFoods, $timeout, rootScope) {
         this.lowerName = this.name.toLowerCase();
         this.correctName = this.lowerName[0].toUpperCase() + this.lowerName.substring(1);
         console.log(this.correctName);
-
+        console.log('this.fav is ', this.fav);
         food.add({
             name: this.correctName,
             barcode: this.barcode,
@@ -62,8 +66,20 @@ function controller(food, userFoods, $timeout, rootScope) {
             unsaturatedFats: this.unsaturatedFats,
             totalProtein: this.totalProtein,
             vetted: false           
-        }).then((food)=>
-            console.log('food is ', food));
+        }).then((food)=>{
+            console.log('foodAdded');
+            if (this.fav==='true'){
+                console.log('food added, fav === true');
+                this.addToFavorites(food);
+            }
+            else{
+                this.addedName=food.name;
+                this.nonFavoriteAdded = true;
+                $timeout(()=>{
+                    this.nonFavoriteAdded = false;
+                }, 2000);
+            };
+        });
         this.reset();
     };
 
@@ -185,8 +201,6 @@ function controller(food, userFoods, $timeout, rootScope) {
         }, 2000);
     };
     
-
-
 
     this.addToMenu = (item)=>{
         var date = new Date();

@@ -3,7 +3,7 @@
     <br>
     <div class="food-link-box">
 
-        <a class="food-link" ng-click="$ctrl.toggleSearch()">Search for Food Item</a>
+        <a class="food-link" ng-click="$ctrl.toggleSearch()">Search Database for Food</a>
         <div class="food-search" add="$ctrl.search" ng-show="$ctrl.viewSearch === true">
             <section ng-class="$ctrl.styles['add-class']">
               
@@ -107,15 +107,12 @@
              <td><button class="search-result-button" ng-click="$ctrl.addToFavorites(result)">Add this Food to Favorites</button></td>
 
             </div>
-
-
-
         </div>
     </div>
 
 
     <div class="food-link-box">
-        <a class="food-link" ng-click="$ctrl.toggleNew()">Add New Food Item</a>
+        <a class="food-link" ng-click="$ctrl.toggleNew()">Add New Food to Database</a>
         <div class="new-food" add="$ctrl.add" ng-show="$ctrl.viewNew === true" >
             <section ng-if="!$ctrl.user">
                 <h2 class="white-text">You must be logged in to add new food items to the database.</h2>
@@ -182,12 +179,28 @@
                     <input ng-model="$ctrl.totalProtein" placeholder="total protein">
                 </div>
     
-                <button class="viewButton" ng-click=$ctrl.addNew()>Add Food</button>
+                <div class="favorite-select-radio">
+            Add To Favorites?
+	        <input type="radio" name="fav-select" value="true" ng-model="$ctrl.fav"> <label class="white-text">Yes</label>
+            <input type="radio" name="fav-select" value="false" ng-model="$ctrl.fav"> <label class="white-text">No</label>
+		        </div>
+
+                  <div ng-if="$ctrl.nonFavoriteAdded === true" class="added-message-box">
+                    <h2 class="white-text">{{$ctrl.addedName}} was added to the database.</h2>
+                </div>
+
+
+                <div ng-if="$ctrl.favoriteAdded === true" class="added-message-box">
+                    <h2 class="white-text">{{$ctrl.addedName}} was added to the database and your favorite foods list.</h2>
+                </div>
+
+
+                <button class="viewButton" ng-click=$ctrl.addNew()>Add Food to Database</button>
             </section>
         </div>
     </div>
           
     <div class="food-link-box">
-        <a class="food-link" ui-sref="favorites">Add Food from Favorites</a>
+        <a class="food-link" ui-sref="favorites">Add Food to Menu from Favorites</a>
     </div>
 </section>
