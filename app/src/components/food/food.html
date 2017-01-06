@@ -90,7 +90,7 @@
             <h4>Original Serving Size:  {{$ctrl.selectedResult.servingSize}}  {{$ctrl.selectedResult.servingUnit}}</h4>
 
             <form>
-            <input type="range" name="rangeInput" min="0" max="1000" value="{{$ctrl.selectedResult.servingSize}}" ng-change="$ctrl.updateServingSize(this.value)" ng-model="$ctrl.selectedResult.newServingSize">
+            <input type="range" name="rangeInput" min="0" max="10" value="{{$ctrl.selectedResult.servingSize}}" ng-change="$ctrl.updateServingSize(this.value)" ng-model="$ctrl.selectedResult.newServingSize">
                 <p>New serving size is {{$ctrl.selectedResult.newServingSize}}{{$ctrl.selectedResult.servingUnit}}</p>
                 <p>{{$ctrl.selectedResult.servings}}servings</p>
             </form>

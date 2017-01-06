@@ -69,7 +69,7 @@ router
         } else {
             // search by name
             console.log(name);
-            Food.find(name).lean()
+            Food.find({name}).lean()
             .then(food => {
                 if (food) {
                     console.log('Food string found: ', food);
