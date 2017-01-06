@@ -10,15 +10,11 @@ controller.$inject=['userFoodsService', '$rootScope', '$state'];
 function controller(userFoods, rootScope, $state) {
 
     this.removeFromFavorites = (item)=>{
-        // console.log('remove from favorites clicked');
-        // console.log('this.user favorites', this.user.favorites);
-        // console.log('item is ', item);
+     
         this.newFavorites = this.user.favorites.filter((favorite)=>{
             return favorite.name !== item.name;
         });
-        // console.log(this.newFavorites);
         JSON.stringify(this.newFavorites);
-        // console.log('addind this json array ' + this.newFavorites + ' to this user '+ this.user._id);
         userFoods.addMeal(this.user._id, {'favorites': this.newFavorites}).then(this.updateUser());
     };
 
