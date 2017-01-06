@@ -3,11 +3,34 @@
      <h2 ng-hide="$ctrl.currentUser">Sign up or login to see your detailed health information</h2>
 
      <div class="my-health-data" ng-if="$ctrl.currentUser">
-     <h2>{{$ctrl.currentUser.userName}}'s Health Data</h2>
+        <h2>{{$ctrl.myname}}'s Health Data</h2>
+        <span>
+            Your Basic Stats:
+            Age: {{$ctrl.myData.age}},
+            Height: {{$ctrl.myData.height}} {{$ctrl.myData.heightUnits}},
+            Weight: {{$ctrl.myData.weight}} {{$ctrl.myData.weightUnits}}</span>
+        <span>Activity Level: <select ng-model="$ctrl.myActivityLevel" 
+            ng-options="level.desc for level in $ctrl.activityLevels"
+            ng-change="$ctrl.updateView($ctrl.myActivityLevel.value)"></select></span>
+        
+        <hr>
+        <div>
+        <p>Dietary Guide (all in grams): </p>
+        <p>
+            <span>Total Calories - {{$ctrl.dietaryGuide.calories}},</span>
+            <span>Total Protein - {{$ctrl.dietaryGuide.proteinTarget}},</span>
+            <span>Total Carbohydrates - {{$ctrl.dietaryGuide.carbTarget}}, </span>
+            <span>Total Fat - {{$ctrl.dietaryGuide.fatMax}}</span>
+        </p>
+        </div>
+        <hr>
+        <div>
+            <!--<canvas id="myChart" width="300" height="300"></canvas>-->
+        </div>
      <div>
  
-    <div  class="button-link-box">
-        <a class="button-link" ui-sref="me.favorites">Manage Favorites</a>
+    <div>
+        <button ng-click="$ctrl.showChart()" hidden>Show Chart</a>
     </div>
     </div>
 </section>

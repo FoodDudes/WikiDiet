@@ -36,9 +36,6 @@ router.post('/signup', jsonParser, (req, res, next) => {
         .then(user => {
             userObj.userId = user._id;
             userObj.userName = user.username;
-            userObj.role = user.role;
-            userObj.email = user.email;
-            // console.log('the userOjb:', userObj);
             return token.assignToken(user);
         })
         .then(token => {

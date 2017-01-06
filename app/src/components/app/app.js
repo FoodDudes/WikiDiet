@@ -6,9 +6,9 @@ export default {
     controller
 };
 
-controller.$inject=['userFoodsService', '$rootScope'];
+controller.$inject=['userFoodsService', '$rootScope', '$state'];
 
-function controller(userFoods, rootScope) {
+function controller(userFoods, rootScope, $state) {
     var date = new Date();
     var datetime = date.toLocaleString();
     var dateArr = datetime.split(', ');
@@ -21,7 +21,7 @@ function controller(userFoods, rootScope) {
     userFoods.getByName((localStorage.getItem('userFoodUserName'))).then(user => {
         console.log('user is:', user);
         this.user = user[0];
-        console.log('user is ', this.user);
+        console.log('after getbyname the user is ', this.user);
         if(this.user){
             this.updateMenu();
         }
@@ -34,14 +34,15 @@ function controller(userFoods, rootScope) {
     });
 
     rootScope.$on('login', (event, user)=>{
-        console.log('Logged in, useris ', user.user);
+        console.log('after Logged in, useris ', user.user);
         this.user = user.user.userfood;
         this.updateMenu();
     });
 
     rootScope.$on('logout', (event)=>{
         this.user = null;
-        console.log('Logged out, useris ', user.user);
+        $state.go('home');
+        // console.log('Logged out, useris ', user.user);
         // this.updateMenu();
     });
 

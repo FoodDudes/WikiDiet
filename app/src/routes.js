@@ -52,8 +52,12 @@ export default function routes($stateProvider, $urlRouterProvider) {
 
     $stateProvider.state({
         name: 'me',
-        url: '/me',
+        url: '/:name',
         data: { public: false },
+        resolve: {
+            myname: ['$transition$', t => t.params().name],
+            userData: ['userFoodsService', 'myname', (userFoodsSvc, myname) => userFoodsSvc.getByName(myname)]
+        },
 	    component: 'me' 
     });
 
