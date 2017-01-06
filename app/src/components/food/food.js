@@ -108,7 +108,7 @@ function controller(food, userFoods, $timeout, rootScope) {
         if (this.searchBarcode){
             this.notFound = false;
             console.log('barcode search selected for this barcode ', this.searchBarcode);
-            food.getOne(this.searchBarcode, 'name')
+            food.getOne(this.searchBarcode, 'none')
             .then((foods)=>{
                 this.results = foods;
                 console.log('this is what came back from the search ', foods);
@@ -135,7 +135,7 @@ function controller(food, userFoods, $timeout, rootScope) {
     this.showErrorText= ()=>{
         console.log('in error text');
         this.notFound = true;
-        $ctrl.results= false;
+        this.results= false;
         $timeout(()=>{
             this.notFound = false;
         }, 3000);
