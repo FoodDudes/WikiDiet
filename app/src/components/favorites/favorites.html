@@ -42,12 +42,12 @@
             <h4>Original Serving Size:  {{$ctrl.selectedFavorite.servingSize}}  {{$ctrl.selectedFavorite.servingUnit}}</h4>
 
             <form>
-            <input type="range" name="rangeInput" min="0" max="1000" value="{{$ctrl.selectedFavorite.servingSize}}" ng-change="$ctrl.updateServingSize(this.value)" ng-model="$ctrl.selectedFavorite.newServingSize">
+            <input type="range" name="rangeInput" min="0" max="10" value="{{$ctrl.selectedFavorite.servingSize}}" ng-change="$ctrl.updateServingSize(this.value)" ng-model="$ctrl.selectedFavorite.newServingSize">
                 <p>New serving size is {{$ctrl.selectedFavorite.newServingSize}}{{$ctrl.selectedFavorite.servingUnit}}</p>
                 <p>{{$ctrl.selectedFavorite.servings}}servings</p>
             </form>
 
-            <button ng-click="$ctrl.addThisAmount()">Add this Amount</button>
+            <button ng-click="$ctrl.addThisAmount($ctrl.selectedFavorite)">Add this Amount</button>
 
             <td><button ng-if="$ctrl.showFavorite"class="favorite-button" ng-click="$ctrl.hideFavoriteItem(favorite)">Hide Item View
             </button></td>
