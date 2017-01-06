@@ -6,19 +6,19 @@ const requiredString = {type: String, required: true};
 
 const foodSchema = new Schema({
     name: requiredString,
-    barcode: Number,
-    servingSize: Number,
-    servingUnit: String,
-    Calories: Number,
-    totalCarbs: Number,
-    sugars: Number,
-    fiber: Number,
-    totalFats: Number,
-    saturatedFats: Number,
-    unsaturatedFats: Number,
-    totalProtein: Number,
+    barcode: {type: Number, default: 0}, 
+    servingSize: {type: Number, default: 0}, 
+    servingUnit: {type: Number, default: 'g'}, 
+    Calories: {type: Number, default: 0}, 
+    totalCarbs: {type: Number, default: 0}, 
+    sugars: {type: Number, default: 0}, 
+    fiber: {type: Number, default: 0}, 
+    totalFats: {type: Number, default: 0}, 
+    saturatedFats: {type: Number, default: 0}, 
+    unsaturatedFats: {type: Number, default: 0}, 
+    totalProtein: {type: Number, default: 0}, 
     vetted: Boolean,
-    uploadedBy: String
+    uploadedBy: {type: String, default: 'user'}, 
 });
 
 module.exports = mongoose.model('Food', foodSchema);
