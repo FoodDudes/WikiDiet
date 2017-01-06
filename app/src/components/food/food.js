@@ -24,6 +24,8 @@ function controller(food, userFoods, $timeout, rootScope) {
 
     this.viewNew = false;
 
+    this.favoriteAdded = false;
+
     this.reset = () => {
         this.name = '',
         this.barcode = '',
@@ -64,7 +66,6 @@ function controller(food, userFoods, $timeout, rootScope) {
             console.log('food is ', food));
         this.reset();
     };
-
 
     this.toggleSearch = ()=>{
         console.log('toggle called', this.viewSearch);
@@ -166,6 +167,26 @@ function controller(food, userFoods, $timeout, rootScope) {
         console.log('new custom serving is ', this.customServing);
         this.addToMenu(this.customServing);
     };
+
+    this.addToFavorites = (item)=>{
+        console.log('add to favorites clicked');
+        console.log('this.user favorites', this.user.favorites);
+        console.log('item is ', item);
+        this.newFavorites = this.user.favorites;
+        this.newFavorites.push(item);
+        console.log(this.newFavorites);
+        JSON.stringify(this.newFavorites);
+        console.log('addind this json array ' + this.newFavorites + ' to this user '+ this.user._id);
+        userFoods.addMeal(this.user._id, {'favorites': this.newFavorites}).then(this.updateUser());
+        this.addedName = item.name;
+        this.favoriteAdded= true;
+        $timeout(()=>{
+            this.favoriteAdded = false;
+        }, 2000);
+    };
+    
+
+
 
     this.addToMenu = (item)=>{
         var date = new Date();
