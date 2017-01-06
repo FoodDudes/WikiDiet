@@ -56,19 +56,19 @@
 	
 	var _components2 = _interopRequireDefault(_components);
 	
-	var _services = __webpack_require__(46);
+	var _services = __webpack_require__(38);
 	
 	var _services2 = _interopRequireDefault(_services);
 	
-	var _angularUiRouter = __webpack_require__(52);
+	var _angularUiRouter = __webpack_require__(44);
 	
 	var _angularUiRouter2 = _interopRequireDefault(_angularUiRouter);
 	
-	var _routes = __webpack_require__(53);
+	var _routes = __webpack_require__(45);
 	
 	var _routes2 = _interopRequireDefault(_routes);
 	
-	__webpack_require__(54);
+	__webpack_require__(46);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -83,7 +83,7 @@
 	// exported from this import 
 	
 	
-	var apiUrl = (undefined) || 'http://localhost:3000/api';
+	var apiUrl = 'https://wikidiet.herokuapp.com/api/';
 	
 	app.value('apiUrl', apiUrl);
 	
@@ -33621,14 +33621,12 @@
 	var map = {
 		"./app/app.js": 12,
 		"./favorites/favorites.js": 16,
-		"./food-search/food-search.js": 18,
-		"./food/food.js": 22,
-		"./home/home.js": 26,
-		"./login/login.js": 30,
-		"./logout/logout.js": 34,
-		"./me/me.js": 36,
-		"./new-food/new-food.js": 38,
-		"./sign-up/sign-up.js": 42
+		"./food/food.js": 18,
+		"./home/home.js": 22,
+		"./login/login.js": 26,
+		"./logout/logout.js": 30,
+		"./me/me.js": 32,
+		"./sign-up/sign-up.js": 34
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -33668,9 +33666,9 @@
 	};
 	
 	
-	controller.$inject = ['userFoodsService', '$rootScope'];
+	controller.$inject = ['userFoodsService', '$rootScope', '$state'];
 	
-	function controller(userFoods, rootScope) {
+	function controller(userFoods, rootScope, $state) {
 	    var _this = this;
 	
 	    var date = new Date();
@@ -33685,7 +33683,7 @@
 	    userFoods.getByName(localStorage.getItem('userFoodUserName')).then(function (user) {
 	        console.log('user is:', user);
 	        _this.user = user[0];
-	        console.log('user is ', _this.user);
+	        console.log('after getbyname the user is ', _this.user);
 	        if (_this.user) {
 	            _this.updateMenu();
 	        }
@@ -33698,20 +33696,22 @@
 	    });
 	
 	    rootScope.$on('login', function (event, user) {
-	        console.log('Logged in, useris ', user.user);
+	        console.log('after Logged in, useris ', user.user);
 	        _this.user = user.user.userfood;
 	        _this.updateMenu();
 	    });
 	
 	    rootScope.$on('logout', function (event) {
 	        _this.user = null;
-	        console.log('Logged out, useris ', user.user);
+	        $state.go('home');
+	        // console.log('Logged out, useris ', user.user);
 	        // this.updateMenu();
 	    });
 	
 	    this.updateMenu = function () {
 	        //get this user
 	        _this.totalCalories = 0;
+	        _this.totalTotalCarbs = 0;
 	        _this.totalSugars = 0;
 	        _this.totalFiber = 0;
 	        _this.totalTotalFats = 0;
@@ -33728,6 +33728,7 @@
 	
 	        _this.menu.forEach(function (food) {
 	            _this.totalCalories += parseInt(food.Calories);
+	            _this.totalTotalCarbs += parseInt(food.totalCarbs);
 	            _this.totalSugars += parseInt(food.sugars);
 	            _this.totalFiber += parseInt(food.fiber);
 	            _this.totalTotalFats += parseInt(food.totalFats);
@@ -33743,7 +33744,7 @@
 /* 13 */
 /***/ function(module, exports) {
 
-	module.exports = "<section>\n    <div class=\"header\">\n        <h1 class=\"header-text\">WikiDiet</h1>\n        <div class=\"navbar\">\n            <a ui-sref=\"home\">Home</a>\n            <a ui-sref=\"me\">My Health Data</a>\n            <a ui-sref=\"favorites\">Favorites</a>\n            <a ui-sref=\"food\">Food Database</a>\n            <a ui-sref=\"login\" ng-hide=\"$ctrl.user\">Login</a>\n            <a ui-sref=\"signup\" ng-hide=\"$ctrl.user\">Sign Up</a>\n            <a ui-sref=\"logout\" ng-if=\"$ctrl.user\">Logout</a>\n        </div>\n    </div>\n\n    <div class=\"menu\" ng-if=\"$ctrl.user\" >\n        <h2 class=\"menu-title\">{{$ctrl.user.username}}'s Daily Menu</h2>\n    \n        <table =\"menu-table\">\n            <tr>\n                <th>Food</th>\n                <th>Calories</th>\n                <th>Sugars (g)</th>\n                <th>Fiber(g)</th>\n                <th>Total Fats(g)</th>\n                <th>Saturated Fats(g)</th>\n                <th>Protein(g)</th>\n                <th>Time Eaten</th>\n            </tr>\n\n            <tr ng-repeat=\"meal in $ctrl.menu\">\n                <td>{{ meal.name }}</td>\n                <td>{{ meal.Calories }}</td>\n                <td>{{ meal.sugars }}</td>\n                <td>{{ meal.fiber }}</td>\n                <td>{{ meal.totalFats }}</td>\n                <td>{{ meal.saturatedFats}}</td>\n                <td>{{ meal.totalProtein}}</td>\n                <td>{{ meal.time}}</td>\n            </tr>\n\n            <tr>\n                <th>Daily Totals</th>\n                <th>{{$ctrl.totalCalories}}</th>\n                <th>{{$ctrl.totalSugars}}</th>\n                <th>{{$ctrl.totalFiber}}</th>\n                <th>{{$ctrl.totalTotalFats}}</th>\n                <th>{{$ctrl.totalSaturatedFats}}</th>\n                <th>{{$ctrl.totalTotalProtein}}</th>\n            </tr>\n        </table>\n    </div>\n\n    <div  class=\"main-content\">\n        <ui-view></ui-view>\n    </div>\n\n    <div class =\"footer\">\n        <h3 class=\"footer-text\">&copy Food Dudes, 2017</h3>\n    </div>\n</section>";
+	module.exports = "<section>\n    <div class=\"header\">\n        <h1 class=\"header-text\">WikiDiet</h1>\n        <!--<img src=\"../../../assets/logo.png\">-->\n\n        <div class=\"navbar\">\n            <a ui-sref=\"home\">Home</a>\n            <a ui-sref=\"food\">Food Database</a>\n            <a ui-sref=\"me({name: $ctrl.user.username})\" ng-if=\"$ctrl.user\">My Health Data</a>\n            <a ui-sref=\"favorites\" ng-if=\"$ctrl.user\">Favorites</a>\n            <a ui-sref=\"login\" ng-hide=\"$ctrl.user\">Login</a>\n            <a ui-sref=\"signup\" ng-hide=\"$ctrl.user\">Sign Up</a>\n            <a ui-sref=\"logout\" ng-if=\"$ctrl.user\">Logout</a>\n        </div>\n    </div>\n\n    <div class=\"menu\" ng-if=\"$ctrl.user\" >\n        <h2 class=\"menu-title\">{{$ctrl.user.username}}'s Daily Menu</h2>\n    \n        <table =\"menu-table\">\n            <tr>\n                <th>Food</th>\n                <th>Calories</th>\n                <th>Total Carbs(g)</th>\n                <th>Sugars (g)</th>\n                <th>Fiber(g)</th>\n                <th>Total Fats(g)</th>\n                <th>Saturated Fats(g)</th>\n                <th>Protein(g)</th>\n                <th>Time Eaten</th>\n            </tr>\n\n            <tr ng-repeat=\"meal in $ctrl.menu\">\n                <td>{{ meal.name }}</td>\n                <td>{{ meal.Calories }}</td>\n                <td>{{ meal.totalCarbs }}</td>\n                <td>{{ meal.sugars }}</td>\n                <td>{{ meal.fiber }}</td>\n                <td>{{ meal.totalFats }}</td>\n                <td>{{ meal.saturatedFats}}</td>\n                <td>{{ meal.totalProtein}}</td>\n                <td>{{ meal.time}}</td>\n            </tr>\n\n            <tr>\n                <th>Daily Totals</th>\n                <th>{{$ctrl.totalCalories}}</th>\n                <th>{{$ctrl.totalTotalCarbs}}</th>\n                <th>{{$ctrl.totalSugars}}</th>\n                <th>{{$ctrl.totalFiber}}</th>\n                <th>{{$ctrl.totalTotalFats}}</th>\n                <th>{{$ctrl.totalSaturatedFats}}</th>\n                <th>{{$ctrl.totalTotalProtein}}</th>\n            </tr>\n        </table>\n    </div>\n\n    <div  class=\"main-content\">\n        <ui-view></ui-view>\n    </div>\n\n    <div class =\"footer\">\n        <h3 class=\"footer-text\">&copy Food Dudes, 2017</h3>\n    </div>\n</section>";
 
 /***/ },
 /* 14 */
@@ -33790,10 +33791,6 @@
 	        JSON.stringify(_this.newFavorites);
 	        console.log('addind this json array ' + _this.newFavorites + ' to this user ' + _this.user._id);
 	        userFoods.addMeal(_this.user._id, { 'favorites': _this.newFavorites }).then(_this.updateUser());
-	    };
-	
-	    this.updateServingSize = function (value) {
-	        console.log(value);
 	    };
 	
 	    this.viewFavoriteItem = function (item) {
@@ -33886,44 +33883,199 @@
 	    value: true
 	});
 	
-	var _foodSearch = __webpack_require__(19);
+	var _food = __webpack_require__(19);
 	
-	var _foodSearch2 = _interopRequireDefault(_foodSearch);
+	var _food2 = _interopRequireDefault(_food);
 	
-	var _foodSearch3 = __webpack_require__(20);
+	var _food3 = __webpack_require__(20);
 	
-	var _foodSearch4 = _interopRequireDefault(_foodSearch3);
+	var _food4 = _interopRequireDefault(_food3);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.default = {
-	    template: _foodSearch2.default,
+	    template: _food2.default,
 	    controller: controller
 	};
 	
-	// controller.$inject = ['foodService'];
 	
-	function controller(food) {
+	controller.$inject = ['foodService', 'userFoodsService', '$timeout', '$rootScope'];
+	
+	function controller(food, userFoods, $timeout, rootScope) {
 	    var _this = this;
 	
-	    this.styles = _foodSearch4.default;
+	    this.styles = _food4.default;
 	
-	    food.get().then(function (food) {
-	        _this.food = food;
-	    });
+	    this.user = localStorage.getItem('user');
 	
-	    this.add = function (food) {
-	        food.add(food).then(function (saved) {
-	            _this.food.push(saved);
+	    this.units = ['g', 'oz', 'mL', 'cL', 'L', 'package'];
+	
+	    this.servingUnit = 'g';
+	
+	    this.notFound = false;
+	
+	    this.viewSearch = false;
+	
+	    this.viewNew = false;
+	
+	    this.reset = function () {
+	        _this.name = '', _this.barcode = '', _this.servingSize = '', _this.servingUnit = 'g', _this.Calories = '', _this.totalCarbs = '', _this.sugars = '', _this.fiber = '', _this.totalFats = '', _this.unsaturatedFats = '', _this.saturatedFats = '', _this.totalProtein = '';
+	    };
+	
+	    this.reset();
+	
+	    this.addNew = function () {
+	        _this.lowerName = _this.name.toLowerCase();
+	        _this.correctName = _this.lowerName[0].toUpperCase() + _this.lowerName.substring(1);
+	        console.log(_this.correctName);
+	
+	        food.add({
+	            name: _this.correctName,
+	            barcode: _this.barcode,
+	            servingSize: _this.servingSize,
+	            servingUnit: _this.servingUnit,
+	            Calories: _this.Calories,
+	            totalCarbs: _this.totalCarbs,
+	            sugars: _this.sugars,
+	            fiber: _this.fiber,
+	            totalFats: _this.totalFats,
+	            saturatedFats: _this.saturatedFats,
+	            unsaturatedFats: _this.unsaturatedFats,
+	            totalProtein: _this.totalProtein,
+	            vetted: false
+	        }).then(function (food) {
+	            return console.log('food is ', food);
+	        });
+	        _this.reset();
+	    };
+	
+	    this.toggleSearch = function () {
+	        console.log('toggle called', _this.viewSearch);
+	        if (_this.viewSearch === true) {
+	            _this.viewSearch = false;
+	            _this.results = [];
+	        } else {
+	            _this.viewSearch = true;
+	        }
+	    };
+	
+	    this.toggleNew = function () {
+	        console.log('toggle called', _this.viewNew);
+	        if (_this.viewNew === true) {
+	            _this.viewNew = false;
+	        } else {
+	            _this.viewNew = true;
+	        }
+	    };
+	
+	    this.search = function () {
+	        if (_this.searchBarcode) {
+	            _this.notFound = false;
+	            console.log('barcode search selected for this barcode ', _this.searchBarcode);
+	            food.getOne(_this.searchBarcode, 'name').then(function (foods) {
+	                _this.results = foods;
+	                console.log('this is what came back from the search ', foods);
+	            }).catch(_this.showErrorText());
+	        } else {
+	            _this.lowerSearchName = _this.searchName.toLowerCase();
+	            _this.correctSearchName = _this.lowerSearchName[0].toUpperCase() + _this.lowerSearchName.substring(1);
+	            console.log('search clicked.  Searching for ', _this.correctSearchName);
+	            console.log('name search selected for this name ', _this.correctSearchName);
+	            food.getOne(0, _this.correctSearchName).then(function (foods) {
+	                _this.results = foods;
+	                console.log('this is what came back from the search ', foods);
+	            }).catch(_this.showErrorText());
+	        }
+	    };
+	
+	    this.showErrorText = function () {
+	        console.log('in error text');
+	        _this.notFound = true;
+	        $timeout(function () {
+	            _this.notFound = false;
+	        }, 3000);
+	    };
+	
+	    this.viewResultItem = function (item) {
+	        _this.showResult = true;
+	        _this.selectedResult = item;
+	        console.log(_this.selectedResult);
+	        _this.selectedResult.newServingSize = _this.selectedResult.servingSize;
+	        _this.selectedResult.servings = (_this.selectedResult.newServingSize / _this.selectedResult.servingSize).toFixed(2);
+	    };
+	
+	    this.hideResultItem = function (item) {
+	        _this.showResult = false;
+	        _this.selectedResult = {};
+	    };
+	
+	    this.updateServingSize = function () {
+	        _this.selectedResult.servings = (_this.selectedResult.newServingSize / _this.selectedResult.servingSize).toFixed(2);
+	        _this.newCalories = _this.selectedResult.Calories * _this.selectedResult.servings;
+	        //repeat this for all other factors and show on the display;
+	        _this.selectedResult.newCalories = (_this.selectedResult.Calories * _this.selectedResult.servings).toFixed(0);
+	        _this.selectedResult.newTotalCarbs = (_this.selectedResult.totalCarbs * _this.selectedResult.servings).toFixed(1);
+	        _this.selectedResult.newSugars = (_this.selectedResult.sugars * _this.selectedResult.servings).toFixed(1);
+	        _this.selectedResult.newFiber = (_this.selectedResult.fiber * _this.selectedResult.servings).toFixed(1);
+	        _this.selectedResult.newTotalFats = (_this.selectedResult.totalFats * _this.selectedResult.servings).toFixed(1);
+	        _this.selectedResult.newUnsaturatedFats = (_this.selectedResult.unsaturatedFats * _this.selectedResult.servings).toFixed(1);
+	        _this.selectedResult.newSaturatedFats = (_this.selectedResult.saturatedFats * _this.selectedResult.servings).toFixed(1);
+	        _this.selectedResult.newTotalProtein = (_this.selectedResult.totalProtein * _this.selectedResult.servings).toFixed(1);
+	    };
+	
+	    this.addThisAmount = function () {
+	        console.log('add this amount clicked, new servings are ', _this.selectedResult.servings);
+	        console.log('new selected Result is ', _this.selectedResult);
+	        _this.customServing = _this.selectedResult;
+	        _this.customServing.Calories = _this.selectedResult.newCalories;
+	        _this.customServing.totalCarbs = _this.selectedResult.newTotalCarbs;
+	        _this.customServing.sugars = _this.selectedResult.newSugars;
+	        _this.customServing.fiber = _this.selectedResult.newFiber;
+	        _this.customServing.totalFats = _this.selectedResult.newTotalFats;
+	        _this.customServing.saturatedFats = _this.selectedResult.newSaturatedFats;
+	        _this.customServing.unsaturatedFats = _this.selectedResult.newUnsaturatedFats;
+	        _this.customServing.totalProtein = _this.selectedResult.newTotalProtein;
+	        _this.customServing.servingSize = _this.selectedResult.newServingSize;
+	        console.log('new custom serving is ', _this.customServing);
+	        _this.addToMenu(_this.customServing);
+	    };
+	
+	    this.addToMenu = function (item) {
+	        var date = new Date();
+	        var datetime = date.toLocaleString();
+	        var dateArr = datetime.split(', ');
+	        item.time = dateArr[1];
+	        item.day = dateArr[0];
+	        delete item.$$hashKey;
+	        console.log('item is ', item);
+	        _this.newEaten = _this.user.eaten;
+	        _this.newEaten.push(item);
+	        console.log('newEaten is', _this.newEaten);
+	        JSON.stringify(_this.newEaten);
+	        console.log('addind this json array ' + _this.newEaten + ' to this user ' + _this.user._id);
+	        userFoods.addMeal(_this.user._id, { 'eaten': _this.newEaten }).then(function (user) {
+	            return rootScope.$emit('foodAdded', { user: user });
 	        });
 	    };
+	
+	    this.updateUser = function () {
+	        userFoods.getByName(localStorage.getItem('userFoodUserName')).then(function (user) {
+	            console.log(' in get, username', localStorage.getItem('userFoodUserName'));
+	            _this.user = user[0];
+	            console.log('user is ', _this.user);
+	        });
+	    };
+	
+	    if (localStorage.getItem('user')) {
+	        this.updateUser();
+	    }
 	}
 
 /***/ },
 /* 19 */
 /***/ function(module, exports) {
 
-	module.exports = "<section ng-class=\"$ctrl.styles['add-class']\">\n  <div>\n\n    <div>\n      <label>Name of food:</label>\n      <input ng-model=\"$ctrl.name\" placeholder=\"food search\">\n    </div>\n\n    <!--<div>\n      <!--<label>Type of food:</label>\n      <input ng-model=\"$ctrl.type\" placeholder=\"type\">\n    </div>-->-->\n\n    <button class=\"viewButton\" ng-click=$ctrl.search()>Search</button>\n\n  </div>\n\n</section>";
+	module.exports = "<section>\n    <br>\n    <br>\n    <div class=\"food-link-box\">\n\n        <a class=\"food-link\" ng-click=\"$ctrl.toggleSearch()\">Search for Food Item</a>\n        <div class=\"food-search\" add=\"$ctrl.search\" ng-show=\"$ctrl.viewSearch === true\">\n            <section ng-class=\"$ctrl.styles['add-class']\">\n              \n                <div>\n                <label>Barcode (UPC):</label>\n                <input ng-model=\"$ctrl.searchBarcode\" placeholder=\"food UPC search\">\n                <label>Name of food:</label>\n                <input ng-model=\"$ctrl.searchName\" placeholder=\"food name search\">\n                </div>\n\n                <h2 class=\"white-text\" ng-if=\"$ctrl.notFound\">No results found for barcode: \"{{$ctrl.searchBarcode}}\" or name: \"{{$ctrl.searchName}}\".</h2>\n                <!--<div>\n                <!--<label>Type of food:</label>\n                <input ng-model=\"$ctrl.type\" placeholder=\"type\">\n                </div>-->-->\n                <button class=\"viewButton\" ng-click=\"$ctrl.search()\">Search</button>\n             </section>\n\n\n           \n            <table ng-if=\"$ctrl.results\" ng-repeat=\"result in $ctrl.results\">\n                <br>\n                <tr>\n                    <th>Food Name</th>\n                    <th></th>\n                    <th></th>\n                </tr>\n\n                <tr class=\"favorites-list-item\" ng-repeat=\"result in $ctrl.results\"> \n                <td ng-if=\"$ctrl.results\">{{result.name}}</td>\n                    <td><button class=\"search-button\" ng-if=\"!$ctrl.showResult\" ng-click=\"$ctrl.viewResultItem(result)\">View Item\n                    </button></td>\n                    <td><button class=\"search-button\" ng-if=\"$ctrl.showResult\" ng-click=\"$ctrl.hideResultItem(result)\">Hide Item\n                    </button></td>\n                </tr>\n            </table>\n        \n\n\n\n\n\n\n\n\n\n\n             <div class=\"search-results\" ng-if=\"$ctrl.showResult\" ng-repeat=\"result in $ctrl.results\">\n             \n            <h2>{{$ctrl.selectedResult.name}}</h3>\n            <table =\"search-detail-table\">\n                <tr>\n                    <th>Calories</th>  <td class=\"result-item-value\">{{$ctrl.selectedResult.Calories}}</td>\n                    <th>New Calories</th><td class=\"result-item-value\">{{$ctrl.selectedResult.newCalories}}</td>\n                </tr>\n                <tr>\n                    <th>Sugars (g)</th><td class=\"result-item-value\">{{$ctrl.selectedResult.sugars}}</td>\n                    <th>New Sugars(g)</th><td class=\"result-item-value\">{{$ctrl.selectedResult.newSugars}}</td>\n                </tr>\n                <tr>\n            \n                    <th>Fiber(g)</th>  <td class=\"result-item-value\">{{$ctrl.selectedResult.fiber }}</td>\n                    <th>New Fiber(g)</th><td class=\"result-item-value\">{{$ctrl.selectedResult.newFiber}}</td>\n                </tr>\n                <tr>\n                    <th>Total Fats(g)</th> <td class=\"result-item-value\">{{$ctrl.selectedResult.totalFats}}</td>\n                    <th>New Total Fats(g)</th><td class=\"result-item-value\">{{$ctrl.selectedResult.newTotalFats}}</td>\n                </tr>\n                <tr>\n                    <th>Saturated Fats(g)</th>\n                    <td class=\"result-item-value\">{{$ctrl.selectedResult.saturatedFats}}</td>\n                    <th>New Saturated Fats (g)</th><td class=\"result-item-value\">{{$ctrl.selectedResult.newSaturatedFats}}</td>\n                </tr>\n                <tr>\n                    <th>Protein(g)</th> <td class=\"result-item-value\">{{$ctrl.selectedResult.totalProtein}}</td>\n                    <th>New Protein(g)</th><td class=\"result-item-value\">{{$ctrl.selectedResult.newTotalProtein}}</td>\n                </tr>\n                \n                \n                <!--add rangebar to adjust serving size-->\n            </table>\n\n            <h4>Original Serving Size:  {{$ctrl.selectedResult.servingSize}}  {{$ctrl.selectedResult.servingUnit}}</h4>\n\n            <form>\n            <input type=\"range\" name=\"rangeInput\" min=\"0\" max=\"1000\" value=\"{{$ctrl.selectedResult.servingSize}}\" ng-change=\"$ctrl.updateServingSize(this.value)\" ng-model=\"$ctrl.selectedResult.newServingSize\">\n                <p>New serving size is {{$ctrl.selectedResult.newServingSize}}{{$ctrl.selectedResult.servingUnit}}</p>\n                <p>{{$ctrl.selectedResult.servings}}servings</p>\n            </form>\n\n            <tr class=\"button-row\">\n\n            <td><button class=\"search-result-button\" ng-click=\"$ctrl.addToMenu(result)\">Add One Serving</button></td>\n\n            <td><button class=\"search-result-button\" ng-click=\"$ctrl.addThisAmount(result)\">Add this Amount</button></td>\n\n             <td><button class=\"search-result-button\" ng-click=\"$ctrl.addtofavorites(result)\">Add this Food to Favorites</button></td>\n\n            </div>\n\n\n\n        </div>\n    </div>\n\n\n    <div class=\"food-link-box\">\n        <a class=\"food-link\" ng-click=\"$ctrl.toggleNew()\">Add New Food Item</a>\n        <div class=\"new-food\" add=\"$ctrl.add\" ng-show=\"$ctrl.viewNew === true\" >\n            <section ng-if=\"!$ctrl.user\">\n                <h2 class=\"white-text\">You must be logged in to add new food items to the database.</h2>\n            </section>\n            <section ng-class=\"$ctrl.styles['add-class']\" ng-if=\"$ctrl.user\">\n                <div>\n                    <label>Name of Food:</label>\n                    <input ng-model=\"$ctrl.name\" placeholder=\"name\">\n                </div>\n\n                <div>\n                    <label>Barcode:</label>\n                    <input ng-model=\"$ctrl.barcode\" placeholder=\"barcode\">\n                </div>\n\n                <div>\n                    <label>Serving Unit:</label>\n                    <select ng-model=\"$ctrl.servingUnit\" ng-options=\"x for x in $ctrl.units\" placeholder=\"serving unit\">{{x}}</select>\n\n                </div>\n\n                    <div>\n                    <label>Serving Size:</label>\n                    <input ng-model=\"$ctrl.servingSize\" placeholder=\"serving size\">\n                </div>\n\n                <div>\n                    <label>Calories (g):</label>\n                    <input ng-model=\"$ctrl.Calories\" placeholder=\"Calories\">\n                </div>\n\n                <div>\n                    <label>Total Carbs (g):</label>\n                    <input ng-model=\"$ctrl.totalCarbs\" placeholder=\"total carbs\">\n                </div>\n\n                <div>\n                    <label>Sugars (g):</label>\n                    <input ng-model=\"$ctrl.sugars\" placeholder=\"sugars\">\n                </div>\n\n                <div>\n                    <label>Fiber (g):</label>\n                    <input ng-model=\"$ctrl.fiber\" placeholder=\"fiber\">\n                </div>\n\n                <div>\n                    <label>Total Fats (g):</label>\n                    <input ng-model=\"$ctrl.totalFats\" placeholder=\"total fats\">\n                </div>\n                \n                <div>\n                    <label>Unsaturated Fats (g):</label>\n                    <input ng-model=\"$ctrl.unsaturatedFats\" placeholder=\"unsaturated fats\">\n                </div>\n\n                <div>\n                    <label>Saturated Fats (g):</label>\n                    <input ng-model=\"$ctrl.saturatedFats\" placeholder=\"saturated fats\">\n                </div>\n\n                <div>\n                    <label>Total Protein (g):</label>\n                    <input ng-model=\"$ctrl.totalProtein\" placeholder=\"total protein\">\n                </div>\n    \n                <button class=\"viewButton\" ng-click=$ctrl.addNew()>Add Food</button>\n            </section>\n        </div>\n    </div>\n          \n    <div class=\"food-link-box\">\n        <a class=\"food-link\" ui-sref=\"favorites\">Add Food from Favorites</a>\n    </div>\n</section>";
 
 /***/ },
 /* 20 */
@@ -33942,59 +34094,30 @@
 	    value: true
 	});
 	
-	var _food = __webpack_require__(23);
+	var _home = __webpack_require__(23);
 	
-	var _food2 = _interopRequireDefault(_food);
+	var _home2 = _interopRequireDefault(_home);
 	
-	var _food3 = __webpack_require__(24);
-	
-	var _food4 = _interopRequireDefault(_food3);
+	__webpack_require__(24);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.default = {
-	    template: _food2.default,
+	    template: _home2.default,
 	    controller: controller
 	};
 	
 	
-	controller.$inject = ['foodService'];
+	function controller() {
 	
-	function controller(food) {
-	    var _this = this;
-	
-	    this.styles = _food4.default;
-	
-	    food.getAll().then(function (food) {
-	        _this.food = food;
-	    });
-	
-	    this.add = function (food) {
-	        food.add(food).then(function (saved) {
-	            _this.food.push(saved);
-	        });
-	    };
-	
-	    this.new = function () {
-	        _this.viewNew = true;
-	        _this.viewSearch = false;
-	    };
-	
-	    this.search = function () {
-	        _this.viewSearch = true;
-	        _this.viewNew = false;
-	    };
+	    this.currentUser = JSON.parse(localStorage.getItem('user'));
 	}
-	
-	controller.$inject = ['$state'];
-	
-	function controller($state) {}
 
 /***/ },
 /* 23 */
 /***/ function(module, exports) {
 
-	module.exports = "<section>\n    <div class=\"food-link-box\">\n\n        <a class=\"food-link\" ng-click=\"$ctrl.search\" ui-sref=\"food.search\">Search for Food Item</a>\n        <food-search add=\"$ctrl.search\" ng-show=\"$ctrl.viewSearch === true\"></food-search>\n    </div>\n\n    <div class=\"food-link-box\">\n        <a class=\"food-link\" ui-sref=\"food.add\">Enter New Food Item</a>\n        <new-food add=\"$ctrl.add\" ng-show=\"$ctrl.viewNew === true\"><new-food>\n          \n<!--         <a class=\"food-link\" ui-sref=\"search\">Search for Food Item</a>\n    </div>\n\n    <div class=\"food-link-box\">\n        <a class=\"food-link\" ui-sref=\"enter\">Enter Food Item</a> -->\n\n<!--     </div> -->\n\n    <div class=\"food-link-box\">\n        <a class=\"food-link\" ui-sref=\"favorites\">Add Food from Favorites</a>\n    </div>\n</section>";
+	module.exports = " <section>\n   <h1>WikiDiet.com:</h1>\n   <h2 class=\"subtitle\">the comprehensive, publicly-sourced nutrition database and health tracker.</h2>\n   <br>\n   <h1 ng-show=\"$ctrl.currentUser\">Welcome, {{$ctrl.currentUser.userName}}!</h1>\n  </section>\n";
 
 /***/ },
 /* 24 */
@@ -34013,53 +34136,11 @@
 	    value: true
 	});
 	
-	var _home = __webpack_require__(27);
-	
-	var _home2 = _interopRequireDefault(_home);
-	
-	__webpack_require__(28);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	exports.default = {
-	    template: _home2.default,
-	    controller: controller
-	};
-	
-	
-	function controller() {
-	
-	    this.currentUser = JSON.parse(localStorage.getItem('user'));
-	}
-
-/***/ },
-/* 27 */
-/***/ function(module, exports) {
-
-	module.exports = " <section>\n   <h1>WikiDiet.com:</h1>\n   <h2 class=\"subtitle\">the comprehensive, publicly-sourced nutrition database and health tracker.</h2>\n   <br>\n   <h1 ng-show=\"$ctrl.currentUser\">Welcome, {{$ctrl.currentUser.userName}}!</h1>\n  </section>\n";
-
-/***/ },
-/* 28 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 29 */,
-/* 30 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	
-	var _login = __webpack_require__(31);
+	var _login = __webpack_require__(27);
 	
 	var _login2 = _interopRequireDefault(_login);
 	
-	var _login3 = __webpack_require__(32);
+	var _login3 = __webpack_require__(28);
 	
 	var _login4 = _interopRequireDefault(_login3);
 	
@@ -34097,20 +34178,20 @@
 	};
 
 /***/ },
-/* 31 */
+/* 27 */
 /***/ function(module, exports) {
 
-	module.exports = "<section>\n    <h2>Login to access your account</h2>\n\t<form name=\"auth\" ng-submit=\"$ctrl.authenticate()\">\n\t\t<div>\n\t\t\t<label id=\"username\">\n\t\t\t\tUsername: <input required ng-model=\"$ctrl.credentials.username\">\n\t\t\t</label>\n\t\t</div>\n\n\t\t<div>\n\t\t\t<label id=\"password\">\n\t\t\t\tPassword: <input required type=\"password\" ng-model=\"$ctrl.credentials.password\">\n\t\t\t</label>\n\t\t</div>\n\n\t\t<button type=\"submit\">Sign In</button>\n\t</form>\n\t<div class=\"error\" ng-if='$ctrl.error'>{{$ctrl.error.message}}</div>\n</section>";
+	module.exports = "<section class=\"login-box\">\n    <h2 id=\"login-header\">Login to access your account</h2>\n\t<form name=\"auth\" ng-submit=\"$ctrl.authenticate()\">\n\t\t<div>\n\t\t\t<label id=\"username\">\n\t\t\t\tUsername: <input required ng-model=\"$ctrl.credentials.username\">\n\t\t\t</label>\n\t\t</div>\n\n\t\t<div>\n\t\t\t<label id=\"password\">\n\t\t\t\tPassword: <input required type=\"password\" ng-model=\"$ctrl.credentials.password\">\n\t\t\t</label>\n\t\t</div>\n\n\t\t<button type=\"submit\">Sign In</button>\n\t</form>\n\t<div class=\"error\" ng-if='$ctrl.error'>{{$ctrl.error.message}}</div>\n</section>";
 
 /***/ },
-/* 32 */
+/* 28 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 33 */,
-/* 34 */
+/* 29 */,
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -34119,7 +34200,7 @@
 	    value: true
 	});
 	
-	var _logout = __webpack_require__(35);
+	var _logout = __webpack_require__(31);
 	
 	var _logout2 = _interopRequireDefault(_logout);
 	
@@ -34144,13 +34225,13 @@
 	}
 
 /***/ },
-/* 35 */
+/* 31 */
 /***/ function(module, exports) {
 
 	module.exports = "<section>\n    <br>\n    <h2>You've been logged out of your account</h2>\n   \n\t<!--<form name=\"auth\" ng-submit=\"$ctrl.authenticate()\">\n\t\t<div>\n\t\t\t<label id=\"username\">\n\t\t\t\tUsername: <input required ng-model=\"$ctrl.credentials.username\">\n\t\t\t</label>\n\t\t</div>\n\n\t\t<div>\n\t\t\t<label id=\"password\">\n\t\t\t\tPassword: <input required type=\"password\" ng-model=\"$ctrl.credentials.password\">\n\t\t\t</label>\n\t\t</div>\n\n\t\t<button type=\"submit\">Sign In</button>\n\t</form>\n\t<div class=\"error\" ng-if='$ctrl.error'>{{$ctrl.error.message}}</div>-->\n</section>";
 
 /***/ },
-/* 36 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -34159,7 +34240,7 @@
 	    value: true
 	});
 	
-	var _me = __webpack_require__(37);
+	var _me = __webpack_require__(33);
 	
 	var _me2 = _interopRequireDefault(_me);
 	
@@ -34167,106 +34248,103 @@
 	
 	exports.default = {
 	    template: _me2.default,
-	    controller: controller
-	};
-	
-	
-	function controller() {
-	
-	    this.currentUser = JSON.parse(localStorage.getItem('user'));
-	
-	    console.log(this.currentUser);
-	
-	    //AJ's formula will go here to calculate a person's daily calorie needs;
-	
-	    //also any custom nutrition informationconsole.log(this.currentUser);
-	}
-
-/***/ },
-/* 37 */
-/***/ function(module, exports) {
-
-	module.exports = "<section>\n     <br>\n     <h2 ng-hide=\"$ctrl.currentUser\">Sign up or login to see your detailed health information</h2>\n\n     <div class=\"my-health-data\" ng-if=\"$ctrl.currentUser\">\n     <h2>{{$ctrl.currentUser.userName}}'s Health Data</h2>\n     <div>\n \n    <div  class=\"button-link-box\">\n        <a class=\"button-link\" ui-sref=\"me.favorites\">Manage Favorites</a>\n    </div>\n    </div>\n</section>";
-
-/***/ },
-/* 38 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	
-	var _newFood = __webpack_require__(39);
-	
-	var _newFood2 = _interopRequireDefault(_newFood);
-	
-	var _newFood3 = __webpack_require__(40);
-	
-	var _newFood4 = _interopRequireDefault(_newFood3);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	exports.default = {
-	    template: _newFood2.default,
 	    bindings: {
-	        add: '<'
+	        myname: '<',
+	        userData: '<'
 	    },
 	    controller: controller
 	};
 	
-	// controller.$inject = ['foodService'];
 	
 	function controller() {
 	    var _this = this;
 	
-	    this.styles = _newFood4.default;
+	    this.activityLevels = [{ desc: 'None', value: 1 }, { desc: 'Average', value: 2 }, { desc: 'Active', value: 3 }, { desc: 'Very Active', value: 4 }];
+	    this.dietaryGuide = {};
 	
-	    this.reset = function () {
-	        _this.name = '', _this.barcode = '', _this.servingSize = '', _this.calories = '', _this.sugars = '', _this.fiber = '', _this.totalFats = '', _this.saturatedFats = '', _this.totalProtein = '', _this.vetted = '';
+	    this.$onInit = function () {
+	        _this.myData = _this.userData[0];
+	        _this.currentUser = JSON.parse(localStorage.getItem('user'));
+	        _this.myActivityLevel = _this.activityLevels[1];
+	        _this.dietaryGuide = _this.makeGuide(_this.myActivityLevel.value);
 	    };
 	
-	    this.reset();
+	    this.getEaten = function () {
+	        var storedEaten = _this.myData.eaten;
+	        var displayEaten = [];
+	        if (storedEaten.length > 7) {
+	            displayEaten = storedEaten.slice(-7);
+	        } else {
+	            dispalyEaten = storedEaten.slice(0);
+	        }
 	
-	    this.addNew = function () {
-	        _this.add({
-	            name: _this.name,
-	            barcode: _this.barcode,
-	            servingSize: _this.servingSize,
-	            calories: _this.colories,
-	            totalCarbs: _this.totalCarbs,
-	            sugars: _this.sugars,
-	            fiber: _this.fiber,
-	            totalFats: _this.totalFats,
-	            saturatedFats: _this.saturatedFats,
-	            unsaturatedFats: _this.unsaturatedFats,
-	            totalProtein: _this.totalProtein,
-	            vetted: _this.vetted
+	        // calories
+	        var theChartTitle = 'Nutritional Info';
+	        var theChartData = [];
+	        displayEaten.forEach(function (element, idx, array) {
+	            totCals.push(element.Calories || 0);
+	            totCarbs.push(element.Carbs || 0);
+	            totFats.push(element.totalFats || 0);
+	            totProtein.push(element.totalProtein || 0);
+	            theChartLabels.push(element.time || 'none');
 	        });
-	        _this.reset();
 	    };
 	
-	    // foodService.get().then(food => {
-	    //     this.food = food;
-	    // });
+	    this.showChart = function () {};
+	
+	    this.updateView = function (newActivityLevel) {
+	        _this.dietaryGuide = _this.makeGuide(newActivityLevel);
+	    };
+	
+	    //AJ's formula will go here to calculate a person's daily calorie needs;
+	    this.makeGuide = function (activityLevel) {
+	        var age = _this.myData.age;
+	        var height = _this.myData.height;
+	        var weight = _this.myData.weight;
+	        var gender = _this.myData.gender;
+	
+	        var bEE = 0;
+	        var metricWeight = weight * 2.2;
+	        var metricHeight = height * 2.54;
+	        var dietGuide = {};
+	
+	        // Determine the Basal Energy Expenditure
+	        if (gender === 'male') {
+	            bEE = 66.5 + 13.8 * metricWeight + 5.0 * metricHeight - 6.8 * age;
+	        } else {
+	            bEE = 655.1 + 9.6 * metricWeight + 1.9 * metricHeight - 4.7 * age;
+	        };
+	
+	        // Activity level, 0 = none, 1 = average, 3 = active, 4 = Very active
+	        if (activityLevel === 4) {
+	            bEE = bEE * 1.5;
+	        } else if (activityLevel === 3) {
+	            bEE = bEE * 1.25;
+	        } else if (activityLevel === 2) {
+	            bEE = bEE * 1.1;
+	        } else {
+	            bEE = bEE;
+	            // Get up and move
+	        };
+	
+	        dietGuide.calories = bEE.toFixed(0);
+	        dietGuide.carbTarget = (bEE * .5 / 4).toFixed(0); // 45% - 65% cals from carbs
+	        dietGuide.fatMax = (bEE * .33 / 9).toFixed(0); // 1/3 cals from fats
+	        dietGuide.proteinTarget = (metricWeight * .9).toFixed(0); // .8 - 1.0 grams per kilo
+	
+	        return dietGuide;
+	    };
+	    //also any custom nutrition informationconsole.log(this.currentUser);
 	}
 
 /***/ },
-/* 39 */
+/* 33 */
 /***/ function(module, exports) {
 
-	module.exports = "<section ng-class=\"$ctrl.styles['add-class']\">\n  <div>\n    \n    <div>\n      <label>Name of food:</label>\n      <input ng-model=\"$ctrl.name\" placeholder=\"name\">\n    </div>\n\n    <div>\n      <label>Barcode:</label>\n      <input ng-model=\"$ctrl.barcode\" placeholder=\"barcode\">\n    </div>\n\n    <div>\n      <label>Serving size:</label>\n      <input ng-model=\"$ctrl.servingSize\" placeholder=\"serving size\">\n    </div>\n\n    <div>\n      <label>Calories:</label>\n      <input ng-model=\"$ctrl.Calories\" placeholder=\"Calories\">\n    </div>\n\n    <div>\n      <label>Sugars:</label>\n      <input ng-model=\"$ctrl.sugars\" placeholder=\"sugars\">\n    </div>\n\n    <div>\n      <label>Fiber:</label>\n      <input ng-model=\"$ctrl.fiber\" placeholder=\"fiber\">\n    </div>\n\n    <div>\n      <label>Total Fats:</label>\n      <input ng-model=\"$ctrl.totalFats\" placeholder=\"total fats\">\n    </div><div>\n\n      <label>Saturated Fats:</label>\n      <input ng-model=\"$ctrl.saturatedFats\" placeholder=\"saturated fats\">\n    </div>\n\n    <div>\n      <label>Total Protein:</label>\n      <input ng-model=\"$ctrl.totalProtein\" placeholder=\"total protein\">\n    </div>\n\n    <div>\n      <label>Vetted:</label>\n      <input ng-model=\"$ctrl.totalProtein\" placeholder=\"vetted\">\n    </div>\n    \n    \n\n    <button class=\"viewButton\" ng-click=$ctrl.addNew()>Add Food</button>\n\n  </div>\n\n</section>";
+	module.exports = "<section>\n     <br>\n     <h2 ng-hide=\"$ctrl.currentUser\">Sign up or login to see your detailed health information</h2>\n\n     <div class=\"my-health-data\" ng-if=\"$ctrl.currentUser\">\n        <h2>{{$ctrl.myname}}'s Health Data</h2>\n        <span>\n            Your Basic Stats:\n            Age: {{$ctrl.myData.age}},\n            Height: {{$ctrl.myData.height}} {{$ctrl.myData.heightUnits}},\n            Weight: {{$ctrl.myData.weight}} {{$ctrl.myData.weightUnits}}</span>\n        <span>Activity Level: <select ng-model=\"$ctrl.myActivityLevel\" \n            ng-options=\"level.desc for level in $ctrl.activityLevels\"\n            ng-change=\"$ctrl.updateView($ctrl.myActivityLevel.value)\"></select></span>\n        \n        <hr>\n        <div>\n        <p>Dietary Guide (all in grams): </p>\n        <p>\n            <span>Total Calories - {{$ctrl.dietaryGuide.calories}},</span>\n            <span>Total Protein - {{$ctrl.dietaryGuide.proteinTarget}},</span>\n            <span>Total Carbohydrates - {{$ctrl.dietaryGuide.carbTarget}}, </span>\n            <span>Total Fat - {{$ctrl.dietaryGuide.fatMax}}</span>\n        </p>\n        </div>\n        <hr>\n        <div>\n            <!--<canvas id=\"myChart\" width=\"300\" height=\"300\"></canvas>-->\n        </div>\n     <div>\n \n    <div>\n        <button ng-click=\"$ctrl.showChart()\" hidden>Show Chart</a>\n    </div>\n    </div>\n</section>\n";
 
 /***/ },
-/* 40 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 41 */,
-/* 42 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -34275,11 +34353,11 @@
 	    value: true
 	});
 	
-	var _signUp = __webpack_require__(43);
+	var _signUp = __webpack_require__(35);
 	
 	var _signUp2 = _interopRequireDefault(_signUp);
 	
-	var _signUp3 = __webpack_require__(44);
+	var _signUp3 = __webpack_require__(36);
 	
 	var _signUp4 = _interopRequireDefault(_signUp3);
 	
@@ -34300,7 +34378,6 @@
 	
 	    this.weightUnits = ['kg', 'lbs'];
 	    this.heightUnits = ['cm', 'inches'];
-	
 	    this.credentials = {
 	        username: '',
 	        password: '',
@@ -34308,7 +34385,9 @@
 	        age: '',
 	        height: '',
 	        weight: '',
-	        email: ''
+	        email: '',
+	        weightUnits: '',
+	        heightUnits: ''
 	    };
 	
 	    this.$onInit = function () {
@@ -34318,16 +34397,18 @@
 	
 	    this.findMetrics = function () {
 	        if (this.weightChoice === 'kg') {
-	            this.credentials.weight = this.weightInput * 2.20462;
+	            this.credentials.weight = (this.weightInput * 2.20462).toFixed(0);
 	        } else if (this.weightChoice === 'lbs') {
 	            this.credentials.weight = this.weightInput;
 	        };
 	
 	        if (this.heightChoice === 'cm') {
-	            this.credentials.height = this.heightInput * 0.393701;
+	            this.credentials.height = (this.heightInput * 0.393701).toFixed(0);
 	        } else if (this.heightChoice === 'inches') {
 	            this.credentials.height = this.heightInput;
 	        };
+	        this.credentials.weightUnits = 'lbs';
+	        this.credentials.heightUnits = 'inches';
 	    };
 	
 	    this.authenticate = function () {
@@ -34348,20 +34429,20 @@
 	};
 
 /***/ },
-/* 43 */
+/* 35 */
 /***/ function(module, exports) {
 
-	module.exports = "<section>\n   \t<h2>Sign up for a user account</h2>\n\t<form name=\"auth\" ng-submit=\"$ctrl.authenticate()\">\n\t\t<div>\n\t\t\t<label id=\"username\">\n\t\t\t\tUsername: <input required ng-model=\"$ctrl.credentials.username\">\n\t\t\t</label>\n\t\t</div>\n\n\t\t<div>\n\t\t\t<label id=\"password\">\n\t\t\t\tPassword: <input required type=\"password\" ng-model=\"$ctrl.credentials.password\">\n\t\t\t</label>\n\t\t</div>\n\n\t\t<div>\n\t\t\t<label id=\"email\">\n\t\t\t\tMy Email: <input type=\"text\" ng-model=\"$ctrl.credentials.email\">\n\t\t\t</label>\n\t\t</div>\n\n        <div>\n            Gender:\n\t        <input type=\"radio\" name=\"gender\" value=\"male\" ng-model=\"$ctrl.credentials.gender\"> Male\n            <input type=\"radio\" name=\"gender\" value=\"female\" ng-model=\"$ctrl.credentials.gender\"> Female\n            <input type=\"radio\" name=\"gender\" value=\"other\" ng-model=\"$ctrl.credentials.gender\"> Other\n\t\t</div>\n\n          <div>\n\t\t\tAge: <input type=\"number\" ng-model=\"$ctrl.credentials.age\">\n\t\t</div>\n\n        <div>\n\t\t\tCurrent Weight: <input type=\"number\" ng-model=\"$ctrl.weightInput\">\n            <select ng-options=\"x for x in $ctrl.weightUnits\" ng-model=\"$ctrl.weightChoice\"></select>\n\t\t</div>\n\n        <div>\n\t\t\tCurrent Height: <input type=\"number\" ng-model=\"$ctrl.heightInput\">\n            <select ng-options=\"x for x in $ctrl.heightUnits\" ng-model=\"$ctrl.heightChoice\"></select>\n\t\t</div>\n\n\t\t<button type=\"submit\" ng-click=\"$ctrl.findMetrics()\">Sign Up</button>\n\t</form>\n\t<div class=\"error\" ng-if='$ctrl.error'>{{$ctrl.error.message}}</div>\n</section>";
+	module.exports = "<section class=\"signup-box\">\n   \t<h2 id=\"signup-header\">Sign up for a user account</h2>\n\t<form name=\"auth\" ng-submit=\"$ctrl.authenticate()\">\n\t\t<div>\n\t\t\t<label id=\"username\">\n\t\t\t\tUsername: <input required ng-model=\"$ctrl.credentials.username\">\n\t\t\t</label>\n\t\t</div>\n\n\t\t<div>\n\t\t\t<label id=\"password\">\n\t\t\t\tPassword: <input required type=\"password\" ng-model=\"$ctrl.credentials.password\">\n\t\t\t</label>\n\t\t</div>\n\n\t\t<div>\n\t\t\t<label id=\"email\">\n\t\t\t\tMy Email: <input type=\"text\" ng-model=\"$ctrl.credentials.email\">\n\t\t\t</label>\n\t\t</div>\n\n        <div id=\"gender\">\n            Gender:\n\t        <input type=\"radio\" name=\"gender\" value=\"male\" ng-model=\"$ctrl.credentials.gender\"> Male\n            <input type=\"radio\" name=\"gender\" value=\"female\" ng-model=\"$ctrl.credentials.gender\"> Female\n            <input type=\"radio\" name=\"gender\" value=\"other\" ng-model=\"$ctrl.credentials.gender\"> Other\n\t\t</div>\n\n          <div id=\"age\">\n\t\t\tAge: <input type=\"number\" ng-model=\"$ctrl.credentials.age\">\n\t\t</div>\n\n        <div id=\"weight\">\n\t\t\tCurrent Weight: <input type=\"number\" ng-model=\"$ctrl.weightInput\">\n            <select ng-options=\"x for x in $ctrl.weightUnits\" ng-model=\"$ctrl.weightChoice\"></select>\n\t\t</div>\n\n        <div id=\"height\">\n\t\t\tCurrent Height: <input type=\"number\" ng-model=\"$ctrl.heightInput\">\n            <select ng-options=\"x for x in $ctrl.heightUnits\" ng-model=\"$ctrl.heightChoice\"></select>\n\t\t</div>\n\n\t\t<button type=\"submit\" ng-click=\"$ctrl.findMetrics()\">Sign Up</button>\n\t</form>\n\t<div class=\"error\" ng-if='$ctrl.error'>{{$ctrl.error.message}}</div>\n</section>";
 
 /***/ },
-/* 44 */
+/* 36 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 45 */,
-/* 46 */
+/* 37 */,
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -34385,7 +34466,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	// .context is a method webpack adds to require 
-	var context = __webpack_require__(47);
+	var context = __webpack_require__(39);
 	
 	// create the module to put the resources in,
 	// in this case directives
@@ -34404,14 +34485,14 @@
 	exports.default = _module.name;
 
 /***/ },
-/* 47 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./auth-service.js": 48,
-		"./food-service.js": 49,
-		"./token-service.js": 50,
-		"./user-foods-service.js": 51
+		"./auth-service.js": 40,
+		"./food-service.js": 41,
+		"./token-service.js": 42,
+		"./user-foods-service.js": 43
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -34424,11 +34505,11 @@
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 47;
+	webpackContext.id = 39;
 
 
 /***/ },
-/* 48 */
+/* 40 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -34472,7 +34553,7 @@
 	}
 
 /***/ },
-/* 49 */
+/* 41 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -34505,7 +34586,7 @@
 	};
 
 /***/ },
-/* 50 */
+/* 42 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -34534,7 +34615,7 @@
 	}
 
 /***/ },
-/* 51 */
+/* 43 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -34580,7 +34661,7 @@
 	};
 
 /***/ },
-/* 52 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!
@@ -42929,7 +43010,7 @@
 	//# sourceMappingURL=angular-ui-router.js.map
 
 /***/ },
-/* 53 */
+/* 45 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -42970,7 +43051,7 @@
 	    //     component: 'foodSearch'
 	    // });
 	
-	    // Food add
+	    // // Food add
 	    // $stateProvider.state({
 	    //     name: 'food.add',
 	    //     url: '/id:?name',
@@ -42992,8 +43073,16 @@
 	
 	    $stateProvider.state({
 	        name: 'me',
-	        url: '/me',
+	        url: '/:name',
 	        data: { public: false },
+	        resolve: {
+	            myname: ['$transition$', function (t) {
+	                return t.params().name;
+	            }],
+	            userData: ['userFoodsService', 'myname', function (userFoodsSvc, myname) {
+	                return userFoodsSvc.getByName(myname);
+	            }]
+	        },
 	        component: 'me'
 	    });
 	
@@ -43029,7 +43118,7 @@
 	}
 
 /***/ },
-/* 54 */
+/* 46 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!

@@ -38,7 +38,7 @@ router
                     res.send(food);
                 } else {
                     console.log('No food item found in our db, call out', barcode);
-                    // No entry attempt to locate the info on a 3rd party
+                    // Attempt to locate the info on a 3rd party
                     rp(`${process.env.NUTRI_API}item?upc=${barcode}&appId=${process.env.APPID}&appKey=${process.env.APP_SECRET}`)
                         .then(nutrifood => {
                             let jsonData = (JSON.parse(nutrifood))
@@ -68,7 +68,8 @@ router
             .catch(next);
         } else {
             // search by name
-            Food.find({name}).lean()
+            console.log(name);
+            Food.find(name).lean()
             .then(food => {
                 if (food) {
                     console.log('Food string found: ', food);
@@ -91,7 +92,7 @@ router
                                 fiber: jsonData.nf_dietary_fiber,
                                 totalFats: jsonData.nf_total_fat,
                                 saturatedFats: jsonData.nf_saturated_fat,
-                                // unsaturatedFats: (jsonData.nf_polyunsaturated_fat + nutrifood.nf_monounsaturated_fat),
+                                // unsaturatedFats: (jsonData.nf_polyunsaturated_fat + nutrifood.nf_monounsaturated_fat),
                                 totalProtein: jsonData.nf_protein,
                                 vetted: true,
                                 uploadedBy: 'NutriData API'

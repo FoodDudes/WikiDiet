@@ -30,7 +30,7 @@ export default function routes($stateProvider, $urlRouterProvider) {
     //     component: 'foodSearch'
     // });
 
-    // Food add
+    // // Food add
     // $stateProvider.state({
     //     name: 'food.add',
     //     url: '/id:?name',
@@ -52,8 +52,12 @@ export default function routes($stateProvider, $urlRouterProvider) {
 
     $stateProvider.state({
         name: 'me',
-        url: '/me',
+        url: '/me/:name',
         data: { public: false },
+        resolve: {
+            myname: ['$transition$', t => t.params().name],
+            userData: ['userFoodsService', 'myname', (userFoodsSvc, myname) => userFoodsSvc.getByName(myname)]
+        },
 	    component: 'me' 
     });
 

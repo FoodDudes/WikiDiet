@@ -1,5 +1,5 @@
-<section>
-   	<h2>Sign up for a user account</h2>
+<section class="signup-box">
+   	<h2 id="signup-header">Sign up for a user account</h2>
 	<form name="auth" ng-submit="$ctrl.authenticate()">
 		<div>
 			<label id="username">
@@ -19,23 +19,23 @@
 			</label>
 		</div>
 
-        <div>
+        <div id="gender">
             Gender:
 	        <input type="radio" name="gender" value="male" ng-model="$ctrl.credentials.gender"> Male
             <input type="radio" name="gender" value="female" ng-model="$ctrl.credentials.gender"> Female
             <input type="radio" name="gender" value="other" ng-model="$ctrl.credentials.gender"> Other
 		</div>
 
-          <div>
+          <div id="age">
 			Age: <input type="number" ng-model="$ctrl.credentials.age">
 		</div>
 
-        <div>
+        <div id="weight">
 			Current Weight: <input type="number" ng-model="$ctrl.weightInput">
             <select ng-options="x for x in $ctrl.weightUnits" ng-model="$ctrl.weightChoice"></select>
 		</div>
 
-        <div>
+        <div id="height">
 			Current Height: <input type="number" ng-model="$ctrl.heightInput">
             <select ng-options="x for x in $ctrl.heightUnits" ng-model="$ctrl.heightChoice"></select>
 		</div>

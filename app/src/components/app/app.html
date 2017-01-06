@@ -1,11 +1,13 @@
 <section>
     <div class="header">
         <h1 class="header-text">WikiDiet</h1>
+        <!--<img src="../../../assets/logo.png">-->
+
         <div class="navbar">
             <a ui-sref="home">Home</a>
-            <a ui-sref="me">My Health Data</a>
-            <a ui-sref="favorites">Favorites</a>
             <a ui-sref="food">Food Database</a>
+            <a ui-sref="favorites" >Favorites</a>
+            <a ui-sref="me({name: $ctrl.user.username})" ng-if="$ctrl.user">My Health Data</a>
             <a ui-sref="login" ng-hide="$ctrl.user">Login</a>
             <a ui-sref="signup" ng-hide="$ctrl.user">Sign Up</a>
             <a ui-sref="logout" ng-if="$ctrl.user">Logout</a>
@@ -19,6 +21,7 @@
             <tr>
                 <th>Food</th>
                 <th>Calories</th>
+                <th>Total Carbs(g)</th>
                 <th>Sugars (g)</th>
                 <th>Fiber(g)</th>
                 <th>Total Fats(g)</th>
@@ -30,6 +33,7 @@
             <tr ng-repeat="meal in $ctrl.menu">
                 <td>{{ meal.name }}</td>
                 <td>{{ meal.Calories }}</td>
+                <td>{{ meal.totalCarbs }}</td>
                 <td>{{ meal.sugars }}</td>
                 <td>{{ meal.fiber }}</td>
                 <td>{{ meal.totalFats }}</td>
@@ -41,6 +45,7 @@
             <tr>
                 <th>Daily Totals</th>
                 <th>{{$ctrl.totalCalories}}</th>
+                <th>{{$ctrl.totalTotalCarbs}}</th>
                 <th>{{$ctrl.totalSugars}}</th>
                 <th>{{$ctrl.totalFiber}}</th>
                 <th>{{$ctrl.totalTotalFats}}</th>

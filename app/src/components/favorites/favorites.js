@@ -22,10 +22,6 @@ function controller(userFoods, rootScope) {
         userFoods.addMeal(this.user._id, {'favorites': this.newFavorites}).then(this.updateUser());
     };
 
-    this.updateServingSize = (value) =>{
-        console.log(value);
-    };
-
     this.viewFavoriteItem = (item)=>{
         this.showFavorite = true;
         this.selectedFavorite = item;

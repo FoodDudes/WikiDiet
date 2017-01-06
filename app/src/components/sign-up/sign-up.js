@@ -13,7 +13,6 @@ function controller(authSvc, userFoodsSvc, $state, rootScope) {
 
     this.weightUnits = ['kg', 'lbs'];
     this.heightUnits = ['cm', 'inches'];
-
     this.credentials = {
         username: '',
         password: '',
@@ -21,7 +20,9 @@ function controller(authSvc, userFoodsSvc, $state, rootScope) {
         age: '',
         height: '',
         weight: '',
-        email: ''
+        email: '',
+        weightUnits: '',
+        heightUnits: ''
     };
 
     this.$onInit = () => {
@@ -31,18 +32,20 @@ function controller(authSvc, userFoodsSvc, $state, rootScope) {
 
     this.findMetrics= function(){
         if (this.weightChoice === 'kg'){
-            this.credentials.weight = this.weightInput*2.20462;
+            this.credentials.weight = (this.weightInput*2.20462).toFixed(0);
         }
         else if(this.weightChoice === 'lbs'){
             this.credentials.weight = this.weightInput;
         };
 
         if (this.heightChoice === 'cm'){
-            this.credentials.height = this.heightInput*0.393701;
+            this.credentials.height = (this.heightInput*0.393701).toFixed(0);
         }
         else if(this.heightChoice === 'inches'){
             this.credentials.height = this.heightInput;
         };
+        this.credentials.weightUnits = 'lbs';
+        this.credentials.heightUnits = 'inches';
     };
 
     this.authenticate = () => {
