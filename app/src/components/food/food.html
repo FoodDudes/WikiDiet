@@ -6,15 +6,22 @@
         <a class="food-link" ng-click="$ctrl.toggleSearch()">Search for Food Item</a>
         <div class="food-search" add="$ctrl.search" ng-show="$ctrl.viewSearch === true">
             <section ng-class="$ctrl.styles['add-class']">
+              
+              
+              
                 <div>
+                <label>Barcode (UPC):</label>
+                <input ng-model="$ctrl.searchBarcode" placeholder="food UPC search">
                 <label>Name of food:</label>
-                <input ng-model="$ctrl.name" placeholder="food search">
+                <input ng-model="$ctrl.searchName" placeholder="food name search">
                 </div>
+
+                <h2 class="white-text" ng-if="$ctrl.notFound">No results found for barcode: "{{$ctrl.searchBarcode}}" or name: "{{$ctrl.searchName}}".</h2>
                 <!--<div>
                 <!--<label>Type of food:</label>
                 <input ng-model="$ctrl.type" placeholder="type">
                 </div>-->-->
-                <button class="viewButton" ng-click=$ctrl.search()>Search</button>
+                <button class="viewButton" ng-click="$ctrl.search()">Search</button>
              </section>
         </div>
     </div>

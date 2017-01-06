@@ -11,9 +11,6 @@ controller.$inject = ['foodService'];
 function controller(food) {
     this.styles = styles;
 
-    // food.getAll().then(food => {
-    //     this.food = food;
-    // });
 
     this.add = food => {
         food.add(food)
