@@ -65,7 +65,7 @@ function controller() {
         let gender = this.myData.gender;
 
         let bEE = 0;
-        let metricWeight = (weight * 2.2);
+        let metricWeight = (weight / 2.2);
         let metricHeight = (height * 2.54);
         let dietGuide = {};
 

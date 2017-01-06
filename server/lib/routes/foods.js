@@ -47,7 +47,7 @@ router
                                 barcode,
                                 servingSize: jsonData.nf_serving_size_qty,
                                 servingUnit: jsonData.nf_serving_size_unit,
-                                calories: jsonData.nf_calories,
+                                Calories: jsonData.nf_calories,
                                 totalCarbs: jsonData.nf_total_carbohydrate,
                                 sugars: jsonData.nf_sugars,
                                 fiber: jsonData.nf_dietary_fiber,
@@ -83,10 +83,10 @@ router
                             console.log(jsonData);
                             const newFoodEntry = {
                                 name: jsonData.item_name,
-                                barcodebarcode: 888888888888,
+                                barcode: 888888888888,
                                 servingSize: jsonData.nf_serving_size_qty,
                                 servingUnit: jsonData.nf_serving_size_unit,
-                                calories: jsonData.nf_calories,
+                                Calories: jsonData.nf_calories,
                                 totalCarbs: jsonData.nf_total_carbohydrate,
                                 sugars: jsonData.nf_sugars,
                                 fiber: jsonData.nf_dietary_fiber,
