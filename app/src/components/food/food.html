@@ -119,12 +119,12 @@
                 <h2 class="white-text">You must be logged in to add new food items to the database.</h2>
             </section>
             <section ng-class="$ctrl.styles['add-class']" ng-if="$ctrl.user">
-                <div>
+                <div id="nameInput">
                     <label>Name of Food:</label>
                     <input ng-model="$ctrl.name" placeholder="name">
                 </div>
 
-                <div>
+                <div id="barcodeInput">
                     <label>Barcode:</label>
                     <input ng-model="$ctrl.barcode" placeholder="barcode">
                 </div>
@@ -135,7 +135,7 @@
 
                 </div>
 
-                    <div>
+                <div>
                     <label>Serving Size:</label>
                     <input ng-model="$ctrl.servingSize" placeholder="serving size">
                 </div>
