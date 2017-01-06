@@ -8,6 +8,7 @@ button{
     min-height: 5vh;
     width: 10vw;
     font-size: 2vh;
+    margin-top: 15px;
     &:hover{
         cursor: pointer;
         background-color: $grey;

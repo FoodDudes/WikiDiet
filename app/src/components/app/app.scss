@@ -8,14 +8,16 @@
 .menu{
     float: right;
     background-color:$black;
-    min-height:65vh;
+    min-height:60vh;
     width: 35vw;
     border: 1vh solid $grey;
+    border-radius: 5vh 5vh 5vh 5vh;
+    margin-top: 10px;
 }
 
 .footer{
     background-color:$blue;
-    height: 10vh;
+    height: 9vh;
     border: 1vh solid $grey;
     border-radius: 5vh 5vh 5vh 5vh;
 }
@@ -36,13 +38,13 @@
 }
 
 .header-text{
-    margin: 4vh 60vw 1vh 10vw;
+    margin: 0vh 60vw 1vh 5vw;
     font-size: 10vh;
     color: $blue;
 }
 
 .main-content{
-    min-height: 59vh;
+    min-height: 64vh;
 }
 
 .menu-title{
@@ -70,9 +72,13 @@ td{
     background-color:$grey;
 }
 
-// #logo {
+// #headerLogo {
 //     display: inline-block;
 // }
+// img {
+//     display: inline-block;
+// }
+
 
 
 

@@ -5,17 +5,17 @@ button {
   border-radius: 5vh;
   min-height: 5vh;
   width: 10vw;
-  font-size: 2vh; }
+  font-size: 2vh;
+  margin-top: 15px; }
   button:hover {
     cursor: pointer;
     background-color: #a5a5a5; }
 
 * {
-  color: #570000;
   font-family: 'Josefin Sans', sans-serif; }
 
 h1 {
-  font-size: 7vh; }
+  font-size: 6vh; }
 
 h2 {
   font-size: 4vh;
@@ -38,7 +38,8 @@ a {
   border: 0.5vh solid #a5a5a5;
   border-radius: 5vh;
   margin-top: 15px;
-  padding: 15px; }
+  padding: 15px;
+  width: 600px; }
 
 .favorite-item-detail {
   background-color: #a5a5a5;
@@ -73,6 +74,13 @@ a {
   border-radius: 5vh;
   margin-top: 15px;
   padding: 15px; }
+
+.added-message-box {
+  background-color: #570000;
+  border: 0.5vh solid #a5a5a5;
+  border-radius: 5vh;
+  margin-top: 15px;
+  padding: 15px; }
 .header {
   background-color: white;
   border: 1vh solid #a5a5a5;
@@ -81,13 +89,15 @@ a {
 .menu {
   float: right;
   background-color: #11151c;
-  min-height: 65vh;
+  min-height: 60vh;
   width: 35vw;
-  border: 1vh solid #a5a5a5; }
+  border: 1vh solid #a5a5a5;
+  border-radius: 5vh 5vh 5vh 5vh;
+  margin-top: 10px; }
 
 .footer {
   background-color: #031a6b;
-  height: 10vh;
+  height: 9vh;
   border: 1vh solid #a5a5a5;
   border-radius: 5vh 5vh 5vh 5vh; }
 
@@ -105,12 +115,12 @@ a {
   color: white; }
 
 .header-text {
-  margin: 4vh 60vw 1vh 10vw;
+  margin: 0vh 60vw 1vh 5vw;
   font-size: 10vh;
   color: #031a6b; }
 
 .main-content {
-  min-height: 59vh; }
+  min-height: 64vh; }
 
 .menu-title {
   color: #a5a5a5; }
@@ -130,8 +140,10 @@ td {
 .search-results {
   background-color: #a5a5a5; }
 input {
-  margin-left: 20px;
-  display: block; }
+  margin-left: 20px; }
+
+label {
+  color: white; }
 .subtitle {
   font-style: italic;
   color: black; }
@@ -143,6 +155,23 @@ input {
 
 #login-header {
   color: white; }
+button {
+  background-color: #031a6b;
+  color: white;
+  border: 0.1vh solid #a5a5a5;
+  border-radius: 5vh;
+  min-height: 5vh;
+  width: 10vw;
+  font-size: 2vh;
+  margin-top: 15px; }
+  button:hover {
+    cursor: pointer;
+    background-color: #a5a5a5; }
+
+span {
+  border: 1px solid black;
+  padding: 8px;
+  border-radius: 5vh; }
 #username {
   color: white; }
 
