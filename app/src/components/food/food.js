@@ -112,8 +112,7 @@ function controller(food, userFoods, $timeout, rootScope) {
             .then((foods)=>{
                 this.results = foods;
                 console.log('this is what came back from the search ', foods);
-            })
-            .catch(this.showErrorText());
+            });
         }
         else{
             this.lowerSearchName = this.searchName.toLowerCase();
