@@ -123,22 +123,22 @@ function controller(food, userFoods, $timeout, rootScope) {
               .then((foods)=>{
                   this.results = foods;
                   console.log('this is what came back from the search ', foods);
-                  if (!foods){
-                      this.showErrorText();
-                  }
+                //   if (!foods){
+                //       this.showErrorText();
+                //   }
               });
             // .catch(this.showErrorText());
         }
     };
 
-    this.showErrorText= ()=>{
-        console.log('in error text');
-        this.notFound = true;
-        this.results= false;
-        $timeout(()=>{
-            this.notFound = false;
-        }, 3000);
-    };
+    // this.showErrorText= ()=>{
+    //     console.log('in error text');
+    //     this.notFound = true;
+    //     this.results= false;
+    //     $timeout(()=>{
+    //         this.notFound = false;
+    //     }, 3000);
+    // };
 
     this.viewResultItem=(item)=>{
         this.showResult = true;
