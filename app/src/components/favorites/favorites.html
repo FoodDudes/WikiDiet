@@ -60,7 +60,7 @@
                 <th></th>
             </tr>
 
-            <tr class="favorites-list-item" ng-repeat="favorite in $ctrl.user.favorites"> 
+            <tr class="favorites-list-item" ng-repeat="favorite in $ctrl.user.favorites track by name"> 
             <td ng-if="!$ctrl.showFavorite">{{favorite.name}}</td>
                 <td ng-if="!$ctrl.showFavorite"><button class="favorite-button" ng-click="$ctrl.addToMenu(favorite)">
                 Add One Serving

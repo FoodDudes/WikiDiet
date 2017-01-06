@@ -99,11 +99,11 @@
 
             <tr class="button-row">
 
-            <td><button class="search-result-button" ng-click="$ctrl.addToMenu(result)">Add One Serving</button></td>
+            <td><button class="search-result-button" ng-click="$ctrl.addToMenu($ctrl.selectedResult)">Add One Serving</button></td>
 
-            <td><button class="search-result-button" ng-click="$ctrl.addThisAmount(result)">Add this Amount</button></td>
+            <td><button class="search-result-button" ng-click="$ctrl.addThisAmount($ctrl.selectedResult)">Add this Amount</button></td>
 
-             <td><button class="search-result-button" ng-click="$ctrl.addToFavorites(result)">Add this Food to Favorites</button></td>
+             <td><button class="search-result-button" ng-click="$ctrl.addToFavorites($ctrl.selectedResult)">Add this Food to Favorites</button></td>
 
             </div>
         </div>
