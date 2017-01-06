@@ -135,6 +135,7 @@ function controller(food, userFoods, $timeout, rootScope) {
     this.showErrorText= ()=>{
         console.log('in error text');
         this.notFound = true;
+        $ctrl.results= false;
         $timeout(()=>{
             this.notFound = false;
         }, 3000);
@@ -143,7 +144,7 @@ function controller(food, userFoods, $timeout, rootScope) {
     this.viewResultItem=(item)=>{
         this.showResult = true;
         this.selectedResult = item;
-        console.log(this.selectedResult);
+        console.log('view result clicked: ', this.selectedResult);
         this.selectedResult.newServingSize=this.selectedResult.servingSize;
         this.selectedResult.servings = (this.selectedResult.newServingSize/this.selectedResult.servingSize).toFixed(2);
     };

@@ -25,7 +25,7 @@
 
 
            
-            <table ng-if="$ctrl.results" ng-repeat="result in $ctrl.results">
+            <table ng-if="$ctrl.results">
                 <br>
                 <tr>
                     <th>Food Name</th>
@@ -52,7 +52,7 @@
 
 
 
-             <div class="search-results" ng-if="$ctrl.showResult" ng-repeat="result in $ctrl.results">
+             <div class="search-results" ng-if="$ctrl.showResult">
              
             <h2>{{$ctrl.selectedResult.name}}</h3>
             <table ="search-detail-table">
