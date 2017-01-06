@@ -35,7 +35,7 @@ router
     })
 
     .put('/:id', jsonParser, (req, res, next) => {
-	    UserFood.findByIdAndUpdate(req.params.id, req.body) 
+	    UserFood.findByIdAndUpdate(req.params.id, req.body, {new:true}) 
             .then(saved => res.send(saved))
             .catch(next);
     });

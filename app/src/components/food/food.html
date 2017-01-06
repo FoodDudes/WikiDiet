@@ -1,22 +1,188 @@
 <section>
+    <br>
+    <br>
     <div class="food-link-box">
 
-        <a class="food-link" ng-click="$ctrl.search" ui-sref="food.search">Search for Food Item</a>
-        <food-search add="$ctrl.search" ng-show="$ctrl.viewSearch === true"></food-search>
+        <a class="food-link" ng-click="$ctrl.toggleSearch()">Search for Food Item</a>
+        <div class="food-search" add="$ctrl.search" ng-show="$ctrl.viewSearch === true">
+            <section ng-class="$ctrl.styles['add-class']">
+              
+                <div>
+                <label>Barcode (UPC):</label>
+                <input ng-model="$ctrl.searchBarcode" placeholder="food UPC search">
+                <label>Name of food:</label>
+                <input ng-model="$ctrl.searchName" placeholder="food name search">
+                </div>
+
+                <h2 class="white-text" ng-if="$ctrl.notFound">No results found for barcode: "{{$ctrl.searchBarcode}}" or name: "{{$ctrl.searchName}}".</h2>
+                <!--<div>
+                <!--<label>Type of food:</label>
+                <input ng-model="$ctrl.type" placeholder="type">
+                </div>-->-->
+                <button class="viewButton" ng-click="$ctrl.search()">Search</button>
+             </section>
+
+
+           
+            <table ng-if="$ctrl.results" ng-repeat="result in $ctrl.results">
+                <br>
+                <tr>
+                    <th>Food Name</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+
+                <tr class="favorites-list-item" ng-repeat="result in $ctrl.results"> 
+                <td ng-if="$ctrl.results">{{result.name}}</td>
+                    <td><button class="search-button" ng-if="!$ctrl.showResult" ng-click="$ctrl.viewResultItem(result)">View Item
+                    </button></td>
+                    <td><button class="search-button" ng-if="$ctrl.showResult" ng-click="$ctrl.hideResultItem(result)">Hide Item
+                    </button></td>
+                </tr>
+            </table>
+        
+
+
+
+
+
+
+
+
+
+
+             <div class="search-results" ng-if="$ctrl.showResult" ng-repeat="result in $ctrl.results">
+             
+            <h2>{{$ctrl.selectedResult.name}}</h3>
+            <table ="search-detail-table">
+                <tr>
+                    <th>Calories</th>  <td class="result-item-value">{{$ctrl.selectedResult.Calories}}</td>
+                    <th>New Calories</th><td class="result-item-value">{{$ctrl.selectedResult.newCalories}}</td>
+                </tr>
+                <tr>
+                    <th>Sugars (g)</th><td class="result-item-value">{{$ctrl.selectedResult.sugars}}</td>
+                    <th>New Sugars(g)</th><td class="result-item-value">{{$ctrl.selectedResult.newSugars}}</td>
+                </tr>
+                <tr>
+            
+                    <th>Fiber(g)</th>  <td class="result-item-value">{{$ctrl.selectedResult.fiber }}</td>
+                    <th>New Fiber(g)</th><td class="result-item-value">{{$ctrl.selectedResult.newFiber}}</td>
+                </tr>
+                <tr>
+                    <th>Total Fats(g)</th> <td class="result-item-value">{{$ctrl.selectedResult.totalFats}}</td>
+                    <th>New Total Fats(g)</th><td class="result-item-value">{{$ctrl.selectedResult.newTotalFats}}</td>
+                </tr>
+                <tr>
+                    <th>Saturated Fats(g)</th>
+                    <td class="result-item-value">{{$ctrl.selectedResult.saturatedFats}}</td>
+                    <th>New Saturated Fats (g)</th><td class="result-item-value">{{$ctrl.selectedResult.newSaturatedFats}}</td>
+                </tr>
+                <tr>
+                    <th>Protein(g)</th> <td class="result-item-value">{{$ctrl.selectedResult.totalProtein}}</td>
+                    <th>New Protein(g)</th><td class="result-item-value">{{$ctrl.selectedResult.newTotalProtein}}</td>
+                </tr>
+                
+                
+                <!--add rangebar to adjust serving size-->
+            </table>
+
+            <h4>Original Serving Size:  {{$ctrl.selectedResult.servingSize}}  {{$ctrl.selectedResult.servingUnit}}</h4>
+
+            <form>
+            <input type="range" name="rangeInput" min="0" max="1000" value="{{$ctrl.selectedResult.servingSize}}" ng-change="$ctrl.updateServingSize(this.value)" ng-model="$ctrl.selectedResult.newServingSize">
+                <p>New serving size is {{$ctrl.selectedResult.newServingSize}}{{$ctrl.selectedResult.servingUnit}}</p>
+                <p>{{$ctrl.selectedResult.servings}}servings</p>
+            </form>
+
+            <tr class="button-row">
+
+            <td><button class="search-result-button" ng-click="$ctrl.addToMenu(result)">Add One Serving</button></td>
+
+            <td><button class="search-result-button" ng-click="$ctrl.addThisAmount(result)">Add this Amount</button></td>
+
+             <td><button class="search-result-button" ng-click="$ctrl.addtofavorites(result)">Add this Food to Favorites</button></td>
+
+            </div>
+
+
+
+        </div>
     </div>
 
+
     <div class="food-link-box">
-        <a class="food-link" ui-sref="food.add">Enter New Food Item</a>
-        <new-food add="$ctrl.add" ng-show="$ctrl.viewNew === true"><new-food>
+        <a class="food-link" ng-click="$ctrl.toggleNew()">Add New Food Item</a>
+        <div class="new-food" add="$ctrl.add" ng-show="$ctrl.viewNew === true" >
+            <section ng-if="!$ctrl.user">
+                <h2 class="white-text">You must be logged in to add new food items to the database.</h2>
+            </section>
+            <section ng-class="$ctrl.styles['add-class']" ng-if="$ctrl.user">
+                <div>
+                    <label>Name of Food:</label>
+                    <input ng-model="$ctrl.name" placeholder="name">
+                </div>
+
+                <div>
+                    <label>Barcode:</label>
+                    <input ng-model="$ctrl.barcode" placeholder="barcode">
+                </div>
+
+                <div>
+                    <label>Serving Unit:</label>
+                    <select ng-model="$ctrl.servingUnit" ng-options="x for x in $ctrl.units" placeholder="serving unit">{{x}}</select>
+
+                </div>
+
+                    <div>
+                    <label>Serving Size:</label>
+                    <input ng-model="$ctrl.servingSize" placeholder="serving size">
+                </div>
+
+                <div>
+                    <label>Calories (g):</label>
+                    <input ng-model="$ctrl.Calories" placeholder="Calories">
+                </div>
+
+                <div>
+                    <label>Total Carbs (g):</label>
+                    <input ng-model="$ctrl.totalCarbs" placeholder="total carbs">
+                </div>
+
+                <div>
+                    <label>Sugars (g):</label>
+                    <input ng-model="$ctrl.sugars" placeholder="sugars">
+                </div>
+
+                <div>
+                    <label>Fiber (g):</label>
+                    <input ng-model="$ctrl.fiber" placeholder="fiber">
+                </div>
+
+                <div>
+                    <label>Total Fats (g):</label>
+                    <input ng-model="$ctrl.totalFats" placeholder="total fats">
+                </div>
+                
+                <div>
+                    <label>Unsaturated Fats (g):</label>
+                    <input ng-model="$ctrl.unsaturatedFats" placeholder="unsaturated fats">
+                </div>
+
+                <div>
+                    <label>Saturated Fats (g):</label>
+                    <input ng-model="$ctrl.saturatedFats" placeholder="saturated fats">
+                </div>
+
+                <div>
+                    <label>Total Protein (g):</label>
+                    <input ng-model="$ctrl.totalProtein" placeholder="total protein">
+                </div>
+    
+                <button class="viewButton" ng-click=$ctrl.addNew()>Add Food</button>
+            </section>
+        </div>
+    </div>
           
-<!--         <a class="food-link" ui-sref="search">Search for Food Item</a>
-    </div>
-
-    <div class="food-link-box">
-        <a class="food-link" ui-sref="enter">Enter Food Item</a> -->
-
-<!--     </div> -->
-
     <div class="food-link-box">
         <a class="food-link" ui-sref="favorites">Add Food from Favorites</a>
     </div>

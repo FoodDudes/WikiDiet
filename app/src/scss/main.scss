@@ -32,6 +32,8 @@ a {
 }
 
 .food-link-box{
+    // background-color: $black;
+    // border: 0.1vh solid $grey;
     background-color: $red;
     border: 0.5vh solid $grey;
     border-radius: 5vh;
@@ -49,8 +51,20 @@ a {
     color: black;
 }
 
+.result-item-value{
+    color: black;
+}
+
+.result-list-item{
+    font-size: 4vh;
+}
+
 .favorites-list-item{
     font-size: 4vh;
+}
+
+.search-result-button:hover{
+    background-color: $red;
 }
 
 .login-box {

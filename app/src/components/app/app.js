@@ -48,6 +48,7 @@ function controller(userFoods, rootScope) {
     this.updateMenu = ()=>{
         //get this user
         this.totalCalories=0;
+        this.totalTotalCarbs=0;
         this.totalSugars=0;
         this.totalFiber=0;
         this.totalTotalFats=0;
@@ -64,6 +65,7 @@ function controller(userFoods, rootScope) {
 
         this.menu.forEach((food)=>{
             this.totalCalories += parseInt(food.Calories);
+            this.totalTotalCarbs += parseInt(food.totalCarbs);
             this.totalSugars += parseInt(food.sugars);
             this.totalFiber += parseInt(food.fiber);
             this.totalTotalFats += parseInt(food.totalFats);

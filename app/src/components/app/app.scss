@@ -8,7 +8,7 @@
 .menu{
     float: right;
     background-color:$black;
-    height:65vh;
+    min-height:65vh;
     width: 35vw;
     border: 1vh solid $grey;
 }
@@ -42,7 +42,7 @@
 }
 
 .main-content{
-    height: 59vh;
+    min-height: 59vh;
 }
 
 .menu-title{
@@ -61,8 +61,18 @@ td{
     color: $grey;
 }
 
+
+.white-text{
+    color: white;
+}
+
+.search-results{
+    background-color:$grey;
+}
+
 // #logo {
 //     display: inline-block;
 // }
+
 
 

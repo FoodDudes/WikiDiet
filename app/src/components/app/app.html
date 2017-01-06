@@ -21,6 +21,7 @@
             <tr>
                 <th>Food</th>
                 <th>Calories</th>
+                <th>Total Carbs(g)</th>
                 <th>Sugars (g)</th>
                 <th>Fiber(g)</th>
                 <th>Total Fats(g)</th>
@@ -32,6 +33,7 @@
             <tr ng-repeat="meal in $ctrl.menu">
                 <td>{{ meal.name }}</td>
                 <td>{{ meal.Calories }}</td>
+                <td>{{ meal.totalCarbs }}</td>
                 <td>{{ meal.sugars }}</td>
                 <td>{{ meal.fiber }}</td>
                 <td>{{ meal.totalFats }}</td>
@@ -43,6 +45,7 @@
             <tr>
                 <th>Daily Totals</th>
                 <th>{{$ctrl.totalCalories}}</th>
+                <th>{{$ctrl.totalTotalCarbs}}</th>
                 <th>{{$ctrl.totalSugars}}</th>
                 <th>{{$ctrl.totalFiber}}</th>
                 <th>{{$ctrl.totalTotalFats}}</th>
