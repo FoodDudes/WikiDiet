@@ -48,8 +48,17 @@ a {
 .favorite-item-value {
   color: black; }
 
+.result-item-value {
+  color: black; }
+
+.result-list-item {
+  font-size: 4vh; }
+
 .favorites-list-item {
   font-size: 4vh; }
+
+.search-result-button:hover {
+  background-color: #570000; }
 
 .login-box {
   background-color: #570000;
@@ -72,7 +81,7 @@ a {
 .menu {
   float: right;
   background-color: #11151c;
-  height: 65vh;
+  min-height: 65vh;
   width: 35vw;
   border: 1vh solid #a5a5a5; }
 
@@ -101,7 +110,7 @@ a {
   color: #031a6b; }
 
 .main-content {
-  height: 59vh; }
+  min-height: 59vh; }
 
 .menu-title {
   color: #a5a5a5; }
@@ -114,8 +123,12 @@ th {
 
 td {
   color: #a5a5a5; }
-label {
+
+.white-text {
   color: white; }
+
+.search-results {
+  background-color: #a5a5a5; }
 input {
   margin-left: 20px;
   display: block; }
@@ -130,12 +143,6 @@ input {
 
 #login-header {
   color: white; }
-label {
-  color: white; }
-
-input {
-  margin-left: 50px;
-  display: inline-block; }
 #username {
   color: white; }
 
