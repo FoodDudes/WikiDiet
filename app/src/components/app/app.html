@@ -6,8 +6,8 @@
         <div class="navbar">
             <a ui-sref="home">Home</a>
             <a ui-sref="food">Food Database</a>
+            <a ui-sref="favorites" >Favorites</a>
             <a ui-sref="me({name: $ctrl.user.username})" ng-if="$ctrl.user">My Health Data</a>
-            <a ui-sref="favorites" ng-if="$ctrl.user">Favorites</a>
             <a ui-sref="login" ng-hide="$ctrl.user">Login</a>
             <a ui-sref="signup" ng-hide="$ctrl.user">Sign Up</a>
             <a ui-sref="logout" ng-if="$ctrl.user">Logout</a>
