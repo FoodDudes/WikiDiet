@@ -7,9 +7,9 @@ export default {
 };
 
 
-controller.$inject = ['foodService', '$timeout'];
+controller.$inject = ['foodService', 'userFoodsService', '$timeout', '$rootScope'];
 
-function controller(food, $timeout) {
+function controller(food, userFoods, $timeout, rootScope) {
     this.styles = styles;
 
     this.user = localStorage.getItem('user');
@@ -50,7 +50,7 @@ function controller(food, $timeout) {
             name: this.correctName,
             barcode: this.barcode,
             servingSize: this.servingSize,
-            servingUnits: this.servingUnits,
+            servingUnit: this.servingUnit,
             Calories: this.Calories,
             totalCarbs: this.totalCarbs,
             sugars: this.sugars,
@@ -119,6 +119,82 @@ function controller(food, $timeout) {
             this.notFound = false;
         }, 3000);
     };
+
+    this.viewResultItem=(item)=>{
+        this.showResult = true;
+        this.selectedResult = item;
+        console.log(this.selectedResult);
+        this.selectedResult.newServingSize=this.selectedResult.servingSize;
+        this.selectedResult.servings = (this.selectedResult.newServingSize/this.selectedResult.servingSize).toFixed(2);
+    };
+
+    this.hideResultItem=(item)=>{
+        this.showResult = false;
+        this.selectedResult = {};
+    };
+
+    this.updateServingSize = ()=>{
+        this.selectedResult.servings = (this.selectedResult.newServingSize/this.selectedResult.servingSize).toFixed(2);
+        this.newCalories = this.selectedResult.Calories*this.selectedResult.servings;
+        //repeat this for all other factors and show on the display;
+        this.selectedResult.newCalories = (this.selectedResult.Calories*this.selectedResult.servings).toFixed(0);
+        this.selectedResult.newTotalCarbs =
+        (this.selectedResult.totalCarbs*this.selectedResult.servings).toFixed(1);
+        this.selectedResult.newSugars = 
+        (this.selectedResult.sugars*this.selectedResult.servings).toFixed(1);
+        this.selectedResult.newFiber = (this.selectedResult.fiber*this.selectedResult.servings).toFixed(1);
+        this.selectedResult.newTotalFats =
+        (this.selectedResult.totalFats*this.selectedResult.servings).toFixed(1);
+        this.selectedResult.newUnsaturatedFats = (this.selectedResult.unsaturatedFats*this.selectedResult.servings).toFixed(1);
+        this.selectedResult.newSaturatedFats = (this.selectedResult.saturatedFats*this.selectedResult.servings).toFixed(1);
+        this.selectedResult.newTotalProtein = (this.selectedResult.totalProtein*this.selectedResult.servings).toFixed(1);
+    };
+
+    this.addThisAmount = ()=>{
+        console.log('add this amount clicked, new servings are ', this.selectedResult.servings);
+        console.log('new selected Result is ', this.selectedResult);
+        this.customServing = this.selectedResult;
+        this.customServing.Calories = this.selectedResult.newCalories;
+        this.customServing.totalCarbs = this.selectedResult.newTotalCarbs;
+        this.customServing.sugars = this.selectedResult.newSugars;
+        this.customServing.fiber = this.selectedResult.newFiber;
+        this.customServing.totalFats = this.selectedResult.newTotalFats;
+        this.customServing.saturatedFats = this.selectedResult.newSaturatedFats;
+        this.customServing.unsaturatedFats = this.selectedResult.newUnsaturatedFats;
+        this.customServing.totalProtein = this.selectedResult.newTotalProtein;
+        this.customServing.servingSize= this.selectedResult.newServingSize;
+        console.log('new custom serving is ', this.customServing);
+        this.addToMenu(this.customServing);
+    };
+
+    this.addToMenu = (item)=>{
+        var date = new Date();
+        var datetime = date.toLocaleString();
+        var dateArr = datetime.split(', ');
+        item.time = dateArr[1];
+        item.day = dateArr[0];
+        delete item.$$hashKey;
+        console.log('item is ', item);
+        this.newEaten = this.user.eaten;
+        this.newEaten.push(item);
+        console.log('newEaten is', this.newEaten);
+        JSON.stringify(this.newEaten);
+        console.log('addind this json array ' + this.newEaten+ ' to this user '+ this.user._id);
+        userFoods.addMeal(this.user._id, {'eaten': this.newEaten}).then((user)=>(rootScope.$emit('foodAdded', {user: user})));
+    };
+
+    this.updateUser = ()=>{
+        userFoods.getByName((localStorage.getItem('userFoodUserName'))).then(user => {
+            console.log(' in get, username', localStorage.getItem('userFoodUserName'));
+            this.user = user[0];
+            console.log('user is ', this.user);
+        });
+    };
+
+    if (localStorage.getItem('user')){
+        this.updateUser();
+    }
+
 
 
 }
