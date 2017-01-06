@@ -6,11 +6,12 @@
         <a class="food-link" ng-click="$ctrl.toggleSearch()">Search Database for Food</a>
         <div class="food-search" add="$ctrl.search" ng-show="$ctrl.viewSearch === true">
             <section ng-class="$ctrl.styles['add-class']">
-              
+                <h2 class="white-text">Search the foods database by entering a UPC, a food name, or both.</h2>
                 <div>
-                <label>Barcode (UPC):</label>
+                <label class="white-text">Barcode (UPC):</label>
                 <input ng-model="$ctrl.searchBarcode" placeholder="food UPC search">
-                <label>Name of food:</label>
+                <h3 class="white-text">and/or</h3>
+                <label class="white-text">Name of food:</label>
                 <input ng-model="$ctrl.searchName" placeholder="food name search">
                 </div>
 
