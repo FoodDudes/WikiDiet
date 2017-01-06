@@ -52,7 +52,7 @@ export default function routes($stateProvider, $urlRouterProvider) {
 
     $stateProvider.state({
         name: 'me',
-        url: '/:name',
+        url: '/me/:name',
         data: { public: false },
         resolve: {
             myname: ['$transition$', t => t.params().name],
