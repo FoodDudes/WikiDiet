@@ -11,6 +11,7 @@ const app = require('../../lib/app');
 
 describe('Validating DietType routes', () => {
 
+    // since repeated in four modules, would be good to pull this out to own module..
     before( done => {
         const CONNECTED = 1;
         if (connection.readyState === CONNECTED) dropCollection();

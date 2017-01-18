@@ -7,7 +7,9 @@ router
     .get('/', (req, res, next) => {
         UserFood.find()
         .then(userfoods => {
-            if (!userfoods || userfoods.length === 0) {
+            // 1) An array get that's empty is not a 404 IMO.
+            // 2) use idomatic javascript for testing length
+            if (!userfoods.length) {
                 next({code: 404, message: 'No userfoods found.'});
             } else {
                 res.send(userfoods);
@@ -17,8 +19,8 @@ router
     })
 
     .get('/:username', (req, res, next) => {
-        let userName = req.params.username;
-        UserFood.find({username: userName}).lean()
+        const username = req.params.username;
+        UserFood.find({username}).lean()
         .then(userfood => {
             if (!userfood) {
                 next({code: 404, message: `No userfood found for ${username}.`});

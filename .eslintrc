@@ -34,14 +34,6 @@
     }],
     "key-spacing": [0, {"align": "value"}],
     "no-underscore-dangle": 0
-  },
-    "globals": {
-    "describe": false,
-    "it": false,
-    "beforeEach": false,
-    "afterEach": false,
-    "before": false,
-    "after": false
   }
-  
+  // don't need these, covered by `env.mocha === true`'
 }

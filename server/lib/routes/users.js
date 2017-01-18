@@ -9,6 +9,7 @@ router
     .get('/', (req, res, next) => {
         User.find({})
         .then(users => {
+            // see comments in userFoods...
             if (!users || users.length === 0) {
                 next({code: 404, message: 'No users found.'});
             }

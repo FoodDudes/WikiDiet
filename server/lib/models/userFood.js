@@ -10,8 +10,11 @@ const userFoodSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'DietType'
     },
+
+    // Define type inside the array...
     favorites: [],
     eaten: [],
+    
     weight: Number,
     weightUnits: String,
     height: Number,
