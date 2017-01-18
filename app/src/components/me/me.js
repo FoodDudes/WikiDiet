@@ -10,6 +10,37 @@ export default {
     controller
 };
 
+// Move BEE calc to own service...
+// Which then should move to the server
+// as part of model definition
+const MALE = {
+    constant: 66.5,
+    weight: 13.8,
+    height: 5.0,
+    age: 6.8
+};
+const FEMALE = {
+    //...
+};
+const ACTIVITY = {
+    '4': 1.5,
+    '3': 1.25,
+    '2': 1.1,
+    '1': 1
+};
+
+// Determine the Basal Energy Expenditure
+function getBEE(sex, weight, height, age, activity) {
+    const base = (
+        sex.constant + 
+        (sex.weight * metricWeight) + 
+        (sex.height * metricHeight) - 
+        (sex.age * age)
+    );
+    
+    return base * ACTIVITY[activity];
+
+}
 
 function controller() {
     this.styles = styles;
@@ -67,29 +98,13 @@ function controller() {
         let weight = this.myData.weight;
         let gender = this.myData.gender;
 
-        let bEE = 0;
         let metricWeight = (weight / 2.2);
         let metricHeight = (height * 2.54);
         let dietGuide = {};
 
-        // Determine the Basal Energy Expenditure
-        if (gender === 'male') {
-            bEE = (66.5 + (13.8 * metricWeight) + (5.0 * metricHeight) - (6.8 * age));
-        } else {
-            bEE = (655.1 + (9.6 * metricWeight) + (1.9 * metricHeight) - (4.7 * age));
-        };
-
-        // Activity level, 0 = none, 1 = average, 3 = active, 4 = Very active
-        if (activityLevel === 4) {
-            bEE = bEE * 1.5;
-        } else if (activityLevel === 3) {
-            bEE = bEE * 1.25;
-        } else if (activityLevel === 2) {
-            bEE = bEE * 1.1;
-        } else {
-            bEE = bEE;
-            // Get up and move
-        };
+        // BTW "gender" is a social construct, "sex" is biological
+        const sex = gender === 'male' ? MALE : FEMALE;
+        let bEE = getBEE(gender, metricWeight, metricHeight, age, activityLevel);
 
         dietGuide.calories = bEE.toFixed(0);
         dietGuide.carbTarget = ((bEE * .5) / 4).toFixed(0); // 45% - 65% cals from carbs

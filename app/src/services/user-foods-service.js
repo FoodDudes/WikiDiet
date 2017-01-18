@@ -8,8 +8,6 @@ export default function userFoodsService($http, apiUrl) {
                 .then(res => res.data);
         },
         getById(userId) {
-            console.log('in userfoodsservice');
-            console.log(apiUrl);
             return $http.get(`${apiUrl}/userFoods/${userId}`)
                 .then(res => res.data);
         },
@@ -20,7 +18,6 @@ export default function userFoodsService($http, apiUrl) {
         },
 
         addMeal(userId, eaten){
-            console.log('in addMeal');
             return $http.put(`${apiUrl}/userFoods/${userId}`, eaten)
                 .then(res => res.data);
         },

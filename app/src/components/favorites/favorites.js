@@ -11,11 +11,11 @@ function controller(userFoods, rootScope, $state) {
 
     this.removeFromFavorites = (item)=>{
      
-        this.newFavorites = this.user.favorites.filter((favorite)=>{
+        const favorites = this.newFavorites = this.user.favorites.filter((favorite)=>{
             return favorite.name !== item.name;
         });
-        JSON.stringify(this.newFavorites);
-        userFoods.addMeal(this.user._id, {'favorites': this.newFavorites}).then(this.updateUser());
+        // JSON.stringify(this.newFavorites);
+        userFoods.addMeal(this.user._id, {favorites}).then(() => this.updateUser());
     };
 
     this.viewFavoriteItem = (item)=>{
@@ -26,6 +26,9 @@ function controller(userFoods, rootScope, $state) {
         this.selectedFavorite.servings = (this.selectedFavorite.newServingSize/this.selectedFavorite.servingSize).toFixed(2);
     };
 
+    // Seems like this logic should have been put into a class.
+    // Anytime you have repetitive this.whatever.whatever, that's a code "smell". 
+    // Time for a refactor 
     this.updateServingSize = ()=>{
         this.selectedFavorite.servings = (this.selectedFavorite.newServingSize/this.selectedFavorite.servingSize).toFixed(2);
         this.newCalories = this.selectedFavorite.Calories*this.selectedFavorite.servings;
@@ -81,7 +84,7 @@ function controller(userFoods, rootScope, $state) {
         for (var i = 0; i < this.user.eaten.length; i++) {
             newEaten[i] = this.user.eaten[i];
         };
-        JSON.stringify(newEaten);
+        // JSON.stringify(newEaten);
         userFoods.addMeal(this.user._id, {'eaten': newEaten})
             .then((user) => {
                 rootScope.$emit('foodAdded', {user: user});
