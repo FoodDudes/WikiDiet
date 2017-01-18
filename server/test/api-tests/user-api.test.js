@@ -36,6 +36,7 @@ describe('Validating User routes', () => {
 
     const request = chai.request(app);
 
+    // if only one test, make it the golden path that proves system is integrated and running
     it('GET all', done => {
         request
             .get('/api/users')

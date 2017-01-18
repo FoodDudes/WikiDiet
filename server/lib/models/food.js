@@ -18,6 +18,7 @@ const foodSchema = new Schema({
     unsaturatedFats: {type: Number, default: 0}, 
     totalProtein: {type: Number, default: 0}, 
     vetted: Boolean,
+    // Don't you want to link to the user via id?
     uploadedBy: {type: String, default: 'user'}, 
 });
 

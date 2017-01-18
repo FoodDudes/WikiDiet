@@ -6,6 +6,8 @@ export default {
     controller
 };
 
+const UNITS = ['g', 'oz', 'mL', 'cL', 'L', 'package'];
+
 
 controller.$inject = ['foodService', 'userFoodsService', '$timeout', '$rootScope'];
 
@@ -14,7 +16,7 @@ function controller(food, userFoods, $timeout, rootScope) {
 
     this.user = localStorage.getItem('user');
 
-    this.units = ['g', 'oz', 'mL', 'cL', 'L', 'package'];
+    this.units = UNITS;
 
     this.servingUnit = 'g';
 
@@ -30,6 +32,8 @@ function controller(food, userFoods, $timeout, rootScope) {
 
     this.fav = false;
 
+    // better to use an object, then 
+    // just this.newfood = {}
     this.reset = () => {
         this.name = '',
         this.barcode = '',
@@ -52,6 +56,8 @@ function controller(food, userFoods, $timeout, rootScope) {
         this.correctName = this.lowerName[0].toUpperCase() + this.lowerName.substring(1);
         console.log(this.correctName);
         console.log('this.fav is ', this.fav);
+        // Much simpler:
+        // food.add(this.newFood);
         food.add({
             name: this.correctName,
             barcode: this.barcode,
@@ -115,11 +121,13 @@ function controller(food, userFoods, $timeout, rootScope) {
             });
         }
         else{
-            this.lowerSearchName = this.searchName.toLowerCase();
-            this.correctSearchName = this.lowerSearchName[0].toUpperCase() + this.lowerSearchName.substring(1);
+            // shouldn't this logic live on the server?
+            // why aren't these varibales??????????
+            const lowerSearchName = this.searchName.toLowerCase();
+            const correctSearchName = lowerSearchName[0].toUpperCase() + lowerSearchName.substring(1);
             console.log('search clicked.  Searching for ', this.correctSearchName);
             console.log('name search selected for this name ', this.correctSearchName);
-            food.getOne(0,this.correctSearchName)
+            food.getOne(0,correctSearchName)
               .then((foods)=>{
                   this.results = foods;
                   console.log('this is what came back from the search ', foods);
@@ -194,6 +202,8 @@ function controller(food, userFoods, $timeout, rootScope) {
         this.newFavorites = this.user.favorites;
         this.newFavorites.push(item);
         console.log(this.newFavorites);
+        // why are these all over the place?
+        // you're not even using the return value
         JSON.stringify(this.newFavorites);
         console.log('addind this json array ' + this.newFavorites + ' to this user '+ this.user._id);
         userFoods.addMeal(this.user._id, {'favorites': this.newFavorites}).then(this.updateUser());
@@ -206,6 +216,8 @@ function controller(food, userFoods, $timeout, rootScope) {
     
 
     this.addToMenu = (item)=>{
+        // glad you used variables,
+        // but be consistent, let/const vs var
         var date = new Date();
         var datetime = date.toLocaleString();
         var dateArr = datetime.split(', ');
@@ -213,6 +225,7 @@ function controller(food, userFoods, $timeout, rootScope) {
         item.day = dateArr[0];
         delete item.$$hashKey;
         console.log('item is ', item);
+        // now back to random `this` context scoping?
         this.newEaten = this.user.eaten;
         this.newEaten.push(item);
         console.log('newEaten is', this.newEaten);

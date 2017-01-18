@@ -12,7 +12,11 @@ const userSchema = new Schema({
     username: requiredString,
     password: requiredString,
     email: String,
-    role: String
+    // should be an enum?
+    role: {
+        type: String,
+        default: 'member'
+    }
 });
 
 //when user signs in - hash generated from password

@@ -11,6 +11,10 @@ const userFoods = require('./routes/userFoods');
 
 app.use(morgan('dev'));
 
+// now that you know what's going on with CORS, 
+// consider using `npm i cors` middleware...
+// if you do want/need to roll your own, this middelware should
+// be in own module like error-handler is.
 app.use((req, res, next) => {
     // set cors headers
     const url = '*';
@@ -23,6 +27,7 @@ app.use((req, res, next) => {
 app.use(express.static('./public'));
 
 app.use('/api/auths', auths);
+// no auth, all the routes are unprotected!
 app.use('/api/users', users);
 app.use('/api/foods', foods);
 app.use('/api/userFoods', userFoods);
